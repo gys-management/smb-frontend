@@ -1,0 +1,7 @@
+{
+  "name": "smb-frontend",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
