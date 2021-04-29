@@ -1,4 +1,4 @@
-# Ionic Angular Conference Application
+# SMB (Stock Management & Billing)
 
 This application is purely a kitchen-sink demo of the Ionic Framework and Angular.
 
