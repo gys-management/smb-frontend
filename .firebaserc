@@ -1,0 +1,22 @@
+{
+  "projects": {
+    "dev": "ionic-angular-61cb7",
+    "prod": "stockmanagementbilling-adb46"
+  },
+  "targets": {
+    "ionic-angular-61cb7": {
+      "hosting": {
+        "smb-app-dev": [
+          "smb-app-dev"
+        ]
+      }
+    },
+    "stockmanagementbilling-adb46":{
+      "hosting": {
+        "smb-app":[
+          "smb-app"
+        ]
+      }
+    }
+  }
+}

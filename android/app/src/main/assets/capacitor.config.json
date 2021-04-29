@@ -1,6 +1,6 @@
 {
-  "appId": "io.gys.smb",
-  "appName": "smb-app",
+  "appId": "io.ionic.starter",
+  "appName": "smb-frontend",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",

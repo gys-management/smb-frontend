@@ -1,11 +1,9 @@
 // import { NgxLoggerLevel } from 'ngx-logger';
 
 export const environment = {
-  production: false,
+  production: true,
   firebaseAPIKey: 'AIzaSyA5bnoN_9WIvKgjsd3nM-kZCWkrTiYUb3w',
-  restAPI: 'http://localhost:9090/api', // enable when API is from local eve
-  // restAPI: 'https://dev-smb.herokuapp.com/api', // enable when API is from dev eve
-  // restAPI: 'http://192.168.1.6:9090/api', // enable when API is from local eve
+  restAPI: 'https://dev-smb.herokuapp.com/api', // enable when API is from Heroku test eve
   ngxLogger: {
     serverLoggingUrl: 'https://stockmangementbilling.free.beeceptor.com/api/logs',
     // serverLoggingUrl: 'http://localhost:8100/api/logs',
