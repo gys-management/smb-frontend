@@ -13,7 +13,7 @@ export class MenuBarService {
   ) { }
 
   async menuBar() {
-    const isDealerRole: boolean = await this._userUtilService.userAuthorizationUtil([UserRole.DEALER]);
+    const isDealerRole: boolean = await this._userUtilService.userAuthorizationUtil([UserRole.CUSTOMER]);
     if (isDealerRole) {
       return MenuBarConstants.dealerMenu;
     } else {

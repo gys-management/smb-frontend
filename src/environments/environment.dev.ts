@@ -1,8 +1,10 @@
 // import { NgxLoggerLevel } from 'ngx-logger';
 
+import { LogLevel } from 'src/app/models/log-level';
+
 export const environment = {
   production: true,
-  firebaseAPIKey: 'AIzaSyA5bnoN_9WIvKgjsd3nM-kZCWkrTiYUb3w',
+  logLevel: LogLevel.DEBUG,
   restAPI: 'https://dev-smb.herokuapp.com/api', // enable when API is from Heroku test eve
   ngxLogger: {
     serverLoggingUrl: 'https://stockmangementbilling.free.beeceptor.com/api/logs',

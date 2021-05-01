@@ -1,4 +1,4 @@
-export class UrlConstants {
+export class UrlConstant {
   // Login Url
   static readonly URL_LOGIN = '/auth/login';
   static readonly URL_SIGN_UP = '/auth/signup';

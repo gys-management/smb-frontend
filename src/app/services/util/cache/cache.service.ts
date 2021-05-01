@@ -1,9 +1,5 @@
-import { Crate } from './../../../models/crates.model';
 import { Injectable } from '@angular/core';
 import { AuthModel } from 'src/app/models/auth/auth.model';
-import { GST } from 'src/app/models/gst.model';
-import { Organization } from 'src/app/models/organization.model';
-import { VolumeUnit } from 'src/app/models/volumeUnit.model';
 
 /*
  * This service is used to hold values fetched from backend that won't change over time.
@@ -17,12 +13,6 @@ import { VolumeUnit } from 'src/app/models/volumeUnit.model';
 })
 export class CacheService {
   authDetails: AuthModel;
-  // authDetails=new BehaviorSubject<AuthModel>(null) ;
-  organization: Organization;
-
-  gst: GST[];
-  volumeUnit: VolumeUnit[];
-  crate: Crate[];
 
   constructor() { }
 }

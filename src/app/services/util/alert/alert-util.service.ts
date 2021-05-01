@@ -7,8 +7,6 @@ import { AlertOptions } from '@ionic/core/dist/types/components/alert/alert-inte
 })
 export class AlertUtilService {
 
-  constructor(private _alertCtrl: AlertController) { }
-
   button = [
     {
       text: 'Close',
@@ -18,6 +16,9 @@ export class AlertUtilService {
       text: 'Okay',
     }
   ];
+
+  constructor(private _alertCtrl: AlertController) { }
+
 
   async presentAlert(opts?: AlertOptions) {
     if (!opts.buttons) {

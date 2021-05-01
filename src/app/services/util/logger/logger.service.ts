@@ -19,7 +19,7 @@ export class LoggerService {
   }
 
   get debug() {
-    // tslint:disable-next-line:no-console
+    // eslint-disable-next-line no-console
     return this.log(LogLevel.DEBUG, console.debug);
   }
 
@@ -31,12 +31,11 @@ export class LoggerService {
     return this.log(LogLevel.WARNING, console.warn);
   }
 
-  get info() {
-    return this.log(LogLevel.INFO, console.info);
-  }
+  // get info() {
+  //   return this.log(LogLevel.INFO, console.info);
+  // }
 
-  /**
-   * Generic logging method to log based on logging level.
+  /**Generic logging method to log based on logging level.
    * @param logLevel The level of the log.
    * @param func The log level function to be used to do the action logging.
    */

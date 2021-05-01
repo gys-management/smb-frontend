@@ -32,7 +32,11 @@
               },
               "src/manifest.webmanifest"
             ],
-            "styles": ["./node_modules/@angular/material/prebuilt-themes/indigo-pink.css", "src/theme/variables.scss", "src/global.scss"],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/theme/variables.scss",
+              "src/global.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -93,7 +97,9 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "styles": [ "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css"],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
+            ],
             "scripts": [],
             "assets": [
               {
@@ -168,7 +174,7 @@
     }
   },
   "cli": {
-    "defaultCollection": "@ionic/angular-toolkit"
+    "defaultCollection": "@angular-eslint/schematics"
   },
   "schematics": {
     "@ionic/angular-toolkit:component": {

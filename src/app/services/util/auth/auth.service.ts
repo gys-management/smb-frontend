@@ -1,5 +1,5 @@
 
-import { Injectable, OnInit, OnDestroy, NgZone } from '@angular/core';
+import { Injectable, OnInit, OnDestroy } from '@angular/core';
 import { BehaviorSubject, from, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { map, tap, take } from 'rxjs/operators';
@@ -10,17 +10,16 @@ import { AuthModel } from 'src/app/models/auth/auth.model';
 import { LoginModel } from 'src/app/models/auth/login.model';
 import { LoginResponse } from 'src/app/models/auth/loginResponse.model';
 import { LoginOAuthModel } from 'src/app/models/auth/loginOAuth.model';
-import { LoginConstant } from 'src/app/constants/login.constants';
-import { UrlConstants } from 'src/app/constants/url.constants';
+import { UrlConstant } from 'src/app/constants/url.constants';
 import { UserRole } from 'src/app/enum/user-role.enum';
+import { AppConstant } from 'src/app/constants/app.constants';
+import { ApiUrlContant } from 'src/app/constants/api-url.constants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService implements OnInit, OnDestroy {
-  private AUTH_DATA_STORAGE = 'AuthDataStorage';
-  private LOGIN_URL = '/login/';
-  private HAS_LOGGED_IN = 'hasLoggedIn';
+
   private activeLogoutTimer: any;
   private authDetails = new BehaviorSubject<AuthModel>(null);
   private login: LoginModel;
@@ -30,10 +29,11 @@ export class AuthService implements OnInit, OnDestroy {
     private _http: HttpClient,
     public storage: Storage
   ) {
-    this.storage.set(this.HAS_LOGGED_IN, false);
+    this.storage.set(AppConstant.HAS_LOGGED_IN, false);
   }
 
-  private ngOnInit() {
+  // eslint-disable-next-line @angular-eslint/contextual-lifecycle
+  ngOnInit() {
 
   }
 
@@ -86,7 +86,7 @@ export class AuthService implements OnInit, OnDestroy {
   }
 
   autoLogin() {
-    return from(Plugins.Storage.get({ key: this.AUTH_DATA_STORAGE })).pipe(
+    return from(Plugins.Storage.get({ key: AppConstant.AUTH_DATA_STORAGE })).pipe(
       map((storedData) => {
         if (!storedData || !storedData.value) {
           return null;
@@ -115,15 +115,13 @@ export class AuthService implements OnInit, OnDestroy {
           this.autoLogout(authDetails.tokenDuration);
         }
       }),
-      map((authDetails) => {
-        return !!authDetails;
-      })
+      map((authDetails) => !!authDetails)
     );
   }
 
   loginService(loginForm: LoginModel) {
     return this._http
-      .post<LoginResponse>(this.LOGIN_URL, {
+      .post<LoginResponse>(ApiUrlContant.LOGIN, {
         phoneNumber: loginForm.userName,
         password: loginForm.password,
       })
@@ -132,7 +130,7 @@ export class AuthService implements OnInit, OnDestroy {
 
   loginOAuthService(loginOAuthForm: LoginOAuthModel) {
     return this._http
-      .post<LoginOAuthModel>(`${this.LOGIN_URL}oauth`, loginOAuthForm)
+      .post<LoginOAuthModel>(`${ApiUrlContant.LOGIN}oauth`, loginOAuthForm)
       .pipe(tap(this.setAuthData.bind(this)));
   }
 
@@ -154,9 +152,9 @@ export class AuthService implements OnInit, OnDestroy {
         if (user) {
           const userLocal = JSON.parse(user);
           if (userLocal.role === UserRole.ADMIN || userLocal.role === UserRole.STAFF) {
-            this._router.navigateByUrl(UrlConstants.URL_ADMIN_DASHBOARD);
+            this._router.navigateByUrl(UrlConstant.URL_ADMIN_DASHBOARD);
           } else if (userLocal.role === UserRole.CUSTOMER) {
-            this._router.navigateByUrl(UrlConstants.URL_CUSTOMER_DASHBOARD);
+            this._router.navigateByUrl(UrlConstant.URL_CUSTOMER_DASHBOARD);
           }
         }
       });
@@ -167,8 +165,8 @@ export class AuthService implements OnInit, OnDestroy {
       clearTimeout(this.activeLogoutTimer);
     }
     await this.authDetails.next(null);
-    Plugins.Storage.remove({ key: this.AUTH_DATA_STORAGE });
-    this.storage.set(this.HAS_LOGGED_IN, false);
+    Plugins.Storage.remove({ key: AppConstant.AUTH_DATA_STORAGE });
+    this.storage.set(AppConstant.HAS_LOGGED_IN, false);
   }
 
   private autoLogout(duration: number) {
@@ -182,14 +180,14 @@ export class AuthService implements OnInit, OnDestroy {
 
   private storeAuthData(authData: AuthModel) {
     Plugins.Storage.set({
-      key: this.AUTH_DATA_STORAGE,
+      key: AppConstant.AUTH_DATA_STORAGE,
       value: JSON.stringify(authData),
     });
-    this.storage.set(this.HAS_LOGGED_IN, true);
+    this.storage.set(AppConstant.HAS_LOGGED_IN, true);
   }
 
   private checkIsEmailPresent(email: string, providerId: string): Observable<LoginOAuthModel> {
-    return this._http.get<LoginOAuthModel>(`${this.LOGIN_URL}checkIsEmailPresent`,
+    return this._http.get<LoginOAuthModel>(`${ApiUrlContant.LOGIN}checkIsEmailPresent`,
       {
         params: new HttpParams()
           .set('email', email)
@@ -198,6 +196,7 @@ export class AuthService implements OnInit, OnDestroy {
       .pipe(take(1));
   }
 
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   ngOnDestroy() {
     if (this.activeLogoutTimer) {
       clearTimeout(this.activeLogoutTimer);

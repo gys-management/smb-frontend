@@ -1,7 +1,6 @@
 export class LoginConstant {
 
   // Error Messages
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   static readonly ERR_CUSTOM = 'Could not login, please try again.';
   static readonly ERR_GENERIC_EXCEPTION = 'Could not login, please try again.';
   static readonly ERR_UNAUTHENTICATED = `User not authenticate, Kindly login.`;

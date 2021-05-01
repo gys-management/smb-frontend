@@ -1,8 +1,10 @@
 // import { NgxLoggerLevel } from 'ngx-logger';
 
+import { LogLevel } from 'src/app/models/log-level';
+
 export const environment = {
   production: false,
-  firebaseAPIKey: 'AIzaSyA5bnoN_9WIvKgjsd3nM-kZCWkrTiYUb3w',
+  logLevel: LogLevel.DEBUG,
   restAPI: 'http://localhost:9090/api', // enable when API is from local eve
   // restAPI: 'https://dev-smb.herokuapp.com/api', // enable when API is from dev eve
   // restAPI: 'http://192.168.1.6:9090/api', // enable when API is from local eve

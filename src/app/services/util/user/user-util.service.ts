@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
-import { UrlConstants } from 'src/app/constants/url-constants';
-import { UserRole } from 'src/app/enum/user-role.enum';
+import { of, Observable } from 'rxjs';
+import { take, switchMap, map } from 'rxjs/operators';
+import { UrlConstant } from 'src/app/constants/url.constants';
 
 @Injectable({
   providedIn: 'root'
@@ -13,43 +14,55 @@ export class UserUtilService {
     private _router: Router
   ) { }
 
-  async userAuthenticationUtil(route: ActivatedRouteSnapshot): Promise<boolean> {
-    let isUserAuth: boolean = await this._authService.userIsAuthenticated();
-    if (!isUserAuth) {
-      const autoLogin: boolean = await this._authService.autoLogin();
-      if (autoLogin) {
-        isUserAuth = await this.userAuthorizationUtil(route.data.roles);
-        return Promise.resolve(isUserAuth);
-      }
-    } else {
-      isUserAuth = await this.userAuthorizationUtil(route.data.roles);
-      return Promise.resolve(isUserAuth);
-    }
+  userAuthenticationUtil(route: ActivatedRouteSnapshot) {
+    return this._authService.userIsAuthenticated.pipe(
+      take(1),
+      switchMap((isAuth) => {
+        // Check user is already logged in
+        if (!isAuth) {
+          // call auto login
+          return this._authService.autoLogin();
+        }
+        else {
+          return of(isAuth);
+        }
+      }),
+      map((isAuth) => {
+        if (!isAuth) {
+          // If user is not authenticated logout
+          this._router.navigateByUrl(UrlConstant.URL_LOGIN);
+        }
+        else {
+          this.userAuthorizationUtil(route.data.roles).subscribe(result => {
+            isAuth = result;
+            if (!result) {
+              // If user is not authorized redirect to home page
+              // this._router.navigateByUrl('/');
+            }
+          });
+        }
+        return isAuth;
+      })
+    );
   }
 
-  async userAuthorizationUtil(rolesList: UserRole[]): Promise<boolean> {
-    const role: string = await this._authService.userRole();
-    if (role === undefined) {
-      // console.log('Role is not defined');
-      this._router.navigateByUrl(UrlConstants.URL_LOGIN);
-    } else if (rolesList && rolesList.length > 0) { // check if route is restricted by role
-      // role not authorised so redirect to home page
-      let result: boolean;
-      // console.debug(`userAuthorizationUtil :: UserUtilService :: rolesList  :: ${rolesList} `);
-      // console.debug(`userAuthorizationUtil :: UserUtilService :: UserRole  :: ${role} `);
-      rolesList.forEach((roleLocal: UserRole) => {
-        if (roleLocal.includes(role)) {
-          result = true;
+  userAuthorizationUtil(rolesList): Observable<boolean> {
+    return this._authService.userRole.pipe(
+      take(1),
+      map(role => {
+        // console.log(role);
+        if (role === undefined) {
+          // console.log('Role is not defined');
+          this._router.navigateByUrl(UrlConstant.URL_LOGIN);
         }
-      });
-      if (result) {
-        return Promise.resolve(true);
-      } else {
-        console.log('User is not authenticated to view this');
-        return Promise.resolve(false);
-      }
-    } else {
-      return Promise.resolve(true);
-    }
+        else if (role && rolesList && !rolesList.includes(role)) { // check if route is restricted by role
+          // role not authorised so redirect to home page
+          // console.log('User is not authenticated to view this');
+          return false;
+        } else {
+          return true;
+        }
+      })
+    );
   }
 }

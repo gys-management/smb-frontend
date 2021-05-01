@@ -34,7 +34,8 @@ export class HttpUtilService {
     requestUrl: string,
     method: HttpMethods,
     requestBody?: any,
-    queryParams?: object,
+    // queryParams?: object,
+    queryParams?: Record<string, string>,
     requestHeaders?: HttpHeaders,
     { hideSpinner, spinnerMessage, spinnerOptions }: HttpRequestOptions = {
       hideSpinner: false,
@@ -104,16 +105,17 @@ export class HttpUtilService {
     url: string,
     requestMethod: HttpMethods,
     requestBody?: any,
-    queryParams?: object,
+    // queryParams?: object,
+    queryParams?: Record<string, string>,
     requestHeaders?: HttpHeaders,
     options?: HttpRequestOptions
   ): Promise<any> {
-    const requestURL = environment.apiBaseUrl + url;
+    const requestURL = environment.restAPI + url;
 
     requestHeaders = requestHeaders || new HttpHeaders();
     if (!options?.excludeAuthHeader) {
       const _authService: AuthService = this._injector.get(AuthService);
-      const token = await _authService.token();
+      const token = await _authService.token;
       requestHeaders = requestHeaders.append(
         'Authorization',
         `Bearer ${token}`

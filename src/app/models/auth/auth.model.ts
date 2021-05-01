@@ -1,8 +1,9 @@
 export class AuthModel {
   userName: string;
-  private _token: string;
   tokenExpirationDate: Date;
   role: string;
+  private _token: string;
+
 
   constructor(userName: string, token: string, tokenExp: Date, role: string) {
     this.userName = userName;
