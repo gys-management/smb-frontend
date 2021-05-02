@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
-import { ErrorConstants } from 'src/app/constants/error-constants';
+import { ErrorConstant } from 'src/app/constants/error-constants';
 import { AppError } from 'src/app/models/app-error';
 import { HttpMethods, HttpRequestOptions } from 'src/app/models/http';
 import { environment } from 'src/environments/environment';
@@ -230,22 +230,22 @@ export class HttpUtilService {
       case 401:
         appError = new AppError(
           null,
-          ErrorConstants.ERR_UNAUTHENTICATED,
-          ErrorConstants.ERR_UNAUTHENTICATED
+          ErrorConstant.ERR_UNAUTHENTICATED,
+          ErrorConstant.ERR_UNAUTHENTICATED
         );
         break;
       case 500:
         appError = new AppError(
           null,
-          ErrorConstants.ERR_GENERIC_CODE,
-          ErrorConstants.ERR_GENERIC_EXCEPTION
+          ErrorConstant.ERR_GENERIC_CODE,
+          ErrorConstant.ERR_GENERIC_EXCEPTION
         );
         break;
       case 0:
         appError = new AppError(
           null,
-          ErrorConstants.ERR_GENERIC_CODE,
-          ErrorConstants.ERR_GENERIC_EXCEPTION
+          ErrorConstant.ERR_GENERIC_CODE,
+          ErrorConstant.ERR_GENERIC_EXCEPTION
         );
         break;
       default:

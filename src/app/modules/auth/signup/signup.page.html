@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Signup</ion-title>
+    <ion-label slot="end"> Already Signup? &nbsp;</ion-label>
+    <ion-button slot="end" (click)="onLoginPageNav()">
+      Login
+    </ion-button>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size-md="6" offset-md="3">
+        <mat-vertical-stepper linear #stepper>
+          <mat-step [stepControl]="firstFormGroup" [editable]="isEditable">
+            <form [formGroup]="firstFormGroup">
+              <ng-template matStepLabel>OAuth Sign-up</ng-template>
+              <ion-button color="light" (click)="onSignUpGoogle()">
+                <ion-icon color="danger" slot="start" name="logo-google"> </ion-icon>
+                <ion-label color="danger"> Sign-Up With Google</ion-label>
+              </ion-button>
+              <ion-item lines="none">
+                <ion-input formControlName="firstCtrl" color="success" required readonly></ion-input>
+              </ion-item>
+              <ion-item
+                *ngIf="firstFormGroup.get('firstCtrl').invalid && (firstFormGroup.get('firstCtrl').dirty || firstFormGroup.get('firstCtrl').touched)"
+                lines="none">
+                <ion-label color="danger">{{firstFormGroupErrorMessage}}</ion-label>
+              </ion-item>
+              <div>
+                <button mat-raised-button color="primary" matStepperNext
+                  [disabled]="firstFormGroup.invalid">Next</button>
+              </div>
+            </form>
+          </mat-step>
+          <mat-step [stepControl]="secondFormGroup" [editable]="isEditable">
+            <form [formGroup]="secondFormGroup">
+              <ng-template matStepLabel>Fill out your details</ng-template>
+
+              <!-- <app-organization-register [signupDetails]="oAuthBehaviourSubject" (orgAddedBool)="onRegistered($event)">
+              </app-organization-register> -->
+
+              <ion-item lines="none">
+                <ion-input formControlName="secondCtrl" color="success" required readonly></ion-input>
+              </ion-item>
+              <ion-item
+                *ngIf="secondFormGroup.get('secondCtrl').invalid && (secondFormGroup.get('secondCtrl').dirty || secondFormGroup.get('secondCtrl').touched)"
+                lines="none">
+                <ion-label color="danger">{{ERR_REGISTRATION}}</ion-label>
+              </ion-item>
+              <div>
+                <button mat-raised-button color="primary" matStepperNext
+                  [disabled]="secondFormGroup.invalid">Next</button>
+              </div>
+            </form>
+          </mat-step>
+          <mat-step>
+            <ng-template matStepLabel>Done</ng-template>
+            <p>You are now done.</p>
+            <p>Click to Login.</p>
+            <div>
+              <ion-button color="primary" (click)="onLoginToDashboard()">Login</ion-button>
+            </div>
+          </mat-step>
+        </mat-vertical-stepper>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

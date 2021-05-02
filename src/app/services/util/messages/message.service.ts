@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ErrorConstants } from 'src/app/constants/error-constants';
+import { ErrorConstant } from 'src/app/constants/error-constants';
 import { AppError } from 'src/app/models/app-error';
 import { AlertUtilService } from '../alert/alert-util.service';
 import { ToastUtilService } from '../toast/toast-util.service';
@@ -18,7 +18,7 @@ export class MessageService {
     if (message) {
       this._alertUtilService.presentAlert({ message });
     } else {
-      const errorMessage = error.errorCode ? ErrorConstants[error.errorCode] : ErrorConstants.ERR_GENERIC_EXCEPTION;
+      const errorMessage = error.errorCode ? ErrorConstant[error.errorCode] : ErrorConstant.ERR_GENERIC_EXCEPTION;
       this._alertUtilService.presentAlert({ message: errorMessage });
     }
   }
@@ -31,7 +31,7 @@ export class MessageService {
     if (message) {
       this._toastUtilService.presentToast(message);
     } else {
-      const errorMessage = error.errorCode ? ErrorConstants[error.errorCode] : ErrorConstants.ERR_GENERIC_EXCEPTION;
+      const errorMessage = error.errorCode ? ErrorConstant[error.errorCode] : ErrorConstant.ERR_GENERIC_EXCEPTION;
       this._toastUtilService.presentToast(errorMessage);
     }
   }

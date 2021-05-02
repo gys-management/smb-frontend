@@ -1,9 +1,8 @@
 
 import { Injectable, OnInit, OnDestroy } from '@angular/core';
-import { BehaviorSubject, from, Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { map, tap, take } from 'rxjs/operators';
-import { Plugins } from '@capacitor/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 import { AuthModel } from 'src/app/models/auth/auth.model';
@@ -14,6 +13,9 @@ import { UrlConstant } from 'src/app/constants/url.constants';
 import { UserRole } from 'src/app/enum/user-role.enum';
 import { AppConstant } from 'src/app/constants/app.constants';
 import { ApiUrlContant } from 'src/app/constants/api-url.constants';
+import { HttpUtilService } from '../http/http-util.service';
+import { HttpMethods } from 'src/app/models/http';
+import { CacheService } from '../cache/cache.service';
 
 @Injectable({
   providedIn: 'root',
@@ -21,15 +23,15 @@ import { ApiUrlContant } from 'src/app/constants/api-url.constants';
 export class AuthService implements OnInit, OnDestroy {
 
   private activeLogoutTimer: any;
-  private authDetails = new BehaviorSubject<AuthModel>(null);
-  private login: LoginModel;
 
   constructor(
     private _router: Router,
     private _http: HttpClient,
-    public storage: Storage
+    private _storage: Storage,
+    private _cacheService: CacheService,
+    private _httpUtilService: HttpUtilService
   ) {
-    this.storage.set(AppConstant.HAS_LOGGED_IN, false);
+    this._storage.create();
   }
 
   // eslint-disable-next-line @angular-eslint/contextual-lifecycle
@@ -38,7 +40,7 @@ export class AuthService implements OnInit, OnDestroy {
   }
 
   get userIsAuthenticated() {
-    return this.authDetails.asObservable().pipe(
+    return this._cacheService.authDetails.asObservable().pipe(
       map((user) => {
         if (user) {
           return !!user.token;
@@ -50,7 +52,7 @@ export class AuthService implements OnInit, OnDestroy {
   }
 
   get userRole() {
-    return this.authDetails.asObservable().pipe(
+    return this._cacheService.authDetails.asObservable().pipe(
       map((user) => {
         if (user) {
           return user.role;
@@ -62,7 +64,7 @@ export class AuthService implements OnInit, OnDestroy {
   }
 
   get userName() {
-    return this.authDetails.asObservable().pipe(
+    return this._cacheService.authDetails.asObservable().pipe(
       map((user) => {
         if (user) {
           return user.userName;
@@ -74,7 +76,7 @@ export class AuthService implements OnInit, OnDestroy {
   }
 
   get token() {
-    return this.authDetails.asObservable().pipe(
+    return this._cacheService.authDetails.asObservable().pipe(
       map((user) => {
         if (user) {
           return user.token;
@@ -86,12 +88,12 @@ export class AuthService implements OnInit, OnDestroy {
   }
 
   autoLogin() {
-    return from(Plugins.Storage.get({ key: AppConstant.AUTH_DATA_STORAGE })).pipe(
+    return from(this._storage.get(AppConstant.AUTH_DATA_STORAGE)).pipe(
       map((storedData) => {
-        if (!storedData || !storedData.value) {
+        if (!storedData) {
           return null;
         }
-        const parsedData = JSON.parse(storedData.value) as {
+        const parsedData = JSON.parse(storedData) as {
           _token: string;
           tokenExpirationDate: string;
           userName: string;
@@ -111,7 +113,7 @@ export class AuthService implements OnInit, OnDestroy {
       }),
       tap((authDetails) => {
         if (authDetails) {
-          this.authDetails.next(authDetails);
+          this._cacheService.authDetails.next(authDetails);
           this.autoLogout(authDetails.tokenDuration);
         }
       }),
@@ -120,18 +122,51 @@ export class AuthService implements OnInit, OnDestroy {
   }
 
   loginService(loginForm: LoginModel) {
-    return this._http
-      .post<LoginResponse>(ApiUrlContant.LOGIN, {
-        phoneNumber: loginForm.userName,
-        password: loginForm.password,
-      })
-      .pipe(tap(this.setAuthData.bind(this)));
+    // return this._http
+    //   .post<LoginResponse>(ApiUrlContant.LOGIN, {
+    //     phoneNumber: loginForm.userName,
+    //     password: loginForm.password,
+    //   })
+    //   .pipe(tap(this.setAuthData.bind(this)));
+
+    return from(this._httpUtilService.makeRequest(
+      ApiUrlContant.LOGIN,
+      HttpMethods.POST,
+      { phoneNumber: loginForm.userName, password: loginForm.password },
+      null,
+      null,
+      { excludeAuthHeader: true }
+    )).pipe(tap(this.setAuthData.bind(this)));;
   }
 
   loginOAuthService(loginOAuthForm: LoginOAuthModel) {
-    return this._http
-      .post<LoginOAuthModel>(`${ApiUrlContant.LOGIN}oauth`, loginOAuthForm)
-      .pipe(tap(this.setAuthData.bind(this)));
+    // return this._http
+    //   .post<LoginOAuthModel>(`${ApiUrlContant.LOGIN}oauth`, loginOAuthForm)
+    //   .pipe(tap(this.setAuthData.bind(this)));
+
+    return from(this._httpUtilService.makeRequest(
+      `${ApiUrlContant.LOGIN}/oauth`,
+      HttpMethods.POST,
+      loginOAuthForm,
+      null,
+      null,
+      { excludeAuthHeader: true }
+    )).pipe(tap(this.setAuthData.bind(this)));
+  }
+
+  userRoleNavigation() {
+    this.autoLogin().subscribe();
+    this.userRole.subscribe(
+      (userLocal) => {
+        if (userLocal) {
+          // const userLocal = JSON.parse(user);
+          if (userLocal === UserRole.ADMIN || userLocal === UserRole.STAFF) {
+            this._router.navigateByUrl(UrlConstant.URL_ADMIN_DASHBOARD);
+          } else if (userLocal === UserRole.CUSTOMER) {
+            this._router.navigateByUrl(UrlConstant.URL_CUSTOMER_DASHBOARD);
+          }
+        }
+      });
   }
 
   private setAuthData(loginResponse: LoginResponse) {
@@ -141,32 +176,17 @@ export class AuthService implements OnInit, OnDestroy {
       new Date(loginResponse.expiresIn),
       loginResponse.role
     );
-    this.authDetails.next(authData);
+    this._cacheService.authDetails.next(authData);
     this.storeAuthData(authData);
     this.userRoleNavigation();
-  }
-
-  private userRoleNavigation() {
-    this.userRole.subscribe(
-      (user) => {
-        if (user) {
-          const userLocal = JSON.parse(user);
-          if (userLocal.role === UserRole.ADMIN || userLocal.role === UserRole.STAFF) {
-            this._router.navigateByUrl(UrlConstant.URL_ADMIN_DASHBOARD);
-          } else if (userLocal.role === UserRole.CUSTOMER) {
-            this._router.navigateByUrl(UrlConstant.URL_CUSTOMER_DASHBOARD);
-          }
-        }
-      });
   }
 
   private async logOutService() {
     if (this.activeLogoutTimer) {
       clearTimeout(this.activeLogoutTimer);
     }
-    await this.authDetails.next(null);
-    Plugins.Storage.remove({ key: AppConstant.AUTH_DATA_STORAGE });
-    this.storage.set(AppConstant.HAS_LOGGED_IN, false);
+    await this._cacheService.authDetails.next(null);
+    this._storage.remove(AppConstant.AUTH_DATA_STORAGE);
   }
 
   private autoLogout(duration: number) {
@@ -179,22 +199,32 @@ export class AuthService implements OnInit, OnDestroy {
   }
 
   private storeAuthData(authData: AuthModel) {
-    Plugins.Storage.set({
-      key: AppConstant.AUTH_DATA_STORAGE,
-      value: JSON.stringify(authData),
-    });
-    this.storage.set(AppConstant.HAS_LOGGED_IN, true);
+    this._storage.set(AppConstant.AUTH_DATA_STORAGE, JSON.stringify(authData));
   }
 
   private checkIsEmailPresent(email: string, providerId: string): Observable<LoginOAuthModel> {
-    return this._http.get<LoginOAuthModel>(`${ApiUrlContant.LOGIN}checkIsEmailPresent`,
+    // return this._http.get<LoginOAuthModel>(`${ApiUrlContant.LOGIN}checkIsEmailPresent`,
+    //   {
+    //     params: new HttpParams()
+    //       .set('email', email)
+    //       .set('providerId', providerId)
+    //   })
+    //   .pipe(take(1));
+
+    return from(this._httpUtilService.makeRequest(
+      `${ApiUrlContant.LOGIN}/checkIsEmailPresent`,
+      HttpMethods.POST,
+      null,
       {
-        params: new HttpParams()
-          .set('email', email)
-          .set('providerId', providerId)
-      })
-      .pipe(take(1));
+        email,
+        providerId
+      },
+      null,
+      { excludeAuthHeader: false }
+    )).pipe(tap(this.setAuthData.bind(this)));
+
   }
+
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
   ngOnDestroy() {

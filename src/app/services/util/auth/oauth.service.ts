@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Platform } from '@ionic/angular';
-import * as firebase from 'firebase';
+import firebase from 'firebase';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -19,11 +19,11 @@ export class OauthService {
   // Sign in with Google
   googleAuth() {
     if (this._platform.is('pwa') || this._platform.is('mobileweb') || this._platform.is('desktop')) {
-      return this.signInWithPopup(new firebase.default.auth.GoogleAuthProvider());
+      return this.signInWithPopup(new firebase.auth.GoogleAuthProvider());
     } else if (this._platform.is('android')) {
       return this.nativeGoogleLogin();
     } else {
-      return this.signInWithPopup(new firebase.default.auth.GoogleAuthProvider());
+      return this.signInWithPopup(new firebase.auth.GoogleAuthProvider());
     }
   }
 
@@ -46,18 +46,18 @@ export class OauthService {
   }
 
   onLoginSuccess(accessToken, accessSecret) {
-    const credential = accessSecret ? firebase.default.auth.GoogleAuthProvider
-      .credential(accessToken, accessSecret) : firebase.default.auth.GoogleAuthProvider
+    const credential = accessSecret ? firebase.auth.GoogleAuthProvider
+      .credential(accessToken, accessSecret) : firebase.auth.GoogleAuthProvider
         .credential(accessToken);
     return this.afAuth.signInWithCredential(credential);
   }
 
   twitterAuth() {
-    return this.signInWithPopup(new firebase.default.auth.TwitterAuthProvider());
+    return this.signInWithPopup(new firebase.auth.TwitterAuthProvider());
   }
 
   gitHubAuth() {
-    return this.signInWithPopup(new firebase.default.auth.GithubAuthProvider());
+    return this.signInWithPopup(new firebase.auth.GithubAuthProvider());
   }
 
   // Auth logic to run auth providers

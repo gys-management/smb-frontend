@@ -1,4 +1,4 @@
-export class ErrorConstants {
+export class ErrorConstant {
   // Generic Error Messages
   static readonly ERR_BAD_REQUEST = 'Bad Request';
   static readonly ERR_GENERIC_CODE = 'ERR_GENERIC_EXCEPTION';

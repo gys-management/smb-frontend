@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { AuthModel } from 'src/app/models/auth/auth.model';
 
 /*
@@ -12,7 +13,8 @@ import { AuthModel } from 'src/app/models/auth/auth.model';
   providedIn: 'root',
 })
 export class CacheService {
-  authDetails: AuthModel;
+  authDetails = new BehaviorSubject<AuthModel>(null);
+
 
   constructor() { }
 }
