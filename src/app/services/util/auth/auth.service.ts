@@ -169,6 +169,15 @@ export class AuthService implements OnInit, OnDestroy {
       });
   }
 
+
+  async logOutService() {
+    if (this.activeLogoutTimer) {
+      clearTimeout(this.activeLogoutTimer);
+    }
+    await this._cacheService.authDetails.next(null);
+    this._storage.remove(AppConstant.AUTH_DATA_STORAGE);
+  }
+
   private setAuthData(loginResponse: LoginResponse) {
     const authData = new AuthModel(
       loginResponse.userId,
@@ -179,14 +188,6 @@ export class AuthService implements OnInit, OnDestroy {
     this._cacheService.authDetails.next(authData);
     this.storeAuthData(authData);
     this.userRoleNavigation();
-  }
-
-  private async logOutService() {
-    if (this.activeLogoutTimer) {
-      clearTimeout(this.activeLogoutTimer);
-    }
-    await this._cacheService.authDetails.next(null);
-    this._storage.remove(AppConstant.AUTH_DATA_STORAGE);
   }
 
   private autoLogout(duration: number) {
@@ -211,14 +212,16 @@ export class AuthService implements OnInit, OnDestroy {
     //   })
     //   .pipe(take(1));
 
+
+    const params = new HttpParams()
+      .set('email', email)
+      .set('providerId', providerId);
+
     return from(this._httpUtilService.makeRequest(
       `${ApiUrlContant.LOGIN}/checkIsEmailPresent`,
       HttpMethods.POST,
       null,
-      {
-        email,
-        providerId
-      },
+      params,
       null,
       { excludeAuthHeader: false }
     )).pipe(tap(this.setAuthData.bind(this)));

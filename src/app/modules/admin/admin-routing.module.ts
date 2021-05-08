@@ -15,6 +15,12 @@ const routes: Routes = [
     loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardPageModule),
     canActivate: [AuthGuard],
     data: { roles: [UserRole.ADMIN, UserRole.STAFF] }
+  },
+  {
+    path: 'customer',
+    loadChildren: () => import('./customer/customer.module').then(m => m.CustomerPageModule),
+    canActivate: [AuthGuard],
+    data: { roles: [UserRole.ADMIN, UserRole.STAFF] }
   }
 ];
 

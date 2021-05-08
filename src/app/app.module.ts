@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { AngularFireModule } from '@angular/fire';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { DirectivesModule } from './directives/directives.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,7 +31,8 @@ import { GooglePlus } from '@ionic-native/google-plus/ngx';
     BrowserAnimationsModule,
     HttpClientModule,
     IonicStorageModule.forRoot(),
-    AngularFireModule.initializeApp(environment.firebaseConfig)
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    DirectivesModule
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, GooglePlus],
   bootstrap: [AppComponent],

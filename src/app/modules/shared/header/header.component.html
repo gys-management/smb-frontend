@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" *ngIf="headerModel.isMenuVisible">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end" *ngIf="headerModel.isComponent" (click)="dismissComp()">
+      <ion-button>
+        <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="start" *ngIf="!headerModel.isMenuVisible && !headerModel.isComponent" (click)="backButton()">
+      <ion-back-button [defaultHref]="headerModel.defaultRoutingUrl"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{headerModel.title}}</ion-title>
+  </ion-toolbar>
+</ion-header>

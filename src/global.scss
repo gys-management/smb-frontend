@@ -16,7 +16,7 @@
 @import "~@ionic/angular/css/normalize.css";
 @import "~@ionic/angular/css/structure.css";
 @import "~@ionic/angular/css/typography.css";
-@import '~@ionic/angular/css/display.css';
+@import "~@ionic/angular/css/display.css";
 
 /* Optional CSS utils that can be commented out */
 @import "~@ionic/angular/css/padding.css";
@@ -24,3 +24,44 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+// Mat table custom
+table {
+  width: 100%;
+}
+
+table th.mat-header-cell,
+table td.mat-cell,
+table td.mat-footer-cell {
+  padding: 0px 4px;
+}
+
+table tr td.mat-cell:last-of-type.action-btn,
+table tr td.mat-footer-cell:last-of-type.action-btn,
+table tr th.mat-header-cell:last-of-type.action-btn {
+  padding-right: 0px;
+  text-align: right;
+  width: 36px;
+  ion-buttons {
+    display: block;
+    float: right;
+    width: 36px;
+  }
+  ion-button {
+    width: 36px;
+    --padding-start: 0px;
+    --padding-end: 0px;
+  }
+}
+
+tr.example-element-row {
+  text-align: left;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover,
+tr.example-element-row:not(.example-expanded-row):active {
+  // cursor: pointer;
+  // transform: scale(1.01);
+  // transition: all 0.3s ease;
+  border: 1.5px solid #b6b1b1;
+}

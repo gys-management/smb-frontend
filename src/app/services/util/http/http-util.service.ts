@@ -35,7 +35,7 @@ export class HttpUtilService {
     method: HttpMethods,
     requestBody?: any,
     // queryParams?: object,
-    queryParams?: Record<string, string>,
+    queryParams?: HttpParams,
     requestHeaders?: HttpHeaders,
     { hideSpinner, spinnerMessage, spinnerOptions }: HttpRequestOptions = {
       hideSpinner: false,
@@ -46,20 +46,20 @@ export class HttpUtilService {
     headers = headers.append('Content-Type', 'application/json');
 
     // Set Query Params
-    let params: HttpParams = new HttpParams();
-    if (queryParams) {
-      for (const key in queryParams) {
-        if (key && queryParams.hasOwnProperty(key)) {
-          params = params.set(key, queryParams[key]);
-        }
-      }
-    }
+    // let params: HttpParams = new HttpParams();
+    // if (queryParams) {
+    //   for (const key in queryParams) {
+    //     if (key && queryParams.hasOwnProperty(key)) {
+    //       params = params.set(key, queryParams[key]);
+    //     }
+    //   }
+    // }
 
     // Set Request Options
     const requestOptions: IRequestOptions = {
       body: requestBody,
       headers,
-      params,
+      params: queryParams,
     };
 
     let spinnerId: string;
@@ -106,20 +106,24 @@ export class HttpUtilService {
     requestMethod: HttpMethods,
     requestBody?: any,
     // queryParams?: object,
-    queryParams?: Record<string, string>,
+    queryParams?: HttpParams,
     requestHeaders?: HttpHeaders,
-    options?: HttpRequestOptions
+    options: HttpRequestOptions = {
+      excludeAuthHeader: false
+    }
   ): Promise<any> {
     const requestURL = environment.restAPI + url;
 
     requestHeaders = requestHeaders || new HttpHeaders();
     if (!options?.excludeAuthHeader) {
       const _authService: AuthService = this._injector.get(AuthService);
-      const token = await _authService.token;
-      requestHeaders = requestHeaders.append(
-        'Authorization',
-        `Bearer ${token}`
-      );
+      _authService.token.subscribe(token => {
+        requestHeaders = requestHeaders.append(
+          'Authorization',
+          `Bearer ${token}`
+        );
+      });
+
     }
     return this.makeExternalRequest(
       requestURL,
