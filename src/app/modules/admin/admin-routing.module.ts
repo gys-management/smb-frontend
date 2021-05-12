@@ -7,10 +7,6 @@ import { AdminPage } from './admin.page';
 
 const routes: Routes = [
   {
-    path: '',
-    component: AdminPage
-  },
-  {
     path: 'dashboard',
     loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardPageModule),
     canActivate: [AuthGuard],
@@ -21,7 +17,12 @@ const routes: Routes = [
     loadChildren: () => import('./customer/customer.module').then(m => m.CustomerPageModule),
     canActivate: [AuthGuard],
     data: { roles: [UserRole.ADMIN, UserRole.STAFF] }
-  }
+  },
+  {
+    path: '',
+    redirectTo: 'dashboard',
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({

@@ -13,7 +13,7 @@ export class ModalUtilService {
   async presentModal(
     component: any,
     // componentProps?: object,
-    componentProps?: Record<string, string>,
+    componentProps: Record<string, string>,
     cssClass: string = 'modal-fullscreen',
     backdropDismiss: boolean = true,
     swipeToClose: boolean = true,

@@ -41,9 +41,9 @@ export class CustomerService {
     );
   }
 
-  async getCustomerById(custId: Customer): Promise<Customer> {
+  async getCustomerById(custId: string): Promise<Customer> {
     return await this._httpUtilService.makeRequest(
-      ApiUrlContant.CUSTOMER + custId,
+      `${ApiUrlContant.CUSTOMER}/${custId}`,
       HttpMethods.GET
     );
   }

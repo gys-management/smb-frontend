@@ -50,8 +50,8 @@ export class CustomerListComponent implements OnInit {
 
   onView(id: string) {
     this._navCtrl.navigateForward(
-      UrlConstant.URL_ADMIN_CUSTOMER + id,
-      { skipLocationChange: true }
+      `${UrlConstant.URL_ADMIN_CUSTOMER}/${id}`,
+      // { skipLocationChange: true }
     );
   }
 

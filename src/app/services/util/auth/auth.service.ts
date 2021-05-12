@@ -132,7 +132,7 @@ export class AuthService implements OnInit, OnDestroy {
     return from(this._httpUtilService.makeRequest(
       ApiUrlContant.LOGIN,
       HttpMethods.POST,
-      { phoneNumber: loginForm.userName, password: loginForm.password },
+      { loginId: loginForm.userName, password: loginForm.password },
       null,
       null,
       { excludeAuthHeader: true }

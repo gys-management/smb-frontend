@@ -4,4 +4,6 @@ export class ApiUrlContant {
   static readonly ORGANIZATION = '/organizations/';
   static readonly CUSTOMER = '/customers';
 
+  static readonly PAYMENT = '/payments';
+
 }

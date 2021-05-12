@@ -48,6 +48,15 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
+  logout() {
+    this._authService.logOutService();
+  }
+
+  refresh() {
+    AppConstant.reload();
+  }
+
+
   private backButtonToExit() {
     const platformSub = this._platform.backButton.subscribe(() => {
       if (!this.routerOutlet.canGoBack()) {
@@ -73,13 +82,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  private refresh() {
-    AppConstant.reload();
-  }
 
-  private logout() {
-    this._authService.logOutService();
-  }
 
   private async displayMenuBar() {
     this._menuBarService.menuBar().subscribe(result => {
