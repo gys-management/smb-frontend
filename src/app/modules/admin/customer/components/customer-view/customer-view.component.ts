@@ -4,13 +4,13 @@ import { NavController } from '@ionic/angular';
 import { take } from 'rxjs/operators';
 import { AppConstant } from 'src/app/constants/app.constants';
 import { Customer } from 'src/app/models/customer.model';
-import { PaymentTotalResponse } from 'src/app/models/payments/paymentTotalResponse.model';
+import { PaymentTotalResponse } from 'src/app/models/payments/payment.model';
 import { ReminderPaymentController } from 'src/app/modules/utils/reminderPayment.controller';
 import { CustomerService } from 'src/app/services/customer.service';
 import { PaymentService } from 'src/app/services/payment.service';
 import { ActionSheetUtilService } from 'src/app/services/util/actionSheet/action-sheet-util.service';
 import { ModalUtilService } from 'src/app/services/util/modal/modal-util.service';
-import { PaymentHistoryComponent } from '../payment-history/payment-history.component';
+import { PaymentHistoryComponent } from '../../../../shared/payment/payment-history/payment-history.component';
 
 @Component({
   selector: 'app-customer-view',
@@ -107,7 +107,7 @@ export class CustomerViewComponent implements OnInit {
     await this._modalUtilService.presentModal(
       PaymentHistoryComponent,
       { customerId },
-      AppConstant.CSS_MODAL_75_PER_SCREEN,
+      // AppConstant.CSS_MODAL_75_PER_SCREEN,
     );
 
   }

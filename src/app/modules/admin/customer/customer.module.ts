@@ -26,8 +26,7 @@ import { SharedModule } from '../../shared/shared.module';
     MatTableModule,
     MatPaginatorModule,
     MatProgressBarModule,
-    MatSortModule,
-    MatTooltipModule
+    MatSortModule
   ],
   declarations: [CustomerPage, CustomerListComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

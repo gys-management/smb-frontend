@@ -35,6 +35,9 @@ export class AppConstant {
   // Product
   static readonly PRODUCT = 'Product';
 
+  // Payment
+  static readonly PAYMENT = 'Payment';
+
   // Order
   static readonly ORDER = 'Order';
   static readonly ORDER_ITEM = 'OrderItem';
@@ -46,6 +49,6 @@ export class AppConstant {
 
 
   static reload() {
-    window.location.reload();
+    document.location.reload();
   }
 }

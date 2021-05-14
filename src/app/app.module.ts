@@ -14,6 +14,9 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 import { AngularFireModule } from '@angular/fire';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { DirectivesModule } from './directives/directives.module';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,7 +35,10 @@ import { DirectivesModule } from './directives/directives.module';
     HttpClientModule,
     IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    DirectivesModule
+    DirectivesModule,
+    OverlayModule,
+    MatTooltipModule,
+    MatSelectModule
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, GooglePlus],
   bootstrap: [AppComponent],

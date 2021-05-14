@@ -1,7 +1,7 @@
 import { ActionSheetController, Platform } from '@ionic/angular';
 import { Injectable } from '@angular/core';
 import { Customer } from 'src/app/models/customer.model';
-import { PaymentTotalResponse } from 'src/app/models/payments/paymentTotalResponse.model';
+import { PaymentTotalResponse } from 'src/app/models/payments/payment.model';
 
 @Injectable()
 export class ReminderPaymentController {

@@ -30,7 +30,43 @@ export class HttpUtilService {
     private _injector: Injector
   ) { }
 
-  async makeExternalRequest(
+  async makeRequest(
+    url: string,
+    requestMethod: HttpMethods,
+    requestBody?: any,
+    // queryParams?: object,
+    queryParams?: HttpParams,
+    requestHeaders?: HttpHeaders,
+    options: HttpRequestOptions = {
+      excludeAuthHeader: false
+    }
+  ): Promise<any> {
+    const requestURL = environment.restAPI + url;
+
+    requestHeaders = requestHeaders || new HttpHeaders();
+    if (!options?.excludeAuthHeader) {
+      const _authService: AuthService = this._injector.get(AuthService);
+      _authService.token.subscribe(token => {
+        requestHeaders = requestHeaders.append(
+          'Authorization',
+          `Bearer ${token}`
+        );
+      });
+
+    }
+    return this.makeExternalRequest(
+      requestURL,
+      requestMethod,
+      requestBody,
+      queryParams,
+      requestHeaders,
+      options
+    );
+  }
+
+
+
+  private async makeExternalRequest(
     requestUrl: string,
     method: HttpMethods,
     requestBody?: any,
@@ -99,40 +135,6 @@ export class HttpUtilService {
       const errorResponse: AppError = await this.handleHttpError(err);
       return Promise.reject(errorResponse);
     }
-  }
-
-  async makeRequest(
-    url: string,
-    requestMethod: HttpMethods,
-    requestBody?: any,
-    // queryParams?: object,
-    queryParams?: HttpParams,
-    requestHeaders?: HttpHeaders,
-    options: HttpRequestOptions = {
-      excludeAuthHeader: false
-    }
-  ): Promise<any> {
-    const requestURL = environment.restAPI + url;
-
-    requestHeaders = requestHeaders || new HttpHeaders();
-    if (!options?.excludeAuthHeader) {
-      const _authService: AuthService = this._injector.get(AuthService);
-      _authService.token.subscribe(token => {
-        requestHeaders = requestHeaders.append(
-          'Authorization',
-          `Bearer ${token}`
-        );
-      });
-
-    }
-    return this.makeExternalRequest(
-      requestURL,
-      requestMethod,
-      requestBody,
-      queryParams,
-      requestHeaders,
-      options
-    );
   }
 
   /*

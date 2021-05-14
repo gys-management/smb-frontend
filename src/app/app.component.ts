@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { SplashScreen, App } from '@capacitor/core';
-import { IonRouterOutlet, Platform } from '@ionic/angular';
+import { IonRouterOutlet, ModalController, NavController, Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { AppConstant } from './constants/app.constants';
+import { UrlConstant } from './constants/url.constants';
 import { CommonUtils } from './modules/utils/common.utils';
 import { AuthService } from './services/util/auth/auth.service';
 import { MenuBarService } from './services/util/menu/menu-bar.service';
@@ -29,6 +30,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private _toastUtilService: ToastUtilService,
     private _authService: AuthService,
     private _menuBarService: MenuBarService,
+    private _navCtrl: NavController,
+    private _modalCtrl: ModalController
     // private _orgService: OrganizationService
   ) {
     this.initializeApp();
@@ -50,6 +53,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   logout() {
     this._authService.logOutService();
+    // this._navCtrl.navigateRoot(UrlConstant.URL_LOGIN);
+    this.refresh();
   }
 
   refresh() {
@@ -58,7 +63,15 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
   private backButtonToExit() {
-    const platformSub = this._platform.backButton.subscribe(() => {
+    const platformSub = this._platform.backButton.subscribeWithPriority(999, async () => {
+      if (this._modalCtrl.getTop()) {
+        const modal = await this._modalCtrl.getTop();
+        console.log(modal);
+        if (modal) {
+          this._modalCtrl.dismiss();
+          return;
+        }
+      }
       if (!this.routerOutlet.canGoBack()) {
         App.exitApp();
       }
