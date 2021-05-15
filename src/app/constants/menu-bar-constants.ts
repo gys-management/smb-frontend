@@ -56,7 +56,7 @@ export class MenuBarConstants {
     }
   ];
 
-  static readonly dealerMenu = [
+  static readonly customerMenu = [
     {
       title: 'Dashboard',
       url: UrlConstant.URL_CUSTOMER_DASHBOARD,

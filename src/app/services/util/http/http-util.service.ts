@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
+import { map, take } from 'rxjs/operators';
 import { ErrorConstant } from 'src/app/constants/error-constants';
 import { AppError } from 'src/app/models/app-error';
 import { HttpMethods, HttpRequestOptions } from 'src/app/models/http';
@@ -30,12 +31,48 @@ export class HttpUtilService {
     private _injector: Injector
   ) { }
 
-  async makeExternalRequest(
+  async makeRequest(
+    url: string,
+    requestMethod: HttpMethods,
+    requestBody?: any,
+    // queryParams?: object,
+    queryParams?: HttpParams,
+    requestHeaders?: HttpHeaders,
+    options: HttpRequestOptions = {
+      excludeAuthHeader: false
+    }
+  ): Promise<any> {
+    const requestURL = environment.restAPI + url;
+
+    requestHeaders = requestHeaders || new HttpHeaders();
+    if (!options?.excludeAuthHeader) {
+      const _authService: AuthService = this._injector.get(AuthService);
+      _authService.token.subscribe(token => {
+        requestHeaders = requestHeaders.append(
+          'Authorization',
+          `Bearer ${token}`
+        );
+      });
+    }
+
+    return this.makeExternalRequest(
+      requestURL,
+      requestMethod,
+      requestBody,
+      queryParams,
+      requestHeaders,
+      options
+    );
+  }
+
+
+
+  private async makeExternalRequest(
     requestUrl: string,
     method: HttpMethods,
     requestBody?: any,
     // queryParams?: object,
-    queryParams?: Record<string, string>,
+    queryParams?: HttpParams,
     requestHeaders?: HttpHeaders,
     { hideSpinner, spinnerMessage, spinnerOptions }: HttpRequestOptions = {
       hideSpinner: false,
@@ -46,20 +83,20 @@ export class HttpUtilService {
     headers = headers.append('Content-Type', 'application/json');
 
     // Set Query Params
-    let params: HttpParams = new HttpParams();
-    if (queryParams) {
-      for (const key in queryParams) {
-        if (key && queryParams.hasOwnProperty(key)) {
-          params = params.set(key, queryParams[key]);
-        }
-      }
-    }
+    // let params: HttpParams = new HttpParams();
+    // if (queryParams) {
+    //   for (const key in queryParams) {
+    //     if (key && queryParams.hasOwnProperty(key)) {
+    //       params = params.set(key, queryParams[key]);
+    //     }
+    //   }
+    // }
 
     // Set Request Options
     const requestOptions: IRequestOptions = {
       body: requestBody,
       headers,
-      params,
+      params: queryParams,
     };
 
     let spinnerId: string;
@@ -99,36 +136,6 @@ export class HttpUtilService {
       const errorResponse: AppError = await this.handleHttpError(err);
       return Promise.reject(errorResponse);
     }
-  }
-
-  async makeRequest(
-    url: string,
-    requestMethod: HttpMethods,
-    requestBody?: any,
-    // queryParams?: object,
-    queryParams?: Record<string, string>,
-    requestHeaders?: HttpHeaders,
-    options?: HttpRequestOptions
-  ): Promise<any> {
-    const requestURL = environment.restAPI + url;
-
-    requestHeaders = requestHeaders || new HttpHeaders();
-    if (!options?.excludeAuthHeader) {
-      const _authService: AuthService = this._injector.get(AuthService);
-      const token = await _authService.token;
-      requestHeaders = requestHeaders.append(
-        'Authorization',
-        `Bearer ${token}`
-      );
-    }
-    return this.makeExternalRequest(
-      requestURL,
-      requestMethod,
-      requestBody,
-      queryParams,
-      requestHeaders,
-      options
-    );
   }
 
   /*
@@ -227,13 +234,6 @@ export class HttpUtilService {
   private async handleHttpError(err: any): Promise<AppError> {
     let appError: AppError = new AppError();
     switch (err.status) {
-      case 401:
-        appError = new AppError(
-          null,
-          ErrorConstant.ERR_UNAUTHENTICATED,
-          ErrorConstant.ERR_UNAUTHENTICATED
-        );
-        break;
       case 500:
         appError = new AppError(
           null,

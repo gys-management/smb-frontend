@@ -1,0 +1,158 @@
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button color="primary" (click)="presentActionSheet()">
+    <ion-icon name="paper-plane-outline">
+    </ion-icon>
+  </ion-fab-button>
+</ion-fab>
+
+<ion-grid *ngIf="customerDetails">
+  <ion-row class="head-topic">
+    <ion-col size-sm="6" offset-sm="3">
+      <ion-item lines="none">
+        <ion-thumbnail slot="start" class="text-center">
+          <ion-label class="thumb-label">
+            {{customerDetails.companyName.substring(0,2).toUpperCase()}}
+          </ion-label>
+        </ion-thumbnail>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-text class="name-label">
+                {{(customerDetails.companyName |titlecase) }}
+              </ion-text>
+              <!-- <h5>Status : {{customerDetails.status}}</h5> -->
+              <!-- <h5>Since : {{customerDetails.joiningDate | date}} </h5> -->
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col size-sm="6" offset-sm="3">
+      <!-- <ion-item lines="none">
+        <ion-label>
+          <ion-text> Login Id: </ion-text>
+          {{customerDetails.dealerLoginId}}
+        </ion-label>
+      </ion-item> -->
+      <ion-item lines="none">
+        <ion-label>
+          <ion-text> Name: </ion-text>
+          {{(customerDetails.firstName |titlecase) +' ' +
+          (customerDetails.lastName!==null? customerDetails.lastName:'' |titlecase)}}
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-text> Gst No: </ion-text>
+        <ion-label>
+          {{customerDetails.gstNumber}}
+        </ion-label>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <ion-row class="contact-info">
+    <ion-col size-sm="6" offset-sm="3">
+      <ion-note>Contact Info:</ion-note>
+      <ion-item lines="none">
+        <ion-label>
+          <ion-text> Email: </ion-text>
+          {{customerDetails.email}}
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>
+          <ion-text> Mobile: </ion-text>
+          +91 {{customerDetails.phoneNumber}}
+        </ion-label>
+        <ion-buttons>
+          <ion-button [href]="phoneURL">
+            <ion-icon slot="icon-only" color="primary" name="call-outline"></ion-icon>
+          </ion-button>
+          <ion-button [href]="whatsappURL">
+            <ion-icon slot="icon-only" color="success" name="logo-whatsapp"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
+      <!-- <ion-item lines="none">
+        <ion-text> Mobile: </ion-text>
+        <ion-label>
+          {{customerDetails.mobile}}
+        </ion-label>
+      </ion-item> -->
+
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="contact-address">
+    <ion-col size-sm="6" offset-sm="3">
+      <ion-note>Contact Address:</ion-note>
+      <ion-item lines="none">
+        <ion-label>
+          <ion-text> Address 1: </ion-text>
+          {{customerDetails.addressLine1}}
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>
+          <ion-text> Address 2: </ion-text>
+          {{customerDetails.addressLine2}}
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>
+          <ion-text> City: </ion-text>
+          {{customerDetails.city}}
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-text> State: </ion-text>
+        <ion-label>
+          {{customerDetails.state}}
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-text> Country: </ion-text>
+        <ion-label>
+          {{customerDetails.country}}
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-text> Pincode: </ion-text>
+        <ion-label>
+          {{customerDetails.pincode}}
+        </ion-label>
+      </ion-item>
+
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="Amount" *ngIf="paymentTotal">
+    <ion-col size-sm="6" offset-sm="3">
+      <ion-note>Payment Details:</ion-note>
+      <ion-icon class="icon-reminder" name="arrow-redo-circle-outline" (click)="reminderPresentSheet()">
+      </ion-icon>
+      <ion-item lines="none">
+        <ion-text> Total: </ion-text>
+        <ion-label color="secondary">
+          {{paymentTotal.totalOrderAmount| currency : 'INR'}}
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-text> Received: </ion-text>
+        <ion-label color="success">
+          {{paymentTotal.totalPaymentAmount | currency : 'INR'}}
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-text> Pending: </ion-text>
+        <ion-label color="danger">
+          {{paymentTotal.pendingAmount | currency : 'INR'}}
+        </ion-label>
+      </ion-item>
+
+    </ion-col>
+  </ion-row>
+
+</ion-grid>

@@ -1,0 +1,38 @@
+ion-row.head-topic {
+  ion-thumbnail {
+    background-color: #faebd7;
+  }
+
+  .thumb-label {
+    font-size: xx-large;
+    text-align: center;
+    margin-top: 15px;
+  }
+
+  .name-label {
+    font-size: large;
+    margin-bottom: 5px;
+  }
+
+  h5 {
+    font-size: x-small;
+    margin: 0px;
+  }
+}
+
+ion-row {
+  ion-item {
+    margin-bottom: -10px;
+  }
+
+  ion-text {
+    font-size: small;
+    margin-right: 5px;
+  }
+}
+
+.icon-reminder {
+  color: var(--ion-color-danger);
+  cursor: pointer;
+  font-size: x-large;
+}

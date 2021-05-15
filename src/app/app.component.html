@@ -1,3 +1,100 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-menu side="start" contentId="main">
+    <ion-header>
+      <ion-toolbar class="ion-toolbar-local ion-text-center" color="secondary">
+
+        <ion-thumbnail>
+          <img src="../assets/image/avatar.png">
+        </ion-thumbnail>
+
+        <ion-title>
+          {{organizationDetails?.companyName}}
+          <!-- PRS -->
+        </ion-title>
+
+        <ion-chip>
+          <ion-icon name="call-outline"></ion-icon>
+          <ion-label>
+            {{organizationDetails?.phoneNumber}}
+            <!-- 89 -->
+          </ion-label>
+
+        </ion-chip>
+
+      </ion-toolbar>
+
+
+    </ion-header>
+    <ion-content>
+      <ion-list lines="none">
+        <div *ngFor="let p of appPages; let i = index">
+          <ion-menu-toggle *ngIf="p.url" autoHide="false">
+            <ion-item [routerLink]="p.url" *appUserRole="p.role" routerLinkActive="selected" routerDirection="root"
+              detail="false">
+              <ion-icon slot="start" [name]="p.icon + '-outline'"></ion-icon>
+              <ion-label>
+                {{p.title}}
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          <div *appUserRole="p.role">
+            <ion-item *ngIf="p.subPages?.length>0" (click)="p.open =!p.open" [class.active-parent]='p.open'
+              routerDirection="root" details="false">
+              <ion-icon slot="start" [name]="p.icon + '-outline'"></ion-icon>
+              <ion-label>
+                {{p.title}}
+              </ion-label>
+              <ion-icon slot="end" [name]="p.open? 'arrow-down-circle-outline' : 'arrow-forward-circle-outline'">
+              </ion-icon>
+            </ion-item>
+
+            <ion-menu-toggle *ngIf="p.open" autoHide="false">
+              <div *ngFor="let x of p.subPages">
+                <ion-item *appUserRole="x.role" [routerLink]="x.url" routerLinkActive="selected" detail="false">
+                  <ion-icon slot="end" [name]="x.icon + '-outline'"></ion-icon>
+                  <ion-label id="label" class="ion-text-right"> {{x.title}} </ion-label>
+                </ion-item>
+              </div>
+
+            </ion-menu-toggle>
+
+          </div>
+        </div>
+      </ion-list>
+
+
+      <ion-list lines="none">
+        <ion-menu-toggle autoHide="false">
+          <ion-item button (click)="logout()" detail="false">
+            <ion-icon slot="start" name="log-out-outline"></ion-icon>
+            <ion-label>Sign-out</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <!-- <ion-item>
+          <ion-icon slot="start" name="moon-outline"></ion-icon>
+          <ion-label>
+            Dark Mode
+          </ion-label>
+          <ion-toggle [(ngModel)]="dark" (ionChange)="changeDarkmode($event)"></ion-toggle>
+        </ion-item> -->
+        <ion-menu-toggle autoHide="false">
+          <ion-item button (click)="refresh()" detail="false">
+            <ion-icon slot="start" name="refresh-outline"></ion-icon>
+            <ion-label>Refresh</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+
+    <ion-footer class="ion-no-border">
+      <ion-toolbar color="light">
+        <ion-title>GYS Team</ion-title>
+      </ion-toolbar>
+    </ion-footer>
+  </ion-menu>
+
+
+
+
+  <ion-router-outlet id="main"></ion-router-outlet>
 </ion-app>

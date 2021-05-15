@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { AuthModel } from 'src/app/models/auth/auth.model';
+import { Organization } from 'src/app/models/organization.model';
 
 /*
  * This service is used to hold values fetched from backend that won't change over time.
@@ -14,6 +15,7 @@ import { AuthModel } from 'src/app/models/auth/auth.model';
 })
 export class CacheService {
   authDetails = new BehaviorSubject<AuthModel>(null);
+  organization = new BehaviorSubject<Organization>(null);
 
 
   constructor() { }
