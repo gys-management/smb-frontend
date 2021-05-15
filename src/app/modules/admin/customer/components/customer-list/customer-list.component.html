@@ -63,7 +63,7 @@
           </ion-toggle>
         </ion-col> -->
         <ion-col>
-          <ion-searchbar #mySearchBar placeholder="Search By Company Name or Phone No." animated='true'>
+          <ion-searchbar #mySearchBar placeholder="Search By Display Name or Phone No." animated='true'>
           </ion-searchbar>
         </ion-col>
       </ion-row>
@@ -139,8 +139,8 @@
 
   </div>
 
-  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
-    <ion-fab-button color="danger" (click)="onAdd()">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="primary" (click)="onAdd()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

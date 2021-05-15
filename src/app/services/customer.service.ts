@@ -56,7 +56,7 @@ export class CustomerService {
     );
   }
 
-  async updateCustomer(updateCust: Customer): Promise<Customer> {
+  async updateCustomer(id: string, updateCust: Customer): Promise<Customer> {
     return await this._httpUtilService.makeRequest(
       ApiUrlContant.CUSTOMER + updateCust.id,
       HttpMethods.PUT,

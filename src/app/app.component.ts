@@ -5,9 +5,12 @@ import { IonRouterOutlet, ModalController, NavController, Platform } from '@ioni
 import { Subscription } from 'rxjs';
 import { AppConstant } from './constants/app.constants';
 import { UrlConstant } from './constants/url.constants';
+import { Organization } from './models/organization.model';
 import { CommonUtils } from './modules/utils/common.utils';
+import { OrganizationService } from './services/organization.service';
 import { AuthService } from './services/util/auth/auth.service';
 import { MenuBarService } from './services/util/menu/menu-bar.service';
+import { MessageService } from './services/util/messages/message.service';
 import { ToastUtilService } from './services/util/toast/toast-util.service';
 
 @Component({
@@ -19,7 +22,7 @@ export class AppComponent implements OnInit, OnDestroy {
   @ViewChild(IonRouterOutlet, { static: true }) routerOutlet: IonRouterOutlet;
 
   appPages: any[];
-  // organizationDetails: Organization;
+  organizationDetails: Organization;
   appCompSub: Subscription[] = [];
 
   constructor(
@@ -31,8 +34,9 @@ export class AppComponent implements OnInit, OnDestroy {
     private _authService: AuthService,
     private _menuBarService: MenuBarService,
     private _navCtrl: NavController,
-    private _modalCtrl: ModalController
-    // private _orgService: OrganizationService
+    private _modalCtrl: ModalController,
+    private _orgService: OrganizationService,
+    private _msgService: MessageService
   ) {
     this.initializeApp();
   }
@@ -66,7 +70,6 @@ export class AppComponent implements OnInit, OnDestroy {
     const platformSub = this._platform.backButton.subscribeWithPriority(999, async () => {
       if (this._modalCtrl.getTop()) {
         const modal = await this._modalCtrl.getTop();
-        console.log(modal);
         if (modal) {
           this._modalCtrl.dismiss();
           return;
@@ -104,11 +107,17 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private async getOrganizationDetails() {
-    // this.organizationDetails = await this._orgService.getOrganizationById();
+    this._orgService.getOrganizationById.subscribe(
+      (org) => {
+        this.organizationDetails = org;
+      }, (error) => {
+        this._msgService.messageErrorToast(error);
+      }
+    );
   }
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
   ngOnDestroy(): void {
-    CommonUtils.unSubcribe(this.appCompSub);
+    // CommonUtils.unSubcribe(this.appCompSub);
   }
 }

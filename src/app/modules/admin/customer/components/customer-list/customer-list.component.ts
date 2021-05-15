@@ -8,6 +8,7 @@ import { debounceTime, distinctUntilChanged, tap, startWith } from 'rxjs/operato
 import { UrlConstant } from 'src/app/constants/url.constants';
 import { Customer, CustomerResponse } from 'src/app/models/customer.model';
 import { CustomerService } from 'src/app/services/customer.service';
+import { ActionSheetUtilService } from 'src/app/services/util/actionSheet/action-sheet-util.service';
 
 @Component({
   selector: 'app-customer-list',
@@ -31,27 +32,75 @@ export class CustomerListComponent implements OnInit {
 
   constructor(
     private _customerService: CustomerService,
-    private _navCtrl: NavController
+    private _navCtrl: NavController,
+    private _actionService: ActionSheetUtilService
   ) { }
 
   async ngOnInit() {
-
     this.serverSideRender();
   }
-  presentActionSheet(element: Customer) {
 
+  async presentActionSheet(element: Customer) {
+    const actionSheet = await this._actionService.presentActionSheet({
+      header: 'Action',
+      buttons: [
+        {
+          text: 'Add Payment',
+          icon: 'cash-outline',
+          cssClass: 'action-sheet-google',
+          handler: () => {
+            // this.updateAmountAlert(element);
+          }
+        },
+        {
+          text: 'View Customer',
+          icon: 'person-outline',
+          cssClass: 'action-sheet-secondary',
+          handler: () => {
+            this.onView(element.id);
+          }
+        },
+        {
+          text: 'Edit',
+          icon: 'create-outline',
+          cssClass: 'action-sheet-primary',
+          handler: () => {
+            this._navCtrl.navigateForward(
+              UrlConstant.URL_ADMIN_CUSTOMER + UrlConstant.URL_EDIT + '/' + element.id,
+              { skipLocationChange: true }
+            );
+          },
+        },
+        // {
+        //   text: 'Delete',
+        //   role: 'destructive',
+        //   icon: 'trash',
+        //   handler: () => {
+        //     this.deleteAlert(element.id);
+        //   }
+        // },
+        {
+          text: 'Close',
+          icon: 'close',
+          cssClass: 'action-sheet-danger',
+          role: 'cancel',
+          handler: () => {
+          },
+        },
+      ],
+    });
   }
   onAdd() {
     this._navCtrl.navigateForward(
       UrlConstant.URL_ADMIN_CUSTOMER + UrlConstant.URL_ADD,
-      { skipLocationChange: true }
+      // { skipLocationChange: true }
     );
   }
 
   onView(id: string) {
     this._navCtrl.navigateForward(
       `${UrlConstant.URL_ADMIN_CUSTOMER}/${id}`,
-      // { skipLocationChange: true }
+      { skipLocationChange: true }
     );
   }
 

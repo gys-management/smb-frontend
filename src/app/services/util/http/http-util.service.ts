@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
+import { map, take } from 'rxjs/operators';
 import { ErrorConstant } from 'src/app/constants/error-constants';
 import { AppError } from 'src/app/models/app-error';
 import { HttpMethods, HttpRequestOptions } from 'src/app/models/http';
@@ -46,12 +47,11 @@ export class HttpUtilService {
     requestHeaders = requestHeaders || new HttpHeaders();
     if (!options?.excludeAuthHeader) {
       const _authService: AuthService = this._injector.get(AuthService);
-      _authService.token.subscribe(token => {
-        requestHeaders = requestHeaders.append(
-          'Authorization',
-          `Bearer ${token}`
-        );
-      });
+      const token2 = await _authService.token.pipe(take(2)).toPromise();
+      requestHeaders = requestHeaders.append(
+        'Authorization',
+        `Bearer ${token2}`
+      );
 
     }
     return this.makeExternalRequest(
@@ -233,13 +233,6 @@ export class HttpUtilService {
   private async handleHttpError(err: any): Promise<AppError> {
     let appError: AppError = new AppError();
     switch (err.status) {
-      case 401:
-        appError = new AppError(
-          null,
-          ErrorConstant.ERR_UNAUTHENTICATED,
-          ErrorConstant.ERR_UNAUTHENTICATED
-        );
-        break;
       case 500:
         appError = new AppError(
           null,

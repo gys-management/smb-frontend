@@ -3,17 +3,19 @@ export class Customer {
   companyName: string;
   firstName: string;
   lastName: string;
+  age: number;
+  gender: string;
   email: string;
+  phoneCode: number;
   phoneNumber: number;
   addressLine1: string;
   addressLine2: string;
   city: string;
   state: string;
   country: string;
-  pincode: number;
+  pincode: string;
   gstNumber: string;
-  receivedAmt?: string;
-  pendingAmt?: string;
+  joiningDate: string;
   // visible?: booleanstring;
 }
 

@@ -5,12 +5,12 @@ import { take } from 'rxjs/operators';
 import { AppConstant } from 'src/app/constants/app.constants';
 import { Customer } from 'src/app/models/customer.model';
 import { PaymentTotalResponse } from 'src/app/models/payments/payment.model';
+import { PaymentHistoryComponent } from 'src/app/modules/shared/payment/payment-history/payment-history.component';
 import { ReminderPaymentController } from 'src/app/modules/utils/reminderPayment.controller';
 import { CustomerService } from 'src/app/services/customer.service';
 import { PaymentService } from 'src/app/services/payment.service';
 import { ActionSheetUtilService } from 'src/app/services/util/actionSheet/action-sheet-util.service';
 import { ModalUtilService } from 'src/app/services/util/modal/modal-util.service';
-import { PaymentHistoryComponent } from '../../../../shared/payment/payment-history/payment-history.component';
 
 @Component({
   selector: 'app-customer-view',
@@ -64,7 +64,7 @@ export class CustomerViewComponent implements OnInit {
         {
           text: 'Payment History',
           icon: 'wallet-outline',
-          cssClass: 'action-sheet-google',
+          cssClass: 'action-sheet-facebook',
           handler: () => {
             this.loadPaymentHistoryComp(this.customerDetails.id);
           },
@@ -72,7 +72,7 @@ export class CustomerViewComponent implements OnInit {
         {
           text: 'Send Reminder',
           icon: 'arrow-redo-circle-outline',
-          cssClass: 'action-sheet-facebook',
+          cssClass: 'action-sheet-danger',
           handler: () => {
             this.reminderPresentSheet();
           },

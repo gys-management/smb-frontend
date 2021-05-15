@@ -95,6 +95,11 @@ tr.example-element-row:not(.example-expanded-row):active {
 //   }
 // }
 
+// mat paginator align
+.mat-paginator-container {
+  justify-content: start !important;
+}
+
 // Mandatory field
 .required-field::before {
   content: "*";

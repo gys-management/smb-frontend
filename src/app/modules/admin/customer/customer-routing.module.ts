@@ -9,7 +9,11 @@ const routes: Routes = [
     component: CustomerPage
   },
   {
-    path: 'customer-add-edit-page',
+    path: 'add',
+    loadChildren: () => import('./pages/customer-add-edit-page/customer-add-edit-page.module').then(m => m.CustomerAddEditPagePageModule)
+  },
+  {
+    path: 'edit/:id',
     loadChildren: () => import('./pages/customer-add-edit-page/customer-add-edit-page.module').then(m => m.CustomerAddEditPagePageModule)
   },
   {

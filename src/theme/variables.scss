@@ -122,6 +122,23 @@
   --ion-color-facebook-contrast-rgb: 255, 255, 255;
   --ion-color-facebook-shade: #344e86;
   --ion-color-facebook-tint: #4f6aa2;
+
+  /** violet **/
+  --ion-color-violet: #79409b;
+  --ion-color-violet-rgb: 121, 64, 155;
+  --ion-color-violet-contrast: #ffffff;
+  --ion-color-violet-contrast-rgb: 255, 255, 255;
+  --ion-color-violet-shade: #6a3888;
+  --ion-color-violet-tint: #8653a5;
+}
+
+.ion-color-violet {
+  --ion-color-base: var(--ion-color-violet);
+  --ion-color-base-rgb: var(--ion-color-violet-rgb);
+  --ion-color-contrast: var(--ion-color-violet-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-violet-contrast-rgb);
+  --ion-color-shade: var(--ion-color-violet-shade);
+  --ion-color-tint: var(--ion-color-violet-tint);
 }
 
 .ion-color-favorite {
