@@ -24,19 +24,19 @@ export class OrganizationService {
         if (org) {
           return org;
         } else {
-          this.fetchOrginzationById();
+          await this.fetchOrginzationById();
         }
       }));
   }
 
-  async fetchOrginzationById(): Promise<void> {
+  async fetchOrginzationById(): Promise<Organization> {
     const resultOrg = await this._http.makeRequest(
       ApiUrlContant.ORGANIZATION,
       HttpMethods.GET,
       null, null, null,
-      { excludeAuthHeader: false }
+      { excludeAuthHeader: false, hideSpinner: true }
     );
     this._cacheService.organization.next(resultOrg);
-    // return resultOrg;
+    return resultOrg;
   }
 }

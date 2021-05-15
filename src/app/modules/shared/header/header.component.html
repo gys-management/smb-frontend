@@ -8,7 +8,7 @@
         <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-buttons slot="start" *ngIf="!headerModel.isMenuVisible && !headerModel.isComponent" (click)="backButton()">
+    <ion-buttons slot="start" *ngIf="!headerModel.isMenuVisible && !headerModel.isComponent">
       <ion-back-button [defaultHref]="headerModel.defaultRoutingUrl"></ion-back-button>
     </ion-buttons>
     <ion-title>{{headerModel.title}}</ion-title>

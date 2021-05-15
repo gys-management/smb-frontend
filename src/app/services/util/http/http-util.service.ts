@@ -47,13 +47,14 @@ export class HttpUtilService {
     requestHeaders = requestHeaders || new HttpHeaders();
     if (!options?.excludeAuthHeader) {
       const _authService: AuthService = this._injector.get(AuthService);
-      const token2 = await _authService.token.pipe(take(2)).toPromise();
-      requestHeaders = requestHeaders.append(
-        'Authorization',
-        `Bearer ${token2}`
-      );
-
+      _authService.token.subscribe(token => {
+        requestHeaders = requestHeaders.append(
+          'Authorization',
+          `Bearer ${token}`
+        );
+      });
     }
+
     return this.makeExternalRequest(
       requestURL,
       requestMethod,

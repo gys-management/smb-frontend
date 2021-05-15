@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
-import { SplashScreen, App } from '@capacitor/core';
+import { App } from '@capacitor/core';
 import { IonRouterOutlet, ModalController, NavController, Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { AppConstant } from './constants/app.constants';
@@ -45,6 +45,12 @@ export class AppComponent implements OnInit, OnDestroy {
     this.softwareUpdateNotification();
     await this.displayMenuBar();
     await this.getOrganizationDetails();
+
+  }
+
+  async ionViewWillEnter() {
+    await this.getOrganizationDetails();
+
   }
 
   initializeApp() {
@@ -107,13 +113,16 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private async getOrganizationDetails() {
-    this._orgService.getOrganizationById.subscribe(
-      (org) => {
-        this.organizationDetails = org;
-      }, (error) => {
-        this._msgService.messageErrorToast(error);
-      }
-    );
+    setTimeout(() => {
+      this._orgService.getOrganizationById.subscribe(
+        (org) => {
+          this.organizationDetails = org;
+        }, (error) => {
+          this._msgService.messageErrorToast(error);
+        }
+      );
+    }, 1000);
+
   }
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
