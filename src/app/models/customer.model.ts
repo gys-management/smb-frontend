@@ -1,3 +1,5 @@
+import { Status } from '../enum/status.enum';
+
 export class Customer {
   id: string;
   companyName: string;
@@ -16,6 +18,7 @@ export class Customer {
   pincode: string;
   gstNumber: string;
   joiningDate: string;
+  status: Status;
   // visible?: booleanstring;
 }
 

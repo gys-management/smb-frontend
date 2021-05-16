@@ -61,8 +61,8 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
-  logout() {
-    this._authService.logOutService();
+  async logout() {
+    await this._authService.logOutService();
     // this._navCtrl.navigateRoot(UrlConstant.URL_LOGIN);
     this.refresh();
   }

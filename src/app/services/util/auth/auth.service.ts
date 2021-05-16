@@ -75,16 +75,9 @@ export class AuthService implements OnInit, OnDestroy {
     );
   }
 
-  get token() {
-    return this._cacheService.authDetails.asObservable().pipe(
-      map((user) => {
-        if (user) {
-          return user.token;
-        } else {
-          return null;
-        }
-      })
-    );
+  async token() {
+    const data = await this._storage.get(AppConstant.AUTH_DATA_STORAGE);
+    return JSON.parse(data)._token;
   }
 
   autoLogin() {

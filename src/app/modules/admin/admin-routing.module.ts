@@ -19,10 +19,16 @@ const routes: Routes = [
     data: { roles: [UserRole.ADMIN, UserRole.STAFF] }
   },
   {
+    path: 'staff',
+    loadChildren: () => import('./staff/staff.module').then(m => m.StaffPageModule),
+    canActivate: [AuthGuard],
+    data: { roles: [UserRole.ADMIN, UserRole.STAFF] }
+  },
+  {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full',
-  },
+  }
 ];
 
 @NgModule({

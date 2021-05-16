@@ -47,12 +47,11 @@ export class HttpUtilService {
     requestHeaders = requestHeaders || new HttpHeaders();
     if (!options?.excludeAuthHeader) {
       const _authService: AuthService = this._injector.get(AuthService);
-      _authService.token.subscribe(token => {
-        requestHeaders = requestHeaders.append(
-          'Authorization',
-          `Bearer ${token}`
-        );
-      });
+      const token = await _authService.token();
+      requestHeaders = requestHeaders.append(
+        'Authorization',
+        `Bearer ${token}`
+      );
     }
 
     return this.makeExternalRequest(
@@ -136,7 +135,7 @@ export class HttpUtilService {
       const errorResponse: AppError = await this.handleHttpError(err);
       return Promise.reject(errorResponse);
     }
-  }
+  };
 
   /*
   async makeMultiPartRequest(
