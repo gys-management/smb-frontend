@@ -75,9 +75,23 @@ export class AuthService implements OnInit, OnDestroy {
     );
   }
 
-  async token() {
+  get token() {
+    return this._cacheService.authDetails.asObservable().pipe(
+      map((user) => {
+        if (user) {
+          return user.token;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
+
+  async getToken() {
     const data = await this._storage.get(AppConstant.AUTH_DATA_STORAGE);
-    return JSON.parse(data)._token;
+    if (data) {
+      return JSON.parse(data)._token;
+    }
   }
 
   autoLogin() {
@@ -115,13 +129,6 @@ export class AuthService implements OnInit, OnDestroy {
   }
 
   loginService(loginForm: LoginModel) {
-    // return this._http
-    //   .post<LoginResponse>(ApiUrlContant.LOGIN, {
-    //     phoneNumber: loginForm.userName,
-    //     password: loginForm.password,
-    //   })
-    //   .pipe(tap(this.setAuthData.bind(this)));
-
     return from(this._httpUtilService.makeRequest(
       ApiUrlContant.LOGIN,
       HttpMethods.POST,
@@ -133,10 +140,6 @@ export class AuthService implements OnInit, OnDestroy {
   }
 
   loginOAuthService(loginOAuthForm: LoginOAuthModel) {
-    // return this._http
-    //   .post<LoginOAuthModel>(`${ApiUrlContant.LOGIN}oauth`, loginOAuthForm)
-    //   .pipe(tap(this.setAuthData.bind(this)));
-
     return from(this._httpUtilService.makeRequest(
       `${ApiUrlContant.LOGIN}/oauth`,
       HttpMethods.POST,
@@ -180,7 +183,6 @@ export class AuthService implements OnInit, OnDestroy {
     );
     this._cacheService.authDetails.next(authData);
     this.storeAuthData(authData);
-    this.userRoleNavigation();
   }
 
   private autoLogout(duration: number) {
