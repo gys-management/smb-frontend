@@ -65,8 +65,7 @@ export class CustomerListComponent implements OnInit {
           cssClass: 'action-sheet-primary',
           handler: () => {
             this._navCtrl.navigateForward(
-              UrlConstant.URL_ADMIN_CUSTOMER + UrlConstant.URL_EDIT + '/' + element.id,
-              { skipLocationChange: true }
+              UrlConstant.URL_ADMIN_CUSTOMER + UrlConstant.URL_EDIT + '/' + element.id
             );
           },
         },
@@ -91,16 +90,12 @@ export class CustomerListComponent implements OnInit {
   }
   onAdd() {
     this._navCtrl.navigateForward(
-      UrlConstant.URL_ADMIN_CUSTOMER + UrlConstant.URL_ADD,
-      { skipLocationChange: true }
-    );
+      UrlConstant.URL_ADMIN_CUSTOMER + UrlConstant.URL_ADD);
   }
 
   onView(id: string) {
     this._navCtrl.navigateForward(
-      `${UrlConstant.URL_ADMIN_CUSTOMER}/${id}`,
-      { skipLocationChange: true }
-    );
+      `${UrlConstant.URL_ADMIN_CUSTOMER}/${id}`);
   }
 
   private serverSideRender() {

@@ -50,9 +50,7 @@ export class ProductBrandPage implements OnInit {
           cssClass: 'action-sheet-primary',
           handler: () => {
             this._navCtrl.navigateForward(
-              UrlConstant.URL_ADMIN_PRODUCTS_BRAND + UrlConstant.URL_EDIT + '/' + element.id,
-              { skipLocationChange: true }
-            );
+              UrlConstant.URL_ADMIN_PRODUCTS_BRAND + UrlConstant.URL_EDIT + '/' + element.id);
           },
         },
         {
@@ -74,9 +72,7 @@ export class ProductBrandPage implements OnInit {
 
   onAdd() {
     this._navCtrl.navigateForward(
-      UrlConstant.URL_ADMIN_PRODUCTS_BRAND + UrlConstant.URL_ADD,
-      // { skipLocationChange: true }
-    );
+      UrlConstant.URL_ADMIN_PRODUCTS_BRAND + UrlConstant.URL_ADD);
   }
 
   private async fetchAllProductBrand() {

@@ -53,9 +53,7 @@ export class ProductCategoryPage implements OnInit {
           cssClass: 'action-sheet-primary',
           handler: () => {
             this._navCtrl.navigateForward(
-              UrlConstant.URL_ADMIN_PRODUCTS_CATEGORY + UrlConstant.URL_EDIT + '/' + element.id,
-              { skipLocationChange: true }
-            );
+              UrlConstant.URL_ADMIN_PRODUCTS_CATEGORY + UrlConstant.URL_EDIT + '/' + element.id);
           },
         },
         {
@@ -77,9 +75,7 @@ export class ProductCategoryPage implements OnInit {
 
   onAdd() {
     this._navCtrl.navigateForward(
-      UrlConstant.URL_ADMIN_PRODUCTS_CATEGORY + UrlConstant.URL_ADD,
-      { skipLocationChange: true }
-    );
+      UrlConstant.URL_ADMIN_PRODUCTS_CATEGORY + UrlConstant.URL_ADD);
   }
 
   private async fetchAllProductCategory() {

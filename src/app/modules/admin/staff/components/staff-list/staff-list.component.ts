@@ -52,9 +52,7 @@ export class StaffListComponent implements OnInit {
           cssClass: 'action-sheet-primary',
           handler: () => {
             this._navCtrl.navigateForward(
-              UrlConstant.URL_ADMIN_STAFF + UrlConstant.URL_EDIT + '/' + element.id,
-              { skipLocationChange: true }
-            );
+              UrlConstant.URL_ADMIN_STAFF + UrlConstant.URL_EDIT + '/' + element.id);
           },
         },
         // {
@@ -84,16 +82,12 @@ export class StaffListComponent implements OnInit {
 
   onAdd() {
     this._navCtrl.navigateForward(
-      UrlConstant.URL_ADMIN_STAFF + UrlConstant.URL_ADD,
-      { skipLocationChange: true }
-    );
+      UrlConstant.URL_ADMIN_STAFF + UrlConstant.URL_ADD);
   }
 
   onView(id: string) {
     this._navCtrl.navigateForward(
-      `${UrlConstant.URL_ADMIN_STAFF}/${id}`,
-      { skipLocationChange: true }
-    );
+      `${UrlConstant.URL_ADMIN_STAFF}/${id}`);
   }
 
 
