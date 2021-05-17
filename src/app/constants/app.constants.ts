@@ -34,6 +34,8 @@ export class AppConstant {
 
   // Product
   static readonly PRODUCT = 'Product';
+  static readonly PRODUCT_CATEGORY = 'Category';
+  static readonly PRODUCT_BRAND = 'Brand';
 
   // Payment
   static readonly PAYMENT = 'Payment';

@@ -44,9 +44,28 @@ export class MenuBarConstants {
     // },
     {
       title: 'Products',
-      url: UrlConstant.URL_ADMIN_PRODUCTS,
       icon: 'cog',
-      role: [UserRole.ADMIN, UserRole.STAFF]
+      role: [UserRole.ADMIN, UserRole.STAFF],
+      subPages: [
+        {
+          title: 'Product',
+          url: UrlConstant.URL_ADMIN_PRODUCTS_DETAILS,
+          icon: 'people',
+          role: [UserRole.ADMIN]
+        },
+        {
+          title: 'Brand',
+          url: UrlConstant.URL_ADMIN_PRODUCTS_BRAND,
+          icon: 'people',
+          role: [UserRole.ADMIN]
+        },
+        {
+          title: 'Category',
+          url: UrlConstant.URL_ADMIN_PRODUCTS_CATEGORY,
+          icon: 'man',
+          role: [UserRole.ADMIN, UserRole.STAFF]
+        }
+      ],
     },
     {
       title: 'Routes',
