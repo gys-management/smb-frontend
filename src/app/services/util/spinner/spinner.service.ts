@@ -24,12 +24,15 @@ export class SpinnerService {
     options?: LoadingOptions
   ): Promise<string> {
     const loadinEl = await this._loadingCtrl.create({
+      spinner: 'bubbles',
       keyboardClose: true,
       message: `${message}...`,
       showBackdrop: this._spinnerIdToElMap.size === 0,
+      translucent: true,
+      animated: true,
       ...options,
     });
-    loadinEl.present();
+    await loadinEl.present();
     const spinnerId = `${Date.now()}_${this._spinnerIdToElMap.size}`;
     this._spinnerIdToElMap.set(spinnerId, loadinEl);
     this._logger.debug(

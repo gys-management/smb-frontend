@@ -6,11 +6,11 @@ import { Subscription } from 'rxjs';
 import { AppConstant } from './constants/app.constants';
 import { UrlConstant } from './constants/url.constants';
 import { Organization } from './models/organization.model';
-import { CommonUtils } from './modules/utils/common.utils';
 import { OrganizationService } from './services/organization.service';
 import { AuthService } from './services/util/auth/auth.service';
 import { MenuBarService } from './services/util/menu/menu-bar.service';
 import { MessageService } from './services/util/messages/message.service';
+import { SpinnerService } from './services/util/spinner/spinner.service';
 import { ToastUtilService } from './services/util/toast/toast-util.service';
 
 @Component({
@@ -36,7 +36,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private _navCtrl: NavController,
     private _modalCtrl: ModalController,
     private _orgService: OrganizationService,
-    private _msgService: MessageService
+    private _msgService: MessageService,
+    private _spinnerService: SpinnerService
   ) {
     this.initializeApp();
   }
@@ -61,10 +62,10 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
-  logout() {
-    this._authService.logOutService();
-    // this._navCtrl.navigateRoot(UrlConstant.URL_LOGIN);
-    this.refresh();
+  async logout() {
+    await this._authService.logOutService();
+    await this._spinnerService.presentSpinner('Logging out', { duration: 2000 });
+    this._navCtrl.navigateRoot(UrlConstant.URL_LOGIN);
   }
 
   refresh() {

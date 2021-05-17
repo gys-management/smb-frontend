@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { from, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { ApiUrlContant } from '../constants/api-url.constants';
 import { HttpMethods } from '../models/http';
 import { Organization } from '../models/organization.model';
@@ -24,19 +24,22 @@ export class OrganizationService {
         if (org) {
           return org;
         } else {
-          await this.fetchOrginzationById();
+          this.fetchOrginzationById().subscribe();
         }
       }));
   }
 
-  async fetchOrginzationById(): Promise<Organization> {
-    const resultOrg = await this._http.makeRequest(
+  fetchOrginzationById(): Observable<Organization> {
+    return from(this._http.makeRequest(
       ApiUrlContant.ORGANIZATION,
       HttpMethods.GET,
       null, null, null,
       { excludeAuthHeader: false, hideSpinner: true }
+    )).pipe(
+      map((resultOrg) => {
+        this._cacheService.organization.next(resultOrg);
+        return resultOrg;
+      })
     );
-    this._cacheService.organization.next(resultOrg);
-    return resultOrg;
   }
 }

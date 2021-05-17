@@ -23,7 +23,6 @@ export class CustomerListComponent implements OnInit {
 
   customerDataSource: MatTableDataSource<Customer>;
   resultsLength = 0;
-  customer_url;
 
   columnsToDisplay = ['companyName', 'action'];
   // columnsToDisplay = ['companyName', 'pendingAmt', 'action',]; // Todo: will enable pending amount once payment API is done
@@ -93,7 +92,7 @@ export class CustomerListComponent implements OnInit {
   onAdd() {
     this._navCtrl.navigateForward(
       UrlConstant.URL_ADMIN_CUSTOMER + UrlConstant.URL_ADD,
-      // { skipLocationChange: true }
+      { skipLocationChange: true }
     );
   }
 
