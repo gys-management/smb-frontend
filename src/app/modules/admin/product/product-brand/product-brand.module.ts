@@ -8,6 +8,11 @@ import { ProductBrandPageRoutingModule } from './product-brand-routing.module';
 
 import { ProductBrandPage } from './product-brand.page';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { ProductBrandService } from 'src/app/services/product-brand.service';
 
 @NgModule({
   imports: [
@@ -15,8 +20,13 @@ import { SharedModule } from 'src/app/modules/shared/shared.module';
     FormsModule,
     IonicModule,
     ProductBrandPageRoutingModule,
-    SharedModule
+    SharedModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatProgressBarModule,
+    MatSortModule
   ],
-  declarations: [ProductBrandPage]
+  declarations: [ProductBrandPage],
+  providers: [ProductBrandService]
 })
 export class ProductBrandPageModule { }

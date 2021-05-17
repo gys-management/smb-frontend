@@ -8,6 +8,11 @@ import { ProductCategoryPageRoutingModule } from './product-category-routing.mod
 
 import { ProductCategoryPage } from './product-category.page';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { ProductCategoryService } from 'src/app/services/product-category.service';
 
 @NgModule({
   imports: [
@@ -15,8 +20,15 @@ import { SharedModule } from 'src/app/modules/shared/shared.module';
     FormsModule,
     IonicModule,
     ProductCategoryPageRoutingModule,
-    SharedModule
+    SharedModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatProgressBarModule,
+    MatSortModule
   ],
-  declarations: [ProductCategoryPage]
+  declarations: [
+    ProductCategoryPage
+  ],
+  providers: [ProductCategoryService]
 })
 export class ProductCategoryPageModule { }

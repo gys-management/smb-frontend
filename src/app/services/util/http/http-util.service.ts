@@ -47,21 +47,27 @@ export class HttpUtilService {
     requestHeaders = requestHeaders || new HttpHeaders();
     if (!options?.excludeAuthHeader) {
       const _authService: AuthService = this._injector.get(AuthService);
-      _authService.token.subscribe(async (tokenLocal) => {
-        if (tokenLocal) {
-          requestHeaders = requestHeaders.append(
-            'Authorization',
-            `Bearer ${tokenLocal}`
-          );
-        }
-        // else {
-        //   const token = await _authService.getToken();
-        //   requestHeaders = requestHeaders.append(
-        //     'Authorization',
-        //     `Bearer ${token}`
-        //   );
-        // }
-      });
+      // _authService.token.subscribe(async (tokenLocal) => {
+      //   if (tokenLocal) {
+      //     requestHeaders = requestHeaders.append(
+      //       'Authorization',
+      //       `Bearer ${tokenLocal}`
+      //     );
+      //   }
+      //   // else {
+      //   //   const token = await _authService.getToken();
+      //   //   requestHeaders = requestHeaders.append(
+      //   //     'Authorization',
+      //   //     `Bearer ${token}`
+      //   //   );
+      //   // }
+      // });
+
+      const token = await _authService.getToken();
+      requestHeaders = requestHeaders.append(
+        'Authorization',
+        `Bearer ${token}`
+      );
 
 
     }
@@ -139,7 +145,9 @@ export class HttpUtilService {
       return response;
     } catch (err) {
       this._logger.error(err);
-      await this._spinnerService.dismissSpinner(spinnerId);
+      if (spinnerId) {
+        await this._spinnerService.dismissSpinner(spinnerId);
+      }
       // if (!hideSpinner) {
       //   await this.spinnerService.hideSpinner(spinnerType);
       // }

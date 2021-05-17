@@ -62,7 +62,7 @@ export class StaffAddEditComponent implements OnInit {
 
       // this.headerModel = new HeaderModel(AppConstant.UPDATE, false, UrlConstant.URL_ADMIN_CUSTOMER, false);
 
-      this.loadCustomerDetailById(custId);
+      this.loadStaffById(custId);
     }
   }
 
@@ -81,7 +81,7 @@ export class StaffAddEditComponent implements OnInit {
     this._navCtrl.navigateBack(UrlConstant.URL_ADMIN_STAFF);
   }
 
-  private async loadCustomerDetailById(custId: string) {
+  private async loadStaffById(custId: string) {
     try {
       this.staff = await this._staffService.getStaffById(custId);
       this.formControl();

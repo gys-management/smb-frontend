@@ -2,9 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { IonSearchbar, NavController } from '@ionic/angular';
-import { merge } from 'rxjs';
-import { debounceTime, distinctUntilChanged, tap, startWith } from 'rxjs/operators';
+import { NavController } from '@ionic/angular';
 import { UrlConstant } from 'src/app/constants/url.constants';
 import { Staff } from 'src/app/models/staff.model';
 import { StaffService } from 'src/app/services/staff.service';
@@ -19,9 +17,8 @@ export class StaffListComponent implements OnInit {
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild('mySearchBar', { static: true }) searchbar: IonSearchbar;
 
-  staffDataSource: MatTableDataSource<Staff>;
+  dataSource: MatTableDataSource<Staff>;
   resultsLength = 0;
   isLoadingResults = false;
 
@@ -80,17 +77,22 @@ export class StaffListComponent implements OnInit {
     });
   }
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
   onAdd() {
     this._navCtrl.navigateForward(
       UrlConstant.URL_ADMIN_STAFF + UrlConstant.URL_ADD,
-      // { skipLocationChange: true }
+      { skipLocationChange: true }
     );
   }
 
   onView(id: string) {
     this._navCtrl.navigateForward(
       `${UrlConstant.URL_ADMIN_STAFF}/${id}`,
-      // { skipLocationChange: true }
+      { skipLocationChange: true }
     );
   }
 
@@ -101,7 +103,7 @@ export class StaffListComponent implements OnInit {
     try {
       const staffList: Staff[] = await this._staffService.getStaffAll();
 
-      this.staffDataSource = new MatTableDataSource(staffList);
+      this.dataSource = new MatTableDataSource(staffList);
       this.resultsLength = staffList.length;
       this.isLoadingResults = false;
     } catch {

@@ -9,8 +9,12 @@ const routes: Routes = [
     component: ProductBrandPage
   },
   {
-    path: 'product-brand-add-edit',
-    loadChildren: () => import('./pages/product-brand-add-edit/product-brand-add-edit.module').then( m => m.ProductBrandAddEditPageModule)
+    path: 'add',
+    loadChildren: () => import('./pages/product-brand-add-edit/product-brand-add-edit.module').then(m => m.ProductBrandAddEditPageModule)
+  },
+  {
+    path: 'edit/:id',
+    loadChildren: () => import('./pages/product-brand-add-edit/product-brand-add-edit.module').then(m => m.ProductBrandAddEditPageModule)
   }
 ];
 
@@ -18,4 +22,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class ProductBrandPageRoutingModule {}
+export class ProductBrandPageRoutingModule { }

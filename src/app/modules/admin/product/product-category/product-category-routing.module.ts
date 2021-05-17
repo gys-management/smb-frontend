@@ -9,8 +9,14 @@ const routes: Routes = [
     component: ProductCategoryPage
   },
   {
-    path: 'product-category-add-edit',
-    loadChildren: () => import('./pages/product-category-add-edit/product-category-add-edit.module').then( m => m.ProductCategoryAddEditPageModule)
+    path: 'add',
+    loadChildren: () => import('./pages/product-category-add-edit/product-category-add-edit.module')
+      .then(m => m.ProductCategoryAddEditPageModule)
+  },
+  {
+    path: 'edit/:id',
+    loadChildren: () => import('./pages/product-category-add-edit/product-category-add-edit.module')
+      .then(m => m.ProductCategoryAddEditPageModule)
   }
 ];
 
@@ -18,4 +24,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class ProductCategoryPageRoutingModule {}
+export class ProductCategoryPageRoutingModule { }
