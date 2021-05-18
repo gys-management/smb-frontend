@@ -17,7 +17,7 @@
     "deploy_web:local": "ionic build --configuration=local --aot=true --output-hashing=all --release",
     "deploy_web:dev": "ionic build --configuration=dev --aot=true --output-hashing=all --release",
     "firebase:dev:useproject": "firebase use --add ionic-angular-61cb7",
-    "firebase:dev": "npm run firebase:dev:useproject && firebase deploy --only hosting:smb-app-dev",
+    "firebase:dev": "npm run firebase:dev:useproject && firebase deploy --only hosting:smb-app-v2-dev",
     "run:deploy:dev": "npm run deploy_web:dev && npm run firebase:dev",
     "deploy_web:prod": "ionic build --prod --aot=true --output-hashing=all --release",
     "firebase:prod:useproject": "firebase use --add stockmanagementbilling-adb46",
