@@ -127,10 +127,9 @@
             <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
             <tr mat-row *matRowDef="let row; columns: columnsToDisplay;" class="example-element-row"></tr>
           </table>
-          <app-no-data-to-display *ngIf="customerDataSource && customerDataSource.data.length ==0">
-          </app-no-data-to-display>
+          <app-no-data-message *ngIf="resultsLength===0" [displayData]="resultsLength"> </app-no-data-message>
 
-          <mat-paginator [length]="resultsLength" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"
+          <mat-paginator [length]="resultsLength" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 50, 75, 100]"
             showFirstLastButtons>
           </mat-paginator>
         </ion-col>

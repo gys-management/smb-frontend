@@ -6,28 +6,33 @@ import { IonSearchbar, NavController } from '@ionic/angular';
 import { merge } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap, startWith } from 'rxjs/operators';
 import { UrlConstant } from 'src/app/constants/url.constants';
-import { Customer, CustomerResponse } from 'src/app/models/customer.model';
-import { CustomerService } from 'src/app/services/customer.service';
+import { ProductDetail, ProductDetailResponse } from 'src/app/models/product-details.model';
+import { ProductDetailService } from 'src/app/services/product-detail.service';
 import { ActionSheetUtilService } from 'src/app/services/util/actionSheet/action-sheet-util.service';
 
 @Component({
-  selector: 'app-customer-list',
-  templateUrl: './customer-list.component.html',
-  styleUrls: ['./customer-list.component.scss'],
+  selector: 'app-product-details-list',
+  templateUrl: './product-details-list.component.html',
+  styleUrls: ['./product-details-list.component.scss'],
 })
-export class CustomerListComponent implements OnInit {
+export class ProductDetailsListComponent implements OnInit {
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('mySearchBar', { static: true }) searchbar: IonSearchbar;
 
-  customerDataSource: MatTableDataSource<Customer>;
+  dataSource: MatTableDataSource<ProductDetail>;
   resultsLength = 0;
 
-  columnsToDisplay = ['companyName', 'action'];
+
+  isLoadingResults = false;
+  filterBy = '';
+  filterID = '';
+
+  columnsToDisplay = ['name', 'action'];
 
   constructor(
-    private _customerService: CustomerService,
+    private _pdService: ProductDetailService,
     private _navCtrl: NavController,
     private _actionService: ActionSheetUtilService
   ) { }
@@ -36,7 +41,7 @@ export class CustomerListComponent implements OnInit {
     this.serverSideRender();
   }
 
-  async presentActionSheet(element: Customer) {
+  async presentActionSheet(element: ProductDetail) {
     const actionSheet = await this._actionService.presentActionSheet({
       header: 'Action',
       buttons: [
@@ -62,18 +67,10 @@ export class CustomerListComponent implements OnInit {
           cssClass: 'action-sheet-primary',
           handler: () => {
             this._navCtrl.navigateForward(
-              UrlConstant.URL_ADMIN_CUSTOMER + UrlConstant.URL_EDIT + '/' + element.id
+              UrlConstant.URL_ADMIN_PRODUCTS_DETAILS + UrlConstant.URL_EDIT + '/' + element.id
             );
           },
         },
-        // {
-        //   text: 'Delete',
-        //   role: 'destructive',
-        //   icon: 'trash',
-        //   handler: () => {
-        //     this.deleteAlert(element.id);
-        //   }
-        // },
         {
           text: 'Close',
           icon: 'close',
@@ -87,12 +84,12 @@ export class CustomerListComponent implements OnInit {
   }
   onAdd() {
     this._navCtrl.navigateForward(
-      UrlConstant.URL_ADMIN_CUSTOMER + UrlConstant.URL_ADD);
+      UrlConstant.URL_ADMIN_PRODUCTS_DETAILS + UrlConstant.URL_ADD);
   }
 
   onView(id: string) {
     this._navCtrl.navigateForward(
-      `${UrlConstant.URL_ADMIN_CUSTOMER}/${id}`);
+      `${UrlConstant.URL_ADMIN_PRODUCTS_DETAILS}/${id}`);
   }
 
   private serverSideRender() {
@@ -102,7 +99,7 @@ export class CustomerListComponent implements OnInit {
         distinctUntilChanged(),
         tap(() => {
           // this.paginator.pageIndex = 0;
-          this.fetchAllCustomers();
+          this.fetchAllProductDetails();
         })
       )
       .subscribe();
@@ -116,27 +113,33 @@ export class CustomerListComponent implements OnInit {
       .pipe(
         startWith(() => { }),
         tap(() => {
-          this.fetchAllCustomers();
+          this.fetchAllProductDetails();
         })
       )
       .subscribe();
 
-    // this.custDetailsSub.push(formEventSub);
-    // this.custDetailsSub.push(sortChangeSub);
-    // this.custDetailsSub.push(mergeSub);
   }
 
-  private async fetchAllCustomers() {
-    const customerList: CustomerResponse = await this._customerService.getCustomerAllWithPagination(
-      this.searchbar.value,
-      this.sort.active,
-      this.sort.direction,
-      this.paginator.pageIndex,
-      this.paginator.pageSize
-    );
+  private async fetchAllProductDetails() {
+    this.isLoadingResults = true;
+    try {
+      const pdResponse: ProductDetailResponse = await this._pdService.getProductDetailAllWithPagination(
+        this.searchbar.value,
+        this.sort.active,
+        this.sort.direction,
+        this.paginator.pageIndex,
+        this.paginator.pageSize,
+        this.filterBy,
+        this.filterID
+      );
 
-    this.customerDataSource = new MatTableDataSource(customerList.customers);
-    this.resultsLength = customerList.totalCount;
+      this.dataSource = new MatTableDataSource(pdResponse.productDetails);
+      this.resultsLength = pdResponse.totalCount;
+
+      this.isLoadingResults = false;
+    } catch {
+      this.isLoadingResults = false;
+    }
   }
 
 }

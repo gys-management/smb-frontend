@@ -78,7 +78,8 @@ export class StaffAddEditComponent implements OnInit {
   }
 
   onCancel() {
-    this._navCtrl.navigateBack(UrlConstant.URL_ADMIN_STAFF);
+    // this._navCtrl.navigateBack(UrlConstant.URL_ADMIN_STAFF);
+    this._navCtrl.back();
   }
 
   private async loadStaffById(custId: string) {

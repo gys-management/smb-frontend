@@ -82,7 +82,8 @@ export class CustomerAddEditPagePage implements OnInit {
   }
 
   onCancel() {
-    this._navCtrl.navigateBack(UrlConstant.URL_ADMIN_CUSTOMER);
+    // this._navCtrl.navigateBack(UrlConstant.URL_ADMIN_CUSTOMER);
+    this._navCtrl.back();
   }
 
   private async loadCustomerDetailById(custId: string) {

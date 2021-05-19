@@ -12,6 +12,13 @@ export class ProductDetail {
   quantity: number;
   discount: string;
   gstId: string;
-  gstPercentage?: number;
+  gstPercentage: number;
   gstIncluded: boolean;
+  lowStockCount: number;
+}
+
+
+export class ProductDetailResponse {
+  productDetails: ProductDetail[];
+  totalCount: number;
 }

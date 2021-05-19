@@ -8,6 +8,11 @@ import { ProductDetailsPageRoutingModule } from './product-details-routing.modul
 
 import { ProductDetailsPage } from './product-details.page';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
+import { ProductDetailsListComponent } from './components/product-details-list/product-details-list.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   imports: [
@@ -15,8 +20,15 @@ import { SharedModule } from 'src/app/modules/shared/shared.module';
     FormsModule,
     IonicModule,
     ProductDetailsPageRoutingModule,
-    SharedModule
+    SharedModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatProgressBarModule,
+    MatSortModule
   ],
-  declarations: [ProductDetailsPage]
+  declarations: [
+    ProductDetailsPage,
+    ProductDetailsListComponent
+  ]
 })
 export class ProductDetailsPageModule { }

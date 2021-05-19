@@ -70,7 +70,8 @@ export class ProductCategoryAddEditPage implements OnInit {
   }
 
   onCancel() {
-    this._navCtrl.navigateBack(UrlConstant.URL_ADMIN_PRODUCTS_CATEGORY);
+    // this._navCtrl.navigateBack(UrlConstant.URL_ADMIN_PRODUCTS_CATEGORY);
+    this._navCtrl.back();
   }
 
   private async loadProductCategoryById(id: string) {
