@@ -80,11 +80,6 @@ export class StaffListComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  onAdd() {
-    this._navCtrl.navigateForward(
-      UrlConstant.URL_ADMIN_STAFF + UrlConstant.URL_ADD);
-  }
-
   onView(id: string) {
     this._navCtrl.navigateForward(
       `${UrlConstant.URL_ADMIN_STAFF}/${id}`);

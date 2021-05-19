@@ -1,8 +1,7 @@
-<ion-content class="container customer-page-container">
-  <!-- <fa-icon size="2x" icon="camera-retro"></fa-icon>
+<!-- <fa-icon size="2x" icon="camera-retro"></fa-icon>
   <fa-icon icon="home"></fa-icon> -->
-  <!-- Todo: Will enable once payment API is created -->
-  <!-- <div>
+<!-- Todo: Will enable once payment API is created -->
+<!-- <div>
     <ion-grid>
       <ion-row>
         <ion-col size-xs="12" size-sm="4" size-md="4">
@@ -54,94 +53,86 @@
     </ion-grid>
   </div> -->
 
-  <div>
-    <ion-grid class="ion-no-padding">
-      <ion-row>
-        <!-- <ion-col>
+<div>
+  <ion-grid class="ion-no-padding">
+    <ion-row>
+      <!-- <ion-col>
           <ion-toggle (ionChange)="inactiveCustomers(inactiveCustomersToggle)" matTooltip="Switch to Inactive Customers"
             color="primary">
           </ion-toggle>
         </ion-col> -->
-        <ion-col>
-          <ion-searchbar #mySearchBar placeholder="Search By Display Name or Phone No." animated='true'>
-          </ion-searchbar>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <!-- <div class="spinner-container" *ngIf="isLoadingResults">
+      <ion-col>
+        <ion-searchbar #mySearchBar placeholder="Search By Display Name or Phone No." animated='true'>
+        </ion-searchbar>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <!-- <div class="spinner-container" *ngIf="isLoadingResults">
             <ion-progress-bar color="primary" type="indeterminate"></ion-progress-bar>
           </div> -->
-          <table mat-table [dataSource]="customerDataSource" matSort matSortDirection="asc" matSortDisableClear
-            matSortActive="companyName" multiTemplateDataRows class="mat-elevation-z8">
+        <table mat-table [dataSource]="customerDataSource" matSort matSortDirection="asc" matSortDisableClear
+          matSortActive="companyName" multiTemplateDataRows class="mat-elevation-z8">
 
-            <ng-container matColumnDef="checkbox">
-              <th mat-header-cell *matHeaderCellDef>
-                <ion-checkbox slot="start"></ion-checkbox>
+          <ng-container matColumnDef="checkbox">
+            <th mat-header-cell *matHeaderCellDef>
+              <ion-checkbox slot="start"></ion-checkbox>
 
-              </th>
-              <td mat-cell *matCellDef="let element">
-                <ion-checkbox slot="start" [(ngModel)]="element.isChecked"></ion-checkbox>
-              </td>
-            </ng-container>
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <ion-checkbox slot="start" [(ngModel)]="element.isChecked"></ion-checkbox>
+            </td>
+          </ng-container>
 
-            <ng-container matColumnDef="companyName">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                <ion-label color="primary">
-                  Name </ion-label>
-              </th>
-              <td mat-cell *matCellDef="let element">
+          <ng-container matColumnDef="companyName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              <ion-label color="primary">
+                Name </ion-label>
+            </th>
+            <td mat-cell *matCellDef="let element">
 
-                <ion-item lines="none" class="customer-info-wrapper">
-                  <ion-avatar (click)="onView(element.id)" class="ion-text-center ion-no-padding" slot="start">
-                    <h4> {{element.companyName.trim().substr(0,2).toUpperCase()}}</h4>
-                  </ion-avatar>
-                  <ion-label>
-                    <h2 (click)="onView(element.id)" class=" company-name">
-                      {{element.companyName| titlecase}}</h2>
-                    <h3>
-                      {{element.firstName| titlecase}}
-                    </h3>
-                    <p> +91 {{element.phoneNumber}}</p>
-                  </ion-label>
-                </ion-item>
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="action">
-              <th mat-header-cell *matHeaderCellDef class="action-btn">
-                <!-- <ion-label color="primary">
+              <ion-item lines="none" class="customer-info-wrapper">
+                <ion-avatar (click)="onView(element.id)" class="ion-text-center ion-no-padding" slot="start">
+                  <h4> {{element.companyName.trim().substr(0,2).toUpperCase()}}</h4>
+                </ion-avatar>
+                <ion-label>
+                  <h2 (click)="onView(element.id)" class=" company-name">
+                    {{element.companyName| titlecase}}</h2>
+                  <h3>
+                    {{element.firstName| titlecase}}
+                  </h3>
+                  <p> +91 {{element.phoneNumber}}</p>
+                </ion-label>
+              </ion-item>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef class="action-btn">
+              <!-- <ion-label color="primary">
                   Action
                 </ion-label> -->
-              </th>
-              <td mat-cell *matCellDef="let element" class="action-btn">
-                <ion-buttons>
-                  <ion-button color="dark" (click)="presentActionSheet(element)">
-                    <ion-icon slot="icon-only" name="ellipsis-vertical-outline"></ion-icon>
-                  </ion-button>
-                </ion-buttons>
-              </td>
+            </th>
+            <td mat-cell *matCellDef="let element" class="action-btn">
+              <ion-buttons>
+                <ion-button color="dark" (click)="presentActionSheet(element)">
+                  <ion-icon slot="icon-only" name="ellipsis-vertical-outline"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+            </td>
 
-            </ng-container>
+          </ng-container>
 
 
-            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-            <tr mat-row *matRowDef="let row; columns: columnsToDisplay;" class="example-element-row"></tr>
-          </table>
-          <app-no-data-message *ngIf="resultsLength===0" [displayData]="resultsLength"> </app-no-data-message>
+          <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+          <tr mat-row *matRowDef="let row; columns: columnsToDisplay;" class="example-element-row"></tr>
+        </table>
+        <app-no-data-message *ngIf="resultsLength===0" [displayData]="resultsLength"> </app-no-data-message>
 
-          <mat-paginator [length]="resultsLength" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 50, 75, 100]"
-            showFirstLastButtons>
-          </mat-paginator>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+        <mat-paginator [length]="resultsLength" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 50, 75, 100]"
+          showFirstLastButtons>
+        </mat-paginator>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
-  </div>
-
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button color="primary" (click)="onAdd()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-
-</ion-content>
+</div>

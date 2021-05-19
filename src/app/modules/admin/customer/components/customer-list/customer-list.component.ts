@@ -85,10 +85,6 @@ export class CustomerListComponent implements OnInit {
       ],
     });
   }
-  onAdd() {
-    this._navCtrl.navigateForward(
-      UrlConstant.URL_ADMIN_CUSTOMER + UrlConstant.URL_ADD);
-  }
 
   onView(id: string) {
     this._navCtrl.navigateForward(
