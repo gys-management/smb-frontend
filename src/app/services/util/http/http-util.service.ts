@@ -271,8 +271,10 @@ export class HttpUtilService {
         appError = new AppError(null, err.error.errorCode, err.error.errorMessage);
         break;
     }
-
-    this._messageService.messageErrorToast(appError);
+    // INFO: To avoid error toast message in initial login page, adding the condition for organization url
+    if (!err.url.includes('organization')) {
+      this._messageService.messageErrorToast(appError);
+    }
     return appError;
   }
 }
