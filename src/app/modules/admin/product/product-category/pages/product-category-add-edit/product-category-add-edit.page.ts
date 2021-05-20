@@ -33,10 +33,10 @@ export class ProductCategoryAddEditPage implements OnInit {
   ) { }
 
   async ngOnInit() {
-    await this.loadCustData();
+    await this.productCategoryData();
   }
 
-  async loadCustData() {
+  async productCategoryData() {
 
     const actived = await this._activatedRoute.paramMap.pipe(take(1)).toPromise();
     const id = actived.get('id');

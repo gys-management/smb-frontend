@@ -46,22 +46,6 @@ export class ProductDetailsListComponent implements OnInit {
       header: 'Action',
       buttons: [
         {
-          text: 'Add Payment',
-          icon: 'cash-outline',
-          cssClass: 'action-sheet-google',
-          handler: () => {
-            // this.updateAmountAlert(element);
-          }
-        },
-        {
-          text: 'View Customer',
-          icon: 'person-outline',
-          cssClass: 'action-sheet-secondary',
-          handler: () => {
-            this.onView(element.id);
-          }
-        },
-        {
           text: 'Edit',
           icon: 'create-outline',
           cssClass: 'action-sheet-primary',

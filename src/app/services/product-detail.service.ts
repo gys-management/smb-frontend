@@ -51,22 +51,22 @@ export class ProductDetailService {
     );
   }
 
-  async saveProductDetail(staff: ProductDetail): Promise<ProductDetail> {
+  async saveProductDetail(productDetail: ProductDetail): Promise<ProductDetail> {
     return await this._http.makeRequest(
       ApiUrlContant.PRODUCT_DETAILS,
       HttpMethods.POST,
-      staff,
+      productDetail,
       null,
       null,
       { excludeAuthHeader: false }
     );
   }
 
-  async updateProductDetail(id: string, staff: ProductDetail): Promise<ProductDetail> {
+  async updateProductDetail(id: string, productDetail: ProductDetail): Promise<ProductDetail> {
     return await this._http.makeRequest(
       `${ApiUrlContant.PRODUCT_DETAILS}/${id}`,
       HttpMethods.PUT,
-      staff,
+      productDetail,
       null,
       null,
       { excludeAuthHeader: false }

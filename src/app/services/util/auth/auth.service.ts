@@ -16,6 +16,7 @@ import { ApiUrlContant } from 'src/app/constants/api-url.constants';
 import { HttpUtilService } from '../http/http-util.service';
 import { HttpMethods } from 'src/app/models/http';
 import { CacheService } from '../cache/cache.service';
+import { NavController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,7 @@ export class AuthService implements OnInit, OnDestroy {
   private activeLogoutTimer: any;
 
   constructor(
-    private _router: Router,
+    private _navCtrl: NavController,
     private _http: HttpClient,
     private _storage: Storage,
     private _cacheService: CacheService,
@@ -157,9 +158,9 @@ export class AuthService implements OnInit, OnDestroy {
         if (userLocal) {
           // const userLocal = JSON.parse(user);
           if (userLocal === UserRole.ADMIN || userLocal === UserRole.STAFF) {
-            this._router.navigateByUrl(UrlConstant.URL_ADMIN_DASHBOARD);
+            this._navCtrl.navigateRoot(UrlConstant.URL_ADMIN_DASHBOARD);
           } else if (userLocal === UserRole.CUSTOMER) {
-            this._router.navigateByUrl(UrlConstant.URL_CUSTOMER_DASHBOARD);
+            this._navCtrl.navigateRoot(UrlConstant.URL_CUSTOMER_DASHBOARD);
           }
         }
       });

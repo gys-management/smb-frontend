@@ -7,10 +7,8 @@ export class ErrorConstant {
   // Login Error Messages
   static readonly ERR_CUSTOM = 'Could not login, please try again.';
   static readonly ERR_UNAUTHENTICATED = `User not authenticate, Kindly login.`;
-  static readonly ERR_INVALID_CREDENTIALS =
-    'The LoginId or Password is incorrect';
-  static readonly ERR_EMAIL_NOT_REGISTERED =
-    'User detail is not present. kindly sign up for login';
+  static readonly ERR_INVALID_CREDENTIALS = 'The LoginId or Password is incorrect';
+  static readonly ERR_EMAIL_NOT_REGISTERED = 'User detail is not present. kindly sign up for login';
   static readonly ERR_TOKEN_EXPIRED = 'The token has expired';
   static readonly ERR_INVALID_TOKEN = 'The token is invalid';
   static readonly ERR_USER_NOT_FOUND = 'The request user does not exists';
@@ -48,4 +46,8 @@ export class ErrorConstant {
   static readonly ERR_SELECTED_PRODUCT = 'Kindly select Atleast One Product & add the Quantity';
   static readonly ERR_UPDATED_PRODUCT_QUANTITY = 'Kindly Update the Quantity for ';
   static readonly ERR_FILLING_MANDATORY = 'Kindly update All Mandatory fields';
+
+  // Product
+  static readonly ERR_BRAND_MAPPING_TO_CATEGORY = 'No Brand mapped for this category. Kindly map it and try again';
+
 }

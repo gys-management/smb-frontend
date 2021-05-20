@@ -50,7 +50,8 @@
 
             <ion-menu-toggle *ngIf="p.open" autoHide="false">
               <div *ngFor="let x of p.subPages">
-                <ion-item *appUserRole="x.role" [routerLink]="x.url" routerLinkActive="selected" detail="false">
+                <ion-item *appUserRole="x.role" [routerLink]="x.url" routerLinkActive="selected" routerDirection="root"
+                  detail="false">
                   <ion-icon slot="end" [name]="x.icon + '-outline'"></ion-icon>
                   <ion-label id="label" class="ion-text-right"> {{x.title}} </ion-label>
                 </ion-item>

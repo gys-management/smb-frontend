@@ -8,6 +8,8 @@ import { ProductPageRoutingModule } from './product-routing.module';
 
 import { ProductPage } from './product.page';
 import { ProductDetailService } from 'src/app/services/product-detail.service';
+import { ProductBrandService } from 'src/app/services/product-brand.service';
+import { ProductCategoryService } from 'src/app/services/product-category.service';
 
 @NgModule({
   imports: [
@@ -17,6 +19,6 @@ import { ProductDetailService } from 'src/app/services/product-detail.service';
     ProductPageRoutingModule
   ],
   declarations: [ProductPage],
-  providers: [ProductDetailService]
+  providers: [ProductDetailService, ProductBrandService, ProductCategoryService]
 })
 export class ProductPageModule { }

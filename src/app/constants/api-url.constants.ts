@@ -3,6 +3,7 @@ export class ApiUrlContant {
   static readonly STAFFS = '/staffs';
   static readonly ORGANIZATION = '/organization';
   static readonly CUSTOMER = '/customers';
+  static readonly GST = '/gst';
 
 
   static readonly PRODUCT_CATEGORY = '/productCategory';
