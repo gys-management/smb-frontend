@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { StaffAddEditComponent } from './components/staff-add-edit/staff-add-edit.component';
+import { StaffViewComponent } from './components/staff-view/staff-view.component';
 
 import { StaffPage } from './staff.page';
 
@@ -10,15 +12,15 @@ const routes: Routes = [
   },
   {
     path: 'add',
-    loadChildren: () => import('./pages/staff-add-edit-page/staff-add-edit-page.module').then(m => m.StaffAddEditPagePageModule)
+    component: StaffAddEditComponent
   },
   {
     path: 'edit/:id',
-    loadChildren: () => import('./pages/staff-add-edit-page/staff-add-edit-page.module').then(m => m.StaffAddEditPagePageModule)
+    component: StaffAddEditComponent
   },
   {
     path: ':id',
-    loadChildren: () => import('./pages/staff-view-page/staff-view-page.module').then(m => m.StaffViewPagePageModule)
+    component: StaffViewComponent
   },
 ];
 
