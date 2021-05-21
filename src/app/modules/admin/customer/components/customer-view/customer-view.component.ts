@@ -82,7 +82,7 @@ export class CustomerViewComponent implements OnInit {
           icon: 'create-outline',
           cssClass: 'action-sheet-primary',
           handler: () => {
-            this._navCtrl.navigateForward([
+            this._navCtrl.navigateRoot([
               // this.customerURL.editCustomer + this.customerDetails.id,
             ]);
           },

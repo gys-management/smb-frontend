@@ -61,7 +61,7 @@ export class CustomerListComponent implements OnInit {
           icon: 'create-outline',
           cssClass: 'action-sheet-primary',
           handler: () => {
-            this._navCtrl.navigateForward(
+            this._navCtrl.navigateRoot(
               UrlConstant.URL_ADMIN_CUSTOMER + UrlConstant.URL_EDIT + '/' + element.id
             );
           },
@@ -87,7 +87,7 @@ export class CustomerListComponent implements OnInit {
   }
 
   onView(id: string) {
-    this._navCtrl.navigateForward(
+    this._navCtrl.navigateRoot(
       `${UrlConstant.URL_ADMIN_CUSTOMER}/${id}`);
   }
 

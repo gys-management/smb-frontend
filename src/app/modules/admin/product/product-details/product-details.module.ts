@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -13,6 +13,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { ProductDetailsAddEditComponent } from './components/product-details-add-edit/product-details-add-edit.component';
 
 @NgModule({
   imports: [
@@ -24,11 +25,14 @@ import { MatTableModule } from '@angular/material/table';
     MatTableModule,
     MatPaginatorModule,
     MatProgressBarModule,
-    MatSortModule
+    MatSortModule,
+    ReactiveFormsModule
   ],
   declarations: [
     ProductDetailsPage,
-    ProductDetailsListComponent
+    ProductDetailsListComponent,
+    ProductDetailsAddEditComponent
+
   ]
 })
 export class ProductDetailsPageModule { }

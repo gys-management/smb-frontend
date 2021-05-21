@@ -15,6 +15,9 @@ export class ProductDetail {
   gstPercentage: number;
   gstIncluded: boolean;
   lowStockCount: number;
+
+  // UI fields
+  qtyDisplayColor: string;
 }
 
 

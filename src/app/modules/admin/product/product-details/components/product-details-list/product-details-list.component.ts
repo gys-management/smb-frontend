@@ -24,12 +24,11 @@ export class ProductDetailsListComponent implements OnInit {
   dataSource: MatTableDataSource<ProductDetail>;
   resultsLength = 0;
 
-
   isLoadingResults = false;
   filterBy = '';
   filterID = '';
 
-  columnsToDisplay = ['name', 'action'];
+  columnsToDisplay = ['name', 'quantity', 'basicPrice', 'action'];
 
   constructor(
     private _pdService: ProductDetailService,
@@ -50,7 +49,7 @@ export class ProductDetailsListComponent implements OnInit {
           icon: 'create-outline',
           cssClass: 'action-sheet-primary',
           handler: () => {
-            this._navCtrl.navigateForward(
+            this._navCtrl.navigateRoot(
               UrlConstant.URL_ADMIN_PRODUCTS_DETAILS + UrlConstant.URL_EDIT + '/' + element.id
             );
           },
@@ -66,17 +65,19 @@ export class ProductDetailsListComponent implements OnInit {
       ],
     });
   }
+
   onAdd() {
-    this._navCtrl.navigateForward(
+    this._navCtrl.navigateRoot(
       UrlConstant.URL_ADMIN_PRODUCTS_DETAILS + UrlConstant.URL_ADD);
   }
 
   onView(id: string) {
-    this._navCtrl.navigateForward(
+    this._navCtrl.navigateRoot(
       `${UrlConstant.URL_ADMIN_PRODUCTS_DETAILS}/${id}`);
   }
 
-  private serverSideRender() {
+
+  serverSideRender() {
     const formEventSub = this.searchbar.ionChange
       .pipe(
         debounceTime(500),
@@ -104,7 +105,7 @@ export class ProductDetailsListComponent implements OnInit {
 
   }
 
-  private async fetchAllProductDetails() {
+  async fetchAllProductDetails() {
     this.isLoadingResults = true;
     try {
       const pdResponse: ProductDetailResponse = await this._pdService.getProductDetailAllWithPagination(
@@ -117,13 +118,30 @@ export class ProductDetailsListComponent implements OnInit {
         this.filterID
       );
 
-      this.dataSource = new MatTableDataSource(pdResponse.productDetails);
+      const prodDetailList = await this.qtyDisplayColorMethod(pdResponse.productDetails);
+
+      this.dataSource = new MatTableDataSource(prodDetailList);
       this.resultsLength = pdResponse.totalCount;
 
       this.isLoadingResults = false;
     } catch {
       this.isLoadingResults = false;
     }
+  }
+
+
+  async qtyDisplayColorMethod(prodDetailList: ProductDetail[]): Promise<ProductDetail[]> {
+    prodDetailList.map((prodDetail) => {
+      if (prodDetail.quantity <= 0) {
+        prodDetail.qtyDisplayColor = 'danger';
+      } else if (prodDetail.quantity <= prodDetail.lowStockCount) {
+        prodDetail.qtyDisplayColor = 'warning';
+      } else {
+        prodDetail.qtyDisplayColor = '';
+      }
+    });
+
+    return prodDetailList;
   }
 
 }

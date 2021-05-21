@@ -52,7 +52,7 @@ export class ProductCategoryPage implements OnInit {
           icon: 'create-outline',
           cssClass: 'action-sheet-primary',
           handler: () => {
-            this._navCtrl.navigateForward(
+            this._navCtrl.navigateRoot(
               UrlConstant.URL_ADMIN_PRODUCTS_CATEGORY + UrlConstant.URL_EDIT + '/' + element.id);
           },
         },
@@ -74,7 +74,7 @@ export class ProductCategoryPage implements OnInit {
   }
 
   onAdd() {
-    this._navCtrl.navigateForward(
+    this._navCtrl.navigateRoot(
       UrlConstant.URL_ADMIN_PRODUCTS_CATEGORY + UrlConstant.URL_ADD);
   }
 

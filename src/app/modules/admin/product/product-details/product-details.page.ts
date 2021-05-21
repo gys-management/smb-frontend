@@ -21,7 +21,7 @@ export class ProductDetailsPage implements OnInit {
 
 
   onAdd() {
-    this._navCtrl.navigateForward(
+    this._navCtrl.navigateRoot(
       UrlConstant.URL_ADMIN_PRODUCTS_DETAILS + UrlConstant.URL_ADD);
   }
 

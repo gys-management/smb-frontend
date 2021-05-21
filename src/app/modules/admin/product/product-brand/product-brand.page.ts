@@ -49,7 +49,7 @@ export class ProductBrandPage implements OnInit {
           icon: 'create-outline',
           cssClass: 'action-sheet-primary',
           handler: () => {
-            this._navCtrl.navigateForward(
+            this._navCtrl.navigateRoot(
               UrlConstant.URL_ADMIN_PRODUCTS_BRAND + UrlConstant.URL_EDIT + '/' + element.id);
           },
         },
@@ -71,7 +71,7 @@ export class ProductBrandPage implements OnInit {
   }
 
   onAdd() {
-    this._navCtrl.navigateForward(
+    this._navCtrl.navigateRoot(
       UrlConstant.URL_ADMIN_PRODUCTS_BRAND + UrlConstant.URL_ADD);
   }
 

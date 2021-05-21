@@ -55,14 +55,14 @@ export class StaffAddEditComponent implements OnInit {
 
       this.isEdit = false;
       this.displayButtonText = AppConstant.SAVE;
-      this.headerModel = new HeaderModel(AppConstant.ADD, false, UrlConstant.URL_ADMIN_CUSTOMER, false);
+      this.headerModel = new HeaderModel(AppConstant.ADD, false, UrlConstant.URL_ADMIN_STAFF, false);
 
       this.formControl();
     } else {
       this.isEdit = true;
       this.displayButtonText = AppConstant.UPDATE;
 
-      this.headerModel = new HeaderModel(AppConstant.UPDATE, false, UrlConstant.URL_ADMIN_CUSTOMER, false);
+      this.headerModel = new HeaderModel(AppConstant.UPDATE, false, UrlConstant.URL_ADMIN_STAFF, false);
 
       this.loadStaffById(custId);
     }
