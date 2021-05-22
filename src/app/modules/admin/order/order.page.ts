@@ -5,12 +5,13 @@ import { UrlConstant } from 'src/app/constants/url.constants';
 import { HeaderModel } from 'src/app/models/header.model';
 
 @Component({
-  selector: 'app-product-details',
-  templateUrl: './product-details.page.html',
-  styleUrls: ['./product-details.page.scss'],
+  selector: 'app-order',
+  templateUrl: './order.page.html',
+  styleUrls: ['./order.page.scss'],
 })
-export class ProductDetailsPage implements OnInit {
-  headerModel = new HeaderModel(AppConstant.PRODUCT, true, UrlConstant.URL_ADMIN_PRODUCTS_DETAILS);
+export class OrderPage implements OnInit {
+  headerModel = new HeaderModel(AppConstant.ORDER, true, UrlConstant.URL_ADMIN_ORDER);
+
 
   constructor(
     private _navCtrl: NavController
@@ -19,10 +20,9 @@ export class ProductDetailsPage implements OnInit {
   ngOnInit() {
   }
 
-
   onAdd() {
     this._navCtrl.navigateRoot(
-      UrlConstant.URL_ADMIN_PRODUCTS_DETAILS + UrlConstant.URL_ADD);
+      UrlConstant.URL_ADMIN_ORDER + UrlConstant.URL_ADD);
   }
 
 }

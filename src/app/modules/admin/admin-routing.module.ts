@@ -35,6 +35,10 @@ const routes: Routes = [
     redirectTo: 'dashboard',
     pathMatch: 'full',
   },
+  {
+    path: 'order',
+    loadChildren: () => import('./order/order.module').then(m => m.OrderPageModule)
+  },
 ];
 
 @NgModule({
