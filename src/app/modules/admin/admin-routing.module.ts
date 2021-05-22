@@ -31,14 +31,17 @@ const routes: Routes = [
     data: { roles: [UserRole.ADMIN, UserRole.STAFF] }
   },
   {
+    path: 'order',
+    loadChildren: () => import('./order/order.module').then(m => m.OrderPageModule),
+    canActivate: [AuthGuard],
+    data: { roles: [UserRole.ADMIN, UserRole.STAFF] }
+  },
+  {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full',
   },
-  {
-    path: 'order',
-    loadChildren: () => import('./order/order.module').then(m => m.OrderPageModule)
-  },
+
 ];
 
 @NgModule({

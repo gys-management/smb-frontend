@@ -25,7 +25,7 @@ export class ProductDetailService {
       .set('page', pageNumber.toString())
       .set('size', pageSize.toString())
       .set('sortby', sortFiled)
-      .set('sortOrder', sortOrder.toUpperCase())
+      .set('sortorder', sortOrder.toUpperCase())
       .set('searchterm', searchTerm)
       .set('filterBy', filterBy)
       .set('filterId', filterId);

@@ -1,4 +1,4 @@
 export class Status {
-  ACTIVE: string;
-  DELETED: string;
+  ACTIVE = 'ACTIVE';
+  DELETED = 'DELETED';
 }
