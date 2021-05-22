@@ -14,7 +14,7 @@ export class UrlConstant {
   static readonly URL_ADMIN_PRODUCTS_BRAND = '/a/product/brand';
   static readonly URL_ADMIN_PRODUCTS_CATEGORY = '/a/product/category';
 
-  // Customer
+  // User URL
   static readonly URL_CUSTOMER_DASHBOARD = `/u/dashboard`;
 
 
