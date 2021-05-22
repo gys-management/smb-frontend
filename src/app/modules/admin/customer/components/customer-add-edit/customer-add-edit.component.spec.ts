@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { CustomerAddEditPagePage } from './customer-add-edit-page.page';
+import { CustomerAddEditComponent } from './customer-add-edit.component';
 
-describe('CustomerAddEditPagePage', () => {
-  let component: CustomerAddEditPagePage;
-  let fixture: ComponentFixture<CustomerAddEditPagePage>;
+describe('CustomerAddEditComponent', () => {
+  let component: CustomerAddEditComponent;
+  let fixture: ComponentFixture<CustomerAddEditComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ CustomerAddEditPagePage ],
+      declarations: [ CustomerAddEditComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(CustomerAddEditPagePage);
+    fixture = TestBed.createComponent(CustomerAddEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

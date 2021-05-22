@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { take } from 'rxjs/operators';
@@ -13,11 +13,12 @@ import { MessageService } from 'src/app/services/util/messages/message.service';
 import { ModalUtilService } from 'src/app/services/util/modal/modal-util.service';
 
 @Component({
-  selector: 'app-customer-add-edit-page',
-  templateUrl: './customer-add-edit-page.page.html',
-  styleUrls: ['./customer-add-edit-page.page.scss'],
+  selector: 'app-customer-add-edit',
+  templateUrl: './customer-add-edit.component.html',
+  styleUrls: ['./customer-add-edit.component.scss'],
 })
-export class CustomerAddEditPagePage implements OnInit {
+export class CustomerAddEditComponent implements OnInit {
+
   headerModel = new HeaderModel(AppConstant.ADD, false, UrlConstant.URL_ADMIN_CUSTOMER, false);
 
   form: FormGroup;

@@ -2,6 +2,7 @@ import { Status } from '../enum/status.enum';
 
 export class Customer {
   id: string;
+  customerLoginId: string;
   companyName: string;
   firstName: string;
   lastName: string;

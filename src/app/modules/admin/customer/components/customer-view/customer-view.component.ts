@@ -3,7 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { take } from 'rxjs/operators';
 import { AppConstant } from 'src/app/constants/app.constants';
+import { UrlConstant } from 'src/app/constants/url.constants';
 import { Customer } from 'src/app/models/customer.model';
+import { HeaderModel } from 'src/app/models/header.model';
 import { PaymentTotalResponse } from 'src/app/models/payments/payment.model';
 import { PaymentHistoryComponent } from 'src/app/modules/shared/payment/payment-history/payment-history.component';
 import { ReminderPaymentController } from 'src/app/modules/utils/reminderPayment.controller';
@@ -18,6 +20,9 @@ import { ModalUtilService } from 'src/app/services/util/modal/modal-util.service
   styleUrls: ['./customer-view.component.scss'],
 })
 export class CustomerViewComponent implements OnInit {
+
+  headerModel = new HeaderModel(AppConstant.CUSTOMER, false, UrlConstant.URL_ADMIN_CUSTOMER, false);
+
   custId: string;
   customerDetails: Customer;
   paymentTotal: PaymentTotalResponse;

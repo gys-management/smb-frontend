@@ -22,7 +22,7 @@ export class CustomerPage implements OnInit {
 
   onAdd() {
     this._navCtrl.navigateRoot(
-      UrlConstant.URL_ADMIN_STAFF + UrlConstant.URL_ADD);
+      UrlConstant.URL_ADMIN_CUSTOMER + UrlConstant.URL_ADD);
   }
 
 }
