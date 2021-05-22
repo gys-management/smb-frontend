@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -38,7 +38,7 @@ export class PaymentHistoryComponent implements OnInit, OnDestroy {
     'paymentReference'
   ];
   paymentHistoryDataSource: MatTableDataSource<Payment>;
-  dataLength: number;
+  resultsLength: number;
 
   searchbar = '';
 
@@ -80,7 +80,7 @@ export class PaymentHistoryComponent implements OnInit, OnDestroy {
 
   loadPaymentHistoryForOrderDetailPage() {
     this.paymentHistoryDataSource = new MatTableDataSource(this.paymentHistoryListOrderDetailPage);
-    this.dataLength = this.paymentHistoryListOrderDetailPage.length;
+    this.resultsLength = this.paymentHistoryListOrderDetailPage.length;
   }
 
 
@@ -95,7 +95,7 @@ export class PaymentHistoryComponent implements OnInit, OnDestroy {
       this.paginator.pageSize,
     ).then(paymentHistory => {
       this.paymentHistoryDataSource = new MatTableDataSource(paymentHistory.responseDataList);
-      this.dataLength = paymentHistory.totalCount;
+      this.resultsLength = paymentHistory.totalCount;
       this.isLoadingResults = false;
     });
 

@@ -31,28 +31,41 @@ export class MenuBarConstants {
       ],
     },
     {
+      title: 'Payments',
+      url: UrlConstant.URL_ADMIN_PAYMENTS,
+      icon: 'cash',
+      role: [UserRole.ADMIN, UserRole.STAFF]
+    },
+    {
       title: 'Orders',
       url: UrlConstant.URL_ADMIN_ORDER,
       icon: 'bookmarks',
       role: [UserRole.ADMIN, UserRole.STAFF]
     },
-    // {
-    //     title: 'Payments',
-    //     url: UrlConstant.URL_ADMIN_PAYMENTS,
-    //     icon: 'cog',
-    //     role: [UserRole.ADMIN, UserRole.STAFF]
-    // },
     {
       title: 'Products',
-      url: UrlConstant.URL_ADMIN_PRODUCTS,
       icon: 'cog',
-      role: [UserRole.ADMIN, UserRole.STAFF]
-    },
-    {
-      title: 'Routes',
-      url: UrlConstant.URL_ADMIN_ROUTE,
-      icon: 'car-sport',
-      role: [UserRole.ADMIN, UserRole.STAFF]
+      role: [UserRole.ADMIN, UserRole.STAFF],
+      subPages: [
+        {
+          title: 'Product',
+          url: UrlConstant.URL_ADMIN_PRODUCTS_DETAILS,
+          icon: 'people',
+          role: [UserRole.ADMIN]
+        },
+        {
+          title: 'Brand',
+          url: UrlConstant.URL_ADMIN_PRODUCTS_BRAND,
+          icon: 'people',
+          role: [UserRole.ADMIN]
+        },
+        {
+          title: 'Category',
+          url: UrlConstant.URL_ADMIN_PRODUCTS_CATEGORY,
+          icon: 'man',
+          role: [UserRole.ADMIN, UserRole.STAFF]
+        }
+      ],
     }
   ];
 

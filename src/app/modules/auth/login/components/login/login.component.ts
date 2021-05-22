@@ -125,9 +125,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   private orgLoadData() {
-    const orgSub = this._orginazationService.fetchOrginzationById().pipe(take(1)).subscribe();
+    setTimeout(() => {
+      const orgSub = this._orginazationService.fetchOrginzationById().pipe(take(1)).subscribe();
+      this.loginSub.push(orgSub);
+    }, 1000);
+
     // const configSub = this._configurationServices.fetchConfigurationDetails().subscribe();
-    this.loginSub.push(orgSub);
     // this.loginSub.push(configSub);
 
   }

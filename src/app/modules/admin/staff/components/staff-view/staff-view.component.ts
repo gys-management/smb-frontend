@@ -1,7 +1,10 @@
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { take } from 'rxjs/operators';
+import { AppConstant } from 'src/app/constants/app.constants';
+import { UrlConstant } from 'src/app/constants/url.constants';
 import { Status } from 'src/app/enum/status.enum';
+import { HeaderModel } from 'src/app/models/header.model';
 import { Staff } from 'src/app/models/staff.model';
 import { StaffService } from 'src/app/services/staff.service';
 
@@ -11,6 +14,7 @@ import { StaffService } from 'src/app/services/staff.service';
   styleUrls: ['./staff-view.component.scss'],
 })
 export class StaffViewComponent implements OnInit, AfterViewInit {
+  headerModel = new HeaderModel(AppConstant.DETAILS, false, UrlConstant.URL_ADMIN_STAFF);
 
   staffDetail: Staff;
   status: Status;

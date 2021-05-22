@@ -6,6 +6,7 @@ import { take } from 'rxjs/operators';
 import { AppConstant } from 'src/app/constants/app.constants';
 import { SuccessConstants } from 'src/app/constants/success-constants';
 import { UrlConstant } from 'src/app/constants/url.constants';
+import { HeaderModel } from 'src/app/models/header.model';
 import { Staff } from 'src/app/models/staff.model';
 import { StaffService } from 'src/app/services/staff.service';
 import { MessageService } from 'src/app/services/util/messages/message.service';
@@ -16,6 +17,7 @@ import { MessageService } from 'src/app/services/util/messages/message.service';
   styleUrls: ['./staff-add-edit.component.scss'],
 })
 export class StaffAddEditComponent implements OnInit {
+  headerModel = new HeaderModel(AppConstant.ADD, false, UrlConstant.URL_ADMIN_STAFF);
 
   form: FormGroup;
   staff: Staff;
@@ -53,16 +55,16 @@ export class StaffAddEditComponent implements OnInit {
 
       this.isEdit = false;
       this.displayButtonText = AppConstant.SAVE;
-      // this.headerModel = new HeaderModel(AppConstant.ADD, false, UrlConstant.URL_ADMIN_CUSTOMER, false);
+      this.headerModel = new HeaderModel(AppConstant.ADD, false, UrlConstant.URL_ADMIN_STAFF, false);
 
       this.formControl();
     } else {
       this.isEdit = true;
       this.displayButtonText = AppConstant.UPDATE;
 
-      // this.headerModel = new HeaderModel(AppConstant.UPDATE, false, UrlConstant.URL_ADMIN_CUSTOMER, false);
+      this.headerModel = new HeaderModel(AppConstant.UPDATE, false, UrlConstant.URL_ADMIN_STAFF, false);
 
-      this.loadCustomerDetailById(custId);
+      this.loadStaffById(custId);
     }
   }
 
@@ -78,10 +80,11 @@ export class StaffAddEditComponent implements OnInit {
   }
 
   onCancel() {
-    this._navCtrl.navigateBack(UrlConstant.URL_ADMIN_STAFF);
+    // this._navCtrl.navigateBack(UrlConstant.URL_ADMIN_STAFF);
+    this._navCtrl.back();
   }
 
-  private async loadCustomerDetailById(custId: string) {
+  private async loadStaffById(custId: string) {
     try {
       this.staff = await this._staffService.getStaffById(custId);
       this.formControl();

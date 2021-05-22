@@ -1,0 +1,60 @@
+<app-header [headerModel]="headerModel"></app-header>
+
+
+<ion-content>
+  <div>
+    <ion-searchbar (ionChange)="applyFilter($event)" placeholder="Search By Name">
+    </ion-searchbar>
+  </div>
+
+  <div class="mat-elevation-z8">
+    <div *ngIf="isLoadingResults">
+      <ion-progress-bar color="primary" type="indeterminate"></ion-progress-bar>
+    </div>
+    <table mat-table [dataSource]="dataSource" matSort matSortDirection="asc" matSortDisableClear matSortActive="name"
+      multiTemplateDataRows>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <ion-label color="primary"> Name </ion-label>
+        </th>
+        <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <ion-label color="primary"> Description </ion-label>
+        </th>
+        <td mat-cell *matCellDef="let row"> {{row.description}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef class="action-btn">
+          <ion-label color="primary"> Action </ion-label>
+        </th>
+        <td mat-cell *matCellDef="let row" class="action-btn">
+          <ion-buttons>
+            <ion-button color="dark" (click)="presentActionSheet(row)">
+              <ion-icon slot="icon-only" name="ellipsis-vertical-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplay;" class="example-element-row">
+      </tr>
+    </table>
+    <app-no-data-message *ngIf="resultsLength===0" [displayData]="resultsLength"> </app-no-data-message>
+
+    <mat-paginator [length]="resultsLength" [pageSize]="10" [pageSizeOptions]="[ 5, 10, 25, 50, 75, 100]">
+    </mat-paginator>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="primary" (click)="onAdd()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

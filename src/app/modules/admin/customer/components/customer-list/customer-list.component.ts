@@ -25,9 +25,6 @@ export class CustomerListComponent implements OnInit {
   resultsLength = 0;
 
   columnsToDisplay = ['companyName', 'action'];
-  // columnsToDisplay = ['companyName', 'pendingAmt', 'action',]; // Todo: will enable pending amount once payment API is done
-  // columnsToDisplay = ['checkbox','companyName', 'phoneNumber', 'action']; // -- future scope -checkbox
-  // private paymentTotal: IPaymentTotalResponse;
 
   constructor(
     private _customerService: CustomerService,
@@ -64,9 +61,8 @@ export class CustomerListComponent implements OnInit {
           icon: 'create-outline',
           cssClass: 'action-sheet-primary',
           handler: () => {
-            this._navCtrl.navigateForward(
-              UrlConstant.URL_ADMIN_CUSTOMER + UrlConstant.URL_EDIT + '/' + element.id,
-              { skipLocationChange: true }
+            this._navCtrl.navigateRoot(
+              UrlConstant.URL_ADMIN_CUSTOMER + UrlConstant.URL_EDIT + '/' + element.id
             );
           },
         },
@@ -89,18 +85,10 @@ export class CustomerListComponent implements OnInit {
       ],
     });
   }
-  onAdd() {
-    this._navCtrl.navigateForward(
-      UrlConstant.URL_ADMIN_CUSTOMER + UrlConstant.URL_ADD,
-      { skipLocationChange: true }
-    );
-  }
 
   onView(id: string) {
-    this._navCtrl.navigateForward(
-      `${UrlConstant.URL_ADMIN_CUSTOMER}/${id}`,
-      { skipLocationChange: true }
-    );
+    this._navCtrl.navigateRoot(
+      `${UrlConstant.URL_ADMIN_CUSTOMER}/${id}`);
   }
 
   private serverSideRender() {

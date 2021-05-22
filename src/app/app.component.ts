@@ -49,10 +49,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   }
 
-  async ionViewWillEnter() {
-    await this.getOrganizationDetails();
+  // async ionViewWillEnter() {
+  //   await this.getOrganizationDetails();
 
-  }
+  // }
 
   initializeApp() {
     this._platform.ready().then(() => {
@@ -118,8 +118,6 @@ export class AppComponent implements OnInit, OnDestroy {
       this._orgService.getOrganizationById.subscribe(
         (org) => {
           this.organizationDetails = org;
-        }, (error) => {
-          this._msgService.messageErrorToast(error);
         }
       );
     }, 1000);

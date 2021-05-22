@@ -8,10 +8,12 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { PaymentHistoryComponent } from './payment/payment-history/payment-history.component';
+import { NoDataMessageComponent } from './no-data-message/no-data-message.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
+    NoDataMessageComponent,
     PaymentHistoryComponent
   ],
   imports: [
@@ -25,6 +27,7 @@ import { PaymentHistoryComponent } from './payment/payment-history/payment-histo
   ],
   exports: [
     HeaderComponent,
+    NoDataMessageComponent,
     PaymentHistoryComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

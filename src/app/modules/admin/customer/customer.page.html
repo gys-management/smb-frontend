@@ -3,4 +3,10 @@
 
 <ion-content>
   <app-customer-list></app-customer-list>
+
 </ion-content>
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button color="primary" (click)="onAdd()">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>

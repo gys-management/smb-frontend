@@ -4,18 +4,21 @@ export class UrlConstant {
   static readonly URL_SIGN_UP = '/auth/signup';
 
   // Admin/Staff URL
-  static readonly URL_ADMIN_DASHBOARD = `/admin/dashboard`;
-  static readonly URL_ADMIN_STAFF = '/admin/staff';
-  static readonly URL_ADMIN_CUSTOMER = '/admin/customer';
-  static readonly URL_ADMIN_ORDER = '/admin/order';
-  // static readonly URL_ADMIN_ORDER_ADD_EDIT = '/admin/order/add-edit/';
-  static readonly URL_ADMIN_PAYMENTS = '/admin/payment';
-  static readonly URL_ADMIN_PRODUCTS = '/admin/product';
-  static readonly URL_ADMIN_ROUTE = '/admin/route';
-  static readonly URL_ADMIN_OFFER = '/admin/offer';
+  static readonly URL_ADMIN_DASHBOARD = `/a/dashboard`;
+  static readonly URL_ADMIN_STAFF = '/a/staff';
+  static readonly URL_ADMIN_CUSTOMER = '/a/customer';
+  static readonly URL_ADMIN_ORDER = '/a/order';
+  // static readonly URL_ADMIN_ORDER_ADD_EDIT = '/a/order/add-edit/';
+  static readonly URL_ADMIN_PAYMENTS = '/a/payment';
+  static readonly URL_ADMIN_PRODUCTS = '/a/product';
+  static readonly URL_ADMIN_PRODUCTS_DETAILS = '/a/product/product';
+  static readonly URL_ADMIN_PRODUCTS_BRAND = '/a/product/brand';
+  static readonly URL_ADMIN_PRODUCTS_CATEGORY = '/a/product/category';
+  static readonly URL_ADMIN_ROUTE = '/a/route';
+  static readonly URL_ADMIN_OFFER = '/a/offer';
 
   // Customer
-  static readonly URL_CUSTOMER_DASHBOARD = `/customer/dashboard`;
+  static readonly URL_CUSTOMER_DASHBOARD = `/u/dashboard`;
 
 
   // Common

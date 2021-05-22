@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { CustomerAddEditComponent } from './components/customer-add-edit/customer-add-edit.component';
+import { CustomerViewComponent } from './components/customer-view/customer-view.component';
 
 import { CustomerPage } from './customer.page';
 
@@ -10,15 +12,15 @@ const routes: Routes = [
   },
   {
     path: 'add',
-    loadChildren: () => import('./pages/customer-add-edit-page/customer-add-edit-page.module').then(m => m.CustomerAddEditPagePageModule)
+    component: CustomerAddEditComponent,
   },
   {
     path: 'edit/:id',
-    loadChildren: () => import('./pages/customer-add-edit-page/customer-add-edit-page.module').then(m => m.CustomerAddEditPagePageModule)
+    component: CustomerAddEditComponent
   },
   {
     path: ':id',
-    loadChildren: () => import('./pages/customer-view-page/customer-view-page.module').then(m => m.CustomerViewPagePageModule)
+    component: CustomerViewComponent
   }
 ];
 

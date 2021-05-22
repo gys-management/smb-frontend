@@ -1,0 +1,238 @@
+<app-header [headerModel]="headerModel"></app-header>
+
+
+<ion-content>
+  <form *ngIf="form" [formGroup]="form">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">Name <span class="required-field"></span></ion-label>
+            <ion-input type="text" formControlName="name"></ion-input>
+          </ion-item>
+          <ion-item lines="none"
+            *ngIf="!form.get('name').valid && (form.get('name').dirty || form.get('name').touched)">
+            <ion-label color="danger">
+              Enter the Name
+            </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">HSN Code <span class="required-field"></span></ion-label>
+            <ion-input type="text" formControlName="hsnCode"></ion-input>
+          </ion-item>
+          <ion-item lines="none"
+            *ngIf="!form.get('hsnCode').valid && (form.get('hsnCode').dirty || form.get('hsnCode').touched)">
+            <ion-label color="danger">
+              Enter the HSN Code
+            </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating"> Description </ion-label>
+            <ion-input type="text" formControlName="description"></ion-input>
+          </ion-item>
+          <ion-item lines="none"
+            *ngIf="form.get('description').invalid && (form.get('description').dirty || form.get('description').touched) ">
+            <ion-label color="danger">
+              Enter the description. Must be greater than 8 characters
+            </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating"> Select the Product Category <span class="required-field"></span>
+            </ion-label>
+            <ion-select (ionChange)="applyProductCategory($event.target['value'], false)"
+              formControlName="productCategoryId" interface="action-sheet">
+              <ion-select-option *ngFor="let pc of productCategoryListPage" value={{pc.id}}>
+                {{pc.name | titlecase}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item lines="none"
+            *ngIf="form.get('productCategoryId').invalid && (form.get('productCategoryId').dirty || form.get('productCategoryId').touched) ">
+            <ion-label color="danger">
+              Select the Product Category
+            </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating"> Select the Product Brand <span class="required-field"></span></ion-label>
+            <ion-select formControlName="productBrandId" interface="action-sheet">
+              <ion-select-option *ngFor="let pb of productBrandListView" value={{pb.id}}>
+                {{pb.name | titlecase}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item lines="none"
+            *ngIf="form.get('productBrandId').invalid && (form.get('productBrandId').dirty || form.get('productBrandId').touched) ">
+            <ion-label color="danger">
+              Select the Product Brand
+            </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating"> Buying Price <span class="required-field"></span></ion-label>
+            <ion-input type="number" autocomplete autocorreect formControlName="buyingPrice"
+              (ionChange)="onUpdateBuyingPrice()"></ion-input>
+          </ion-item>
+          <ion-item lines="none"
+            *ngIf="form.get('buyingPrice').invalid && (form.get('buyingPrice').dirty || form.get('buyingPrice').touched) ">
+            <ion-label color="danger">
+              Enter the Buying Price
+            </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating"> Selling Price <span class="required-field"></span></ion-label>
+            <ion-input type="number" autocomplete autocorreect formControlName="sellingPrice"
+              (ionChange)="onPopulateBasicPrice()"></ion-input>
+          </ion-item>
+          <ion-item lines="none"
+            *ngIf="form.get('sellingPrice').invalid && (form.get('sellingPrice').dirty || form.get('sellingPrice').touched) ">
+            <ion-label color="danger">
+              Enter the Selling Price
+            </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating"> Select the GST <span class="required-field"></span></ion-label>
+            <ion-select formControlName="gstId" interface="action-sheet" (ionChange)="onPopulateBasicPrice()">
+              <ion-select-option *ngFor="let gst of gstList" value={{gst.id}}>
+                {{ gst.percentage}} %
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item lines="none"
+            *ngIf="form.get('gstId').invalid && (form.get('gstId').dirty || form.get('gstId').touched) ">
+            <ion-label color="danger">
+              Select the GST
+            </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label> Is GST Included <span class="required-field"></span></ion-label>
+            <ion-checkbox color="primary" formControlName="gstIncluded" (ionChange)="onPopulateBasicPrice()">
+            </ion-checkbox>
+          </ion-item>
+          <ion-item lines="none"
+            *ngIf="form.get('gstIncluded').invalid && (form.get('gstIncluded').dirty || form.get('gstIncluded').touched) ">
+            <ion-label color="danger">
+              Check the GST include or not
+            </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating"> Basic Price <span class="required-field"></span></ion-label>
+            <ion-input type="number" autocomplete autocorreect formControlName="basicPrice"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating"> Basic Price Tax <span class="required-field"></span></ion-label>
+            <ion-input type="number" autocomplete autocorreect formControlName="basicPriceTax"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating"> Quantity <span class="required-field"></span></ion-label>
+            <ion-input type="number" autocomplete autocorreect formControlName="quantity"></ion-input>
+          </ion-item>
+          <ion-item lines="none"
+            *ngIf="form.get('quantity').invalid && (form.get('quantity').dirty || form.get('quantity').touched) ">
+            <ion-label color="danger">
+              Enter the Quantity
+            </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating"> Discount <span class="required-field"></span></ion-label>
+            <ion-input type="number" autocomplete autocorreect formControlName="discount"></ion-input>
+          </ion-item>
+          <ion-item lines="none"
+            *ngIf="form.get('discount').invalid && (form.get('discount').dirty || form.get('discount').touched) ">
+            <ion-label color="danger">
+              Enter the Discount
+            </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating"> Low Stock Count <span class="required-field"></span></ion-label>
+            <ion-input type="number" autocomplete autocorreect formControlName="lowStockCount"></ion-input>
+          </ion-item>
+          <ion-item lines="none"
+            *ngIf="form.get('lowStockCount').invalid && (form.get('lowStockCount').dirty || form.get('lowStockCount').touched) ">
+            <ion-label color="danger">
+              Enter the Discount
+            </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-sm="3" offset-sm="3">
+          <ion-button expand="block" color="primary" (click)="onClick()">
+            <ion-label color="light"> {{displayButtonText}}</ion-label>
+          </ion-button>
+        </ion-col>
+        <ion-col size-sm="3">
+          <ion-button expand="block" color="danger" (click)="onCancel()">
+            <ion-label color="light"> Cancel</ion-label>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+  </form>
+</ion-content>

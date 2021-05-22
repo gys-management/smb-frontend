@@ -4,9 +4,7 @@ import { HttpMethods } from '../models/http';
 import { Staff } from '../models/staff.model';
 import { HttpUtilService } from './util/http/http-util.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class StaffService {
 
   constructor(

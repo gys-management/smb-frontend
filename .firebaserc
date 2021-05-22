@@ -6,8 +6,8 @@
   "targets": {
     "ionic-angular-61cb7": {
       "hosting": {
-        "smb-app-dev": [
-          "smb-app-dev"
+        "smb-app-v2-dev": [
+          "smb-app-v2-dev"
         ]
       }
     },

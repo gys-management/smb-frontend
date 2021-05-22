@@ -16,11 +16,11 @@ const routes: Routes = [
     loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthPageModule)
   },
   {
-    path: 'admin',
+    path: 'a',
     loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminPageModule)
   },
   {
-    path: 'user',
+    path: 'u',
     loadChildren: () => import('./modules/user/user.module').then(m => m.UserPageModule)
   },
   {

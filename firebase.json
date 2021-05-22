@@ -5,7 +5,7 @@
   },
   "hosting": [
     {
-      "target": "smb-app-dev",
+      "target": "smb-app-v2-dev",
       "public": "www",
       "ignore": [
         "firebase.json",

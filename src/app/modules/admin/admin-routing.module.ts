@@ -25,10 +25,16 @@ const routes: Routes = [
     data: { roles: [UserRole.ADMIN, UserRole.STAFF] }
   },
   {
+    path: 'product',
+    loadChildren: () => import('./product/product.module').then(m => m.ProductPageModule),
+    canActivate: [AuthGuard],
+    data: { roles: [UserRole.ADMIN, UserRole.STAFF] }
+  },
+  {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full',
-  }
+  },
 ];
 
 @NgModule({
