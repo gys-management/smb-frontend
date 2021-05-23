@@ -1,9 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { NetworkStatus, PluginListenerHandle, Plugins } from '@capacitor/core';
 import { NavController } from '@ionic/angular';
-import { AppConstant } from 'src/app/constants/app.constants';
+import { ErrorConstant } from 'src/app/constants/error-constants';
 import { SuccessConstants } from 'src/app/constants/success-constants';
-import { UrlConstant } from 'src/app/constants/url.constants';
 import { LoggerService } from '../logger/logger.service';
 import { ToastUtilService } from '../toast/toast-util.service';
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -16,22 +15,26 @@ export class NetworkUtilService {
 
   networkStatus: any;
   networkListener: PluginListenerHandle;
+  duration = 10000;
 
   constructor(
     private _navCtrl: NavController,
-    private _toastUtilService: ToastUtilService
+    private _toastUtilService: ToastUtilService,
+    private ngZone: NgZone
   ) {
     this.networkListener = Network.addListener('networkStatusChange', (status: NetworkStatus) => {
       this.networkStatus = status;
-
-      // check the status has changed and notify user.
-      if (this.networkStatus.connected) {
-        // this._navCtrl.back();
-        this._toastUtilService.presentToast(SuccessConstants.SUCCESS_INTERNET);
-      } else if (!this.networkStatus.connected) {
-        this._navCtrl.navigateForward(UrlConstant.URL_INTERNET_ERROR);
-      }
-      LoggerService.log(`NetworkUtilService :: Network status changed ::`, status);
+      this.ngZone.run(() => {
+        // check the status has changed and notify user.
+        if (this.networkStatus.connected) {
+          // this._navCtrl.back();
+          this._toastUtilService.presentToast(SuccessConstants.SUCCESS_INTERNET);
+        } else if (!this.networkStatus.connected) {
+          this._toastUtilService.presentToast(ErrorConstant.ERR_INTERNET, this.duration);
+          // this._navCtrl.navigateRoot(UrlConstant.URL_INTERNET_ERROR);
+        }
+        LoggerService.log(`NetworkUtilService :: Network status changed ::`, status);
+      });
     });
   }
 
@@ -42,7 +45,8 @@ export class NetworkUtilService {
     LoggerService.log(`NetworkUtilService :: getNetWorkStatus ::`, this.networkStatus);
     // check the current status and notify user if offline
     if (!this.networkStatus.connected) {
-      this._navCtrl.navigateForward(UrlConstant.URL_INTERNET_ERROR);
+      this._toastUtilService.presentToast(ErrorConstant.ERR_INTERNET, this.duration);
+      // this._navCtrl.navigateRoot(UrlConstant.URL_INTERNET_ERROR);
     }
   }
 

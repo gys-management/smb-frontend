@@ -18,13 +18,11 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 import { NetworkUtilService } from './services/util/network/network-util.service';
-import { InternetIssueComponent } from './common/internet-issue/internet-issue.component';
 import { SharedModule } from './modules/shared/shared.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    InternetIssueComponent
+    AppComponent
   ],
   entryComponents: [],
   imports: [

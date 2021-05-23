@@ -52,4 +52,8 @@ export class ErrorConstant {
 
   static readonly NO_DATA_TO_DISPLAY = 'No data to display!';
 
+  // Internet
+  static readonly ERR_INTERNET = 'Check your Internet Connection!!!';
+
+
 }

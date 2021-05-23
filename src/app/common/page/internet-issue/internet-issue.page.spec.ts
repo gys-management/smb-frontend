@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { InternetIssueComponent } from './internet-issue.component';
+import { InternetIssuePage } from './internet-issue.page';
 
-describe('InternetIssueComponent', () => {
-  let component: InternetIssueComponent;
-  let fixture: ComponentFixture<InternetIssueComponent>;
+describe('InternetIssuePage', () => {
+  let component: InternetIssuePage;
+  let fixture: ComponentFixture<InternetIssuePage>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ InternetIssueComponent ],
+      declarations: [ InternetIssuePage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(InternetIssueComponent);
+    fixture = TestBed.createComponent(InternetIssuePage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

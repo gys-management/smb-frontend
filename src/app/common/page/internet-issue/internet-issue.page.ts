@@ -6,10 +6,10 @@ import { HeaderModel } from 'src/app/models/header.model';
 
 @Component({
   selector: 'app-internet-issue',
-  templateUrl: './internet-issue.component.html',
-  styleUrls: ['./internet-issue.component.scss'],
+  templateUrl: './internet-issue.page.html',
+  styleUrls: ['./internet-issue.page.scss'],
 })
-export class InternetIssueComponent implements OnInit {
+export class InternetIssuePage implements OnInit {
 
   headerModel = new HeaderModel(AppConstant.NETWORK_ERROR, false, UrlConstant.URL_LOGIN, false);
 
