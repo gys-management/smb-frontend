@@ -61,6 +61,7 @@
     "@ionic/storage-angular": "^3.0.6",
     "firebase": "^8.4.3",
     "husky": "^6.0.0",
+    "ionic-selectable": "^4.9.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"

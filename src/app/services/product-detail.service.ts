@@ -83,4 +83,15 @@ export class ProductDetailService {
       { excludeAuthHeader: false }
     );
   }
+
+  async updateProductDetailQuantity(id, quantity): Promise<ProductDetail> {
+    return await this._http.makeRequest(
+      `${ApiUrlContant.PRODUCT_DETAILS}/${id}/quantity`,
+      HttpMethods.PUT,
+      { quantity },
+      null,
+      null,
+      { excludeAuthHeader: false }
+    );
+  }
 }

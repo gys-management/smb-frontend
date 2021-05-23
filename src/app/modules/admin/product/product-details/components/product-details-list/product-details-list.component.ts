@@ -8,7 +8,7 @@ import { debounceTime, distinctUntilChanged, tap, startWith } from 'rxjs/operato
 import { UrlConstant } from 'src/app/constants/url.constants';
 import { ProductDetail, ProductDetailResponse } from 'src/app/models/product-details.model';
 import { ProductDetailService } from 'src/app/services/product-detail.service';
-import { ActionSheetUtilService } from 'src/app/services/util/actionSheet/action-sheet-util.service';
+import { ProductdetailPresentactionsheetComponent } from '../productdetail-presentactionsheet/productdetail-presentactionsheet.component';
 
 @Component({
   selector: 'app-product-details-list',
@@ -33,7 +33,7 @@ export class ProductDetailsListComponent implements OnInit {
   constructor(
     private _pdService: ProductDetailService,
     private _navCtrl: NavController,
-    private _actionService: ActionSheetUtilService
+    private _productdetailPresentActionSheetComp: ProductdetailPresentactionsheetComponent
   ) { }
 
   async ngOnInit() {
@@ -41,29 +41,15 @@ export class ProductDetailsListComponent implements OnInit {
   }
 
   async presentActionSheet(element: ProductDetail) {
-    const actionSheet = await this._actionService.presentActionSheet({
-      header: 'Action',
-      buttons: [
-        {
-          text: 'Edit',
-          icon: 'create-outline',
-          cssClass: 'action-sheet-primary',
-          handler: () => {
-            this._navCtrl.navigateRoot(
-              UrlConstant.URL_ADMIN_PRODUCTS_DETAILS + UrlConstant.URL_EDIT + '/' + element.id
-            );
-          },
-        },
-        {
-          text: 'Close',
-          icon: 'close',
-          cssClass: 'action-sheet-danger',
-          role: 'cancel',
-          handler: () => {
-          },
-        },
-      ],
-    });
+    this._productdetailPresentActionSheetComp.presentActionSheet(element);
+    const updateQuantitySub = this._productdetailPresentActionSheetComp.updateProductDetailsView.subscribe(
+      res => {
+        if (res) {
+          this.fetchAllProductDetails();
+          // to avoid multiple api calls on each time triggring event, unsubscribe it.
+          updateQuantitySub.unsubscribe();
+        }
+      });
   }
 
   onAdd() {

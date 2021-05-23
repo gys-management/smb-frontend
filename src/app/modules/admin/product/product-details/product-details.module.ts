@@ -14,6 +14,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { ProductDetailsAddEditComponent } from './components/product-details-add-edit/product-details-add-edit.component';
+import { ProductdetailPresentactionsheetComponent }
+  from './components/productdetail-presentactionsheet/productdetail-presentactionsheet.component';
 
 @NgModule({
   imports: [
@@ -32,7 +34,9 @@ import { ProductDetailsAddEditComponent } from './components/product-details-add
     ProductDetailsPage,
     ProductDetailsListComponent,
     ProductDetailsAddEditComponent
-
+  ],
+  providers: [
+    ProductdetailPresentactionsheetComponent
   ]
 })
 export class ProductDetailsPageModule { }

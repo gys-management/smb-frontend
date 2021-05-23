@@ -16,6 +16,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { IonicSelectableModule } from 'ionic-selectable';
+import { SelectProductComponent } from './components/select-product/select-product.component';
+import { SelectCustomerComponent } from './components/select-customer/select-customer.component';
 
 @NgModule({
   imports: [
@@ -29,12 +32,15 @@ import { MatTableModule } from '@angular/material/table';
     MatPaginatorModule,
     MatProgressBarModule,
     MatSortModule,
+    IonicSelectableModule
   ],
   declarations: [
     OrderPage,
     OrderListComponent,
     OrderAddEditComponent,
-    OrderViewComponent
+    OrderViewComponent,
+    SelectProductComponent,
+    SelectCustomerComponent
   ],
   providers: [
     OrderService

@@ -9,6 +9,10 @@ export class SuccessConstants {
   static readonly SUCCESS_REGISTRATION = 'Successfully Registered. Kindly click Next';
 
 
+  // Internet
   static readonly SUCCESS_INTERNET = 'Internet is available !!!';
+
+  // Product
+  static readonly SUCCESS_UPDATE_QTY = 'Quantity is updated successfully';
 
 }

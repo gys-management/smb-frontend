@@ -1,0 +1,43 @@
+<ionic-selectable #productDetailSelectable itemValueField="id" [isMultiple]="true" itemTextField="name"
+  [canSearch]="true" [hasInfiniteScroll]="true" (onChange)="productDetailSelectableChange()"
+  (onSearch)="productDetailSelectableSearch($event)" (onInfiniteScroll)="getMoreProductDetail($event)"
+  searchPlaceholder="Search By Product Name">
+  <ng-template ionicSelectableIconTemplate>
+    <ion-buttons>
+      <ion-button>
+        <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ng-template>
+  <!-- Display empty view after selected-->
+  <ng-template ionicSelectableValueTemplate>
+  </ng-template>
+
+  <ng-template ionicSelectableItemTemplate let-productDetail="item" let-isproductDetailSelected="isItemSelected">
+    <ion-label>
+      <h2> <i>{{productDetail.name| titlecase}} ({{productDetail.hsnCode| titlecase}})</i></h2>
+      <p> Qty: {{productDetail.quantity}}
+        <button (click)="updateQuantity(productDetail)">
+          <ion-icon color="danger" slot="icon-only" name="add-outline"></ion-icon>
+        </button>
+          | Price: {{ productDetail.sellingPrice |  currency:'INR'}}</p>
+    </ion-label>
+
+  </ng-template>
+
+  <ng-template ionicSelectableHeaderTemplate>
+    <ion-toolbar>
+      <ion-buttons slot="end">
+        <ion-button (click)="close()">
+          <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-buttons slot="start">
+        <ion-button (click)="addProductsURL()">
+          <ion-icon name="add-circle-outline"></ion-icon> &nbsp;
+          <ion-label>Add Products</ion-label>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ng-template>
+</ionic-selectable>

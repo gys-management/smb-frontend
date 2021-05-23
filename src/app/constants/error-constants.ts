@@ -48,7 +48,18 @@ export class ErrorConstant {
   static readonly ERR_FILLING_MANDATORY = 'Kindly update All Mandatory fields';
 
   // Product
+  static readonly ERR_FETCH = 'Error while Fetching Product Detail. Kindly try again';
+  static readonly ERR_ADDING = 'Error while Saving Product Detail. Kindly try again';
+  static readonly ERR_UPDATING = 'Error while Updating Product Detail. Kindly try again';
+  static readonly ERR_DELETEING = 'Error while Deleting Product Detail. Kindly try again';
+  static readonly ERR_QTY_ADDING = 'Error while Adding Quantity. Kindly try again';
+  static readonly ERR_PRODUCTDETAILS_FOUND = 'Product Details already exists';
+  static readonly ERR_PRODUCTDETAILS_NOT_FOUND = 'Requested Product Details does not exists';
+  static readonly ERR_QTY_GREATER_THAN_ZERO = 'Quanitity should be greater than zero';
+  static readonly ERR_PRODUCT_CATEGORY = 'No Product Category added. Kinldy add in product category and select here';
   static readonly ERR_BRAND_MAPPING_TO_CATEGORY = 'No Brand mapped for this category. Kindly map it and try again';
+  static readonly ERR_TYPE_MAPPING_TO_BRAND = 'No Type mapped for this brand. Kindly map it and try again';
+
 
   static readonly NO_DATA_TO_DISPLAY = 'No data to display!';
 
