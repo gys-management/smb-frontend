@@ -18,7 +18,8 @@ export class AppConstant {
   static readonly QUANTITY = 'Quantity';
   static readonly DETAILS = 'Details';
   static readonly DEALER_INCENTIVE = 'Dealer Incentive';
-
+  static readonly SUCCESS = 'success';
+  static readonly CANCEL = 'cancel';
 
   static readonly DASHBOARD = 'Dashboard';
 

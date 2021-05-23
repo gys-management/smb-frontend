@@ -18,10 +18,9 @@
       </th>
       <td mat-cell *matCellDef="let row">
         <ion-buttons>
-          <!-- <ion-button [routerLink]="[order_url.detail, row.id]">
-            <a [routerLink]="[order_url.detail, row.id]"> {{row.orderNumber}}</a>
-          </ion-button> -->
-          {{row.orderNumber}}
+          <ion-button (click)="onView(row.id)">
+            <ion-text color="primary"> {{row.orderNumber}}</ion-text>
+          </ion-button>
         </ion-buttons>
       </td>
     </ng-container>
@@ -31,7 +30,7 @@
         <ion-label color="primary"> Customer </ion-label>
       </th>
       <td mat-cell *matCellDef="let row">
-        {{row.companyName}}
+        {{row.companyName | titlecase}}
       </td>
     </ng-container>
 

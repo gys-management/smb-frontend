@@ -19,6 +19,10 @@ import { MatTableModule } from '@angular/material/table';
 import { IonicSelectableModule } from 'ionic-selectable';
 import { SelectProductComponent } from './components/select-product/select-product.component';
 import { SelectCustomerComponent } from './components/select-customer/select-customer.component';
+import { PipeModule } from 'src/app/pipes/pipe.module';
+import { ProductDetailService } from 'src/app/services/product-detail.service';
+import { OrderController } from '../../utils/order-controller.util';
+import { ProductdetailPresentactionsheetComponent } from '../product/product-details/components/productdetail-presentactionsheet/productdetail-presentactionsheet.component';
 
 @NgModule({
   imports: [
@@ -32,7 +36,8 @@ import { SelectCustomerComponent } from './components/select-customer/select-cus
     MatPaginatorModule,
     MatProgressBarModule,
     MatSortModule,
-    IonicSelectableModule
+    IonicSelectableModule,
+    PipeModule
   ],
   declarations: [
     OrderPage,
@@ -43,7 +48,10 @@ import { SelectCustomerComponent } from './components/select-customer/select-cus
     SelectCustomerComponent
   ],
   providers: [
-    OrderService
+    OrderService,
+    ProductDetailService,
+    OrderController,
+    ProductdetailPresentactionsheetComponent
   ]
 })
 export class OrderPageModule { }

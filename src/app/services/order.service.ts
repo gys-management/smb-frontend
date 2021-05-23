@@ -93,4 +93,36 @@ export class OrderService {
       { excludeAuthHeader: false }
     );
   }
+
+  async fetchOrderCount(): Promise<number> {
+    return await this._http.makeRequest(
+      `${ApiUrlContant.ORDERS}/count`,
+      HttpMethods.GET,
+      null,
+      null,
+      null,
+      { excludeAuthHeader: false, hideSpinner: true }
+    );
+  }
+
+  async updateOrderStatus(id: string, orderStatus: OrderStatus): Promise<Order> {
+    const params = new HttpParams()
+      .set('orderStatus', orderStatus);
+
+    return await this._http.makeRequest(
+      `${ApiUrlContant.ORDERS}/${id}/status`,
+      HttpMethods.PUT,
+      null,
+      params
+    );
+  }
+
+  async completedOrder(id, order: Order): Promise<Order> {
+
+    return await this._http.makeRequest(
+      `${ApiUrlContant.ORDERS}/${id}/statusCompleted`,
+      HttpMethods.PUT
+    );
+  }
+
 }

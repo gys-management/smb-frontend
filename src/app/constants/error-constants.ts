@@ -3,6 +3,7 @@ export class ErrorConstant {
   static readonly ERR_BAD_REQUEST = 'Bad Request';
   static readonly ERR_GENERIC_CODE = 'ERR_GENERIC_EXCEPTION';
   static readonly ERR_GENERIC_EXCEPTION = 'Something went wrong. Please try again later!!!';
+  static readonly NO_DATA_TO_DISPLAY = 'No data to display!';
 
   // Login Error Messages
   static readonly ERR_CUSTOM = 'Could not login, please try again.';
@@ -61,7 +62,36 @@ export class ErrorConstant {
   static readonly ERR_TYPE_MAPPING_TO_BRAND = 'No Type mapped for this brand. Kindly map it and try again';
 
 
-  static readonly NO_DATA_TO_DISPLAY = 'No data to display!';
+  // Order Messages
+  static readonly ERR_ORDER_FETCH = 'Error while Fetching Orders. Kindly try again';
+  static readonly ERR_ORDER_ADDING = 'Error while Saving Orders. Kindly try again';
+  static readonly ERR_ORDER_UPDATING = 'Error while Updating Orders. Kindly try again';
+  static readonly ERR_DELETED = 'Error while Deleting Orders. Kindly try again';
+  static readonly ERR_TOTALPAID = 'Total Paid Amount should be greater than zero and less than Total Amount';
+  static readonly ERR_FETCHING_TOTAL_COUNT = 'Error while fetching product detail count. Kindly reload page';
+  static readonly ERR_FETCHING_ORDER_DETAILS = 'Error while fetching order detail. Kindly reload page';
+  static readonly ERR_MANDTORY_FIELDS = 'Kindly select all mandatory fields';
+  static readonly ERR_SELECT_CUSTOMER = 'Kindly select the Customer';
+  static readonly ERR_SELECT_PRODDUCT = 'Kindly select at least one product';
+  static readonly ERR_SELECT_PAYMENTMODE = 'Kindly select Payment Mode';
+  static readonly ERR_AMT_GREATER_PAYMENT = 'Amount paid should not be greater than Final Amount';
+  static readonly ERR_NEGATIVE_PAYMENT = 'Amount paid should not be negative';
+  static readonly ERR_FIELD_INVOICE = 'Kindly enter the Invoice';
+  static readonly ERR_UPDATE_QUANTITY = 'Quantity should be more than one';
+  static readonly ERR_UPDATE_QUANTITY_NULL = 'Quantity should not be null';
+  static readonly ERR_UPDATE_DISCOUNT = 'Discount should not be negative';
+  static readonly ERR_UPDATE_DISCOUNT_NULL = 'Discount should not be null';
+  static readonly ERR_INSUFFICIENT_QUANTITY = ' quantity is insufficient';
+  static readonly ERR_ORDER_CANCEL = 'Error while Cancelling Orders. Kindly try again';
+  static readonly ERR_ORDER_COMPLETED = 'Error while Completed Orders. Kindly try again';
+  static readonly ERR_EMAIL_SENDING = 'Error while sending Email. Kindly try again';
+  static readonly ERR_EDITING_ORDERS = 'Can\'t edit completed/cancelled/Paid orders';
+
+
+  // Org config
+  static readonly ERR_FETCH_CONFIG = 'Error while fetching configuration. kindly try agian';
+  static readonly ERR_UPDATE_CONFIG = 'Error while Updating configuration. kindly try agian';
+
 
   // Internet
   static readonly ERR_INTERNET = 'Check your Internet Connection!!!';

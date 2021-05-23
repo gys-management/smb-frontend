@@ -94,4 +94,12 @@ export class ProductDetailService {
       { excludeAuthHeader: false }
     );
   }
+
+
+  async fetchProductDetailByIdsList(id: string[]): Promise<ProductDetail[]> {
+    return await this._http.makeRequest(
+      `${ApiUrlContant.PRODUCT_DETAILS}/${id}/list`,
+      HttpMethods.GET,
+    );
+  }
 }

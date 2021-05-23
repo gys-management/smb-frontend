@@ -15,4 +15,12 @@ export class SuccessConstants {
   // Product
   static readonly SUCCESS_UPDATE_QTY = 'Quantity is updated successfully';
 
+  // Org config
+  static readonly SUCCESS_UPDATE_CONFIG = 'Configuration settings are updated successfully';
+
+  // Order
+  static readonly SUCCESS_ORDER_CANCEL = 'Order is Canceled successfully';
+  static readonly SUCCESS_ORDER_COMPLETED = 'Order is Completed successfully';
+  static readonly SUCCESS_DELETED_ORDER_ITEM = 'You have deleted the product ';
+
 }

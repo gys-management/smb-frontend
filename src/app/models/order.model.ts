@@ -4,7 +4,7 @@ import { PaymentMode } from '../enum/paymen.enum';
 export class Order {
   id?: string;
   customerId: string;
-  orderNumber: string;
+  orderNumber: number;
   invoiceNumber: string;
   reference: string;
   orderedDate: string;
@@ -54,4 +54,19 @@ export class OrderItem {
 
   buyingPrice: number;
   margin: number;
+}
+
+
+export class OrganizationConfig {
+  id?: string;
+  orderConfig: {
+    roundOff: number;
+    estimatedDeliveryDays: number;
+  };
+  productConfig: {
+    outOffStockCount: number;
+    lowStockCount: number;
+  };
+  isStaffLoginEnabled: boolean;
+  isCustomerLoginEnabled: boolean;
 }
