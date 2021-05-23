@@ -50,4 +50,6 @@ export class ErrorConstant {
   // Product
   static readonly ERR_BRAND_MAPPING_TO_CATEGORY = 'No Brand mapped for this category. Kindly map it and try again';
 
+  static readonly NO_DATA_TO_DISPLAY = 'No data to display!';
+
 }
