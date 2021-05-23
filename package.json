@@ -13,7 +13,7 @@
     "e2e": "ng e2e",
     "eslint": "eslint . --ext .ts",
     "start:ionic": "ionic serve --host 0.0.0.0 --port 8500",
-    "start:ionic:pwa": "npm run deploy_web:local && firebase serve --host 0.0.0.0 --port=8200",
+    "start:ionic:pwa": "npm run deploy_web:local && firebase serve --host 0.0.0.0 --port=5000",
     "deploy_web:local": "ionic build --configuration=local --aot=true --output-hashing=all --release",
     "deploy_web:dev": "ionic build --configuration=dev --aot=true --output-hashing=all --release",
     "firebase:dev:useproject": "firebase use --add ionic-angular-61cb7",

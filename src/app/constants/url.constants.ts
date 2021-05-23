@@ -24,4 +24,9 @@ export class UrlConstant {
   static readonly URL_EDIT = '/edit';
 
 
+
+  // Internet URL
+  static readonly URL_INTERNET_ERROR = '/internet-error';
+
+
 }

@@ -1,7 +1,6 @@
 
 import { Injectable, OnInit, OnDestroy } from '@angular/core';
 import { from, Observable } from 'rxjs';
-import { Router } from '@angular/router';
 import { map, tap, take } from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
@@ -27,7 +26,6 @@ export class AuthService implements OnInit, OnDestroy {
 
   constructor(
     private _navCtrl: NavController,
-    private _http: HttpClient,
     private _storage: Storage,
     private _cacheService: CacheService,
     private _httpUtilService: HttpUtilService
@@ -88,12 +86,7 @@ export class AuthService implements OnInit, OnDestroy {
     );
   }
 
-  async getToken() {
-    const data = await this._storage.get(AppConstant.AUTH_DATA_STORAGE);
-    if (data) {
-      return JSON.parse(data)._token;
-    }
-  }
+
 
   autoLogin() {
     return from(this._storage.get(AppConstant.AUTH_DATA_STORAGE)).pipe(

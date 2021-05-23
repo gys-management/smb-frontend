@@ -9,37 +9,37 @@ export class LoggerService {
   /**
    * The application log level. Populated from ```environment.logLevel```
    */
-  level: number;
+  static level: number;
 
   /**
    * Initializes the log level set in ```environment.ts```
    */
   constructor() {
-    this.level = environment.logLevel;
+    LoggerService.level = environment.logLevel;
   }
 
-  get debug() {
+  static get debug() {
     // eslint-disable-next-line no-console
-    return this.log(LogLevel.DEBUG, console.debug);
+    return this.logging(LogLevel.DEBUG, console.debug);
   }
 
-  get error() {
-    return this.log(LogLevel.ERROR, console.error);
+  static get error() {
+    return this.logging(LogLevel.ERROR, console.error);
   }
 
-  get warn() {
-    return this.log(LogLevel.WARNING, console.warn);
+  static get warn() {
+    return this.logging(LogLevel.WARNING, console.warn);
   }
 
-  // get info() {
-  //   return this.log(LogLevel.INFO, console.info);
-  // }
+  static get log() {
+    return this.logging(LogLevel.INFO, console.log);
+  }
 
   /**Generic logging method to log based on logging level.
    * @param logLevel The level of the log.
    * @param func The log level function to be used to do the action logging.
    */
-  private log(logLevel: LogLevel, func: () => void) {
+  private static logging(logLevel: LogLevel, func: () => void) {
     if (logLevel <= this.level) {
       return func.bind(console);
     } else {

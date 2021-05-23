@@ -1,14 +1,15 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable, Injector } from '@angular/core';
-import { map, take } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { AppConstant } from 'src/app/constants/app.constants';
 import { ErrorConstant } from 'src/app/constants/error-constants';
 import { AppError } from 'src/app/models/app-error';
 import { HttpMethods, HttpRequestOptions } from 'src/app/models/http';
 import { environment } from 'src/environments/environment';
-import { AuthService } from '../auth/auth.service';
 import { LoggerService } from '../logger/logger.service';
 import { MessageService } from '../messages/message.service';
+import { NetworkUtilService } from '../network/network-util.service';
 import { SpinnerService } from '../spinner/spinner.service';
+import { Storage } from '@ionic/storage';
 
 interface IRequestOptions {
   body?: any;
@@ -25,11 +26,18 @@ interface IRequestOptions {
 export class HttpUtilService {
   constructor(
     private _http: HttpClient,
-    private _logger: LoggerService,
     private _messageService: MessageService,
     private _spinnerService: SpinnerService,
-    private _injector: Injector
+    private _networkUtilService: NetworkUtilService,
+    private _storage: Storage
   ) { }
+
+  async getToken() {
+    const data = await this._storage.get(AppConstant.AUTH_DATA_STORAGE);
+    if (data) {
+      return JSON.parse(data)._token;
+    }
+  }
 
   async makeRequest(
     url: string,
@@ -42,11 +50,13 @@ export class HttpUtilService {
       excludeAuthHeader: false
     }
   ): Promise<any> {
+
+
     const requestURL = environment.restAPI + url;
 
     requestHeaders = requestHeaders || new HttpHeaders();
     if (!options?.excludeAuthHeader) {
-      const _authService: AuthService = this._injector.get(AuthService);
+      // const _authService: AuthService = this._injector.get(AuthService);
       // _authService.token.subscribe(async (tokenLocal) => {
       //   if (tokenLocal) {
       //     requestHeaders = requestHeaders.append(
@@ -63,13 +73,11 @@ export class HttpUtilService {
       //   // }
       // });
 
-      const token = await _authService.getToken();
+      const token = await this.getToken();
       requestHeaders = requestHeaders.append(
         'Authorization',
         `Bearer ${token}`
       );
-
-
     }
 
     return this.makeExternalRequest(
@@ -81,7 +89,6 @@ export class HttpUtilService {
       options
     );
   }
-
 
 
   private async makeExternalRequest(
@@ -124,7 +131,7 @@ export class HttpUtilService {
       );
     }
 
-    this._logger.debug(
+    LoggerService.debug(
       `HTTP Request`,
       `\nMethod: ${method}`,
       `\nUrl: ${requestUrl}`,
@@ -136,7 +143,7 @@ export class HttpUtilService {
       const response: any = await this._http
         .request(method, requestUrl, requestOptions)
         .toPromise();
-      this._logger.debug(`HTTP Response: `, response);
+      LoggerService.debug(`HTTP Response: `, response);
 
       if (!hideSpinner) {
         await this._spinnerService.dismissSpinner(spinnerId);
@@ -144,7 +151,7 @@ export class HttpUtilService {
 
       return response;
     } catch (err) {
-      this._logger.error(err);
+      LoggerService.error(err);
       if (spinnerId) {
         await this._spinnerService.dismissSpinner(spinnerId);
       }
