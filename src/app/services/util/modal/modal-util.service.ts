@@ -47,4 +47,8 @@ export class ModalUtilService {
   async dismissPresentModal(data?: any, role?: string) {
     await this._modalCtrl.dismiss(data, role);
   }
+
+  async isModalPresent() {
+    return this._modalCtrl.getTop();
+  }
 }

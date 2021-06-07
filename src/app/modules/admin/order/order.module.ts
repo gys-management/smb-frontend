@@ -24,6 +24,7 @@ import { ProductDetailService } from 'src/app/services/product-detail.service';
 import { OrderController } from '../../utils/order-controller.util';
 import { ProductdetailPresentactionsheetComponent }
   from '../product/product-details/components/productdetail-presentactionsheet/productdetail-presentactionsheet.component';
+import { ProductDetailsPageModule } from '../product/product-details/product-details.module';
 
 @NgModule({
   imports: [
@@ -38,7 +39,8 @@ import { ProductdetailPresentactionsheetComponent }
     MatProgressBarModule,
     MatSortModule,
     IonicSelectableModule,
-    PipeModule
+    PipeModule,
+    ProductDetailsPageModule
   ],
   declarations: [
     OrderPage,

@@ -19,6 +19,7 @@ import { CustomerService } from 'src/app/services/customer.service';
 import { OrderService } from 'src/app/services/order.service';
 import { OrganizationService } from 'src/app/services/organization.service';
 import { PaymentService } from 'src/app/services/payment.service';
+import { PdfService } from 'src/app/services/pdf/pdf.service';
 import { ActionSheetUtilService } from 'src/app/services/util/actionSheet/action-sheet-util.service';
 import { MessageService } from 'src/app/services/util/messages/message.service';
 import { ModalUtilService } from 'src/app/services/util/modal/modal-util.service';
@@ -53,7 +54,7 @@ export class OrderViewComponent implements OnInit, OnDestroy {
     private _organizationService: OrganizationService,
     private _orderService: OrderService,
     private _navCtrl: NavController,
-    // private _pdfService: PdfService,
+    private _pdfService: PdfService,
     private _actionService: ActionSheetUtilService,
     private _paymentService: PaymentService,
     private _modalUtilService: ModalUtilService,
@@ -177,7 +178,7 @@ export class OrderViewComponent implements OnInit, OnDestroy {
 
   generateInvoice(option) {
     // PDF will work only browser. If you convert as app, have to implement on file download in ionic way
-    // this._pdfService.generateInvoice(this.orderDetail, this.organization, this.customer, option);
+    this._pdfService.generateInvoice(this.orderDetail, this.organization, this.customer, option);
   }
 
   async presentActionSheet() {
@@ -198,7 +199,7 @@ export class OrderViewComponent implements OnInit, OnDestroy {
           icon: 'create-outline',
           cssClass: 'action-sheet-primary',
           handler: () => {
-            this._navCtrl.navigateRoot(UrlConstant.URL_EDIT + '/' + order.id);
+            this._navCtrl.navigateRoot(UrlConstant.URL_ADMIN_ORDER + UrlConstant.URL_EDIT + '/' + order.id);
           }
         });
     }
@@ -231,16 +232,16 @@ export class OrderViewComponent implements OnInit, OnDestroy {
       );
     }
     if (order.orderStatus === OrderStatus.COMPLETED) {
-      button.push(
-        {
-          text: 'Send Email',
-          icon: 'send-outline',
-          cssClass: 'action-sheet-tertiary',
-          handler: () => {
-            this.generateInvoice('email');
-          },
-        }
-      );
+      // button.push(
+      //   {
+      //     text: 'Send Email',
+      //     icon: 'send-outline',
+      //     cssClass: 'action-sheet-tertiary',
+      //     handler: () => {
+      //       this.generateInvoice('email');
+      //     },
+      //   }
+      // );
     }
     // finally add close button
     button.push(

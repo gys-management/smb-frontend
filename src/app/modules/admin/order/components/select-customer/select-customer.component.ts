@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs';
 import { NavController } from '@ionic/angular';
 import { Customer } from 'src/app/models/customer.model';
 import { UrlConstant } from 'src/app/constants/url.constants';
+import { ModalUtilService } from 'src/app/services/util/modal/modal-util.service';
+import { CustomerAddEditComponent } from '../../../customer/components/customer-add-edit/customer-add-edit.component';
 
 @Component({
   selector: 'app-select-customer',
@@ -29,7 +31,8 @@ export class SelectCustomerComponent implements OnInit, OnDestroy {
 
   constructor(
     private _customerService: CustomerService,
-    private _navCtrl: NavController
+    private _navCtrl: NavController,
+    private _modalService: ModalUtilService
   ) { }
 
   ngOnInit() {
@@ -116,9 +119,14 @@ export class SelectCustomerComponent implements OnInit, OnDestroy {
     this.cusomterSelectable.close();
   }
 
-  addCustomerURL() {
-    this.cusomterSelectable.close();
-    this._navCtrl.navigateRoot(UrlConstant.URL_ADD);
+  async addCustomerURL() {
+    // this.cusomterSelectable.close();
+    // this._navCtrl.navigateRoot(UrlConstant.URL_ADMIN_CUSTOMER + UrlConstant.URL_ADD);
+
+    await this._modalService.presentModalNew({
+      component: CustomerAddEditComponent
+    });
+    this.customerSelectableSearch({ component: this.cusomterSelectable, text: '' });
   }
 
   ngOnDestroy() {

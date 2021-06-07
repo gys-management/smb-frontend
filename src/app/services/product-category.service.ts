@@ -4,7 +4,9 @@ import { HttpMethods } from '../models/http';
 import { ProductCategory } from '../models/product-category.model';
 import { HttpUtilService } from './util/http/http-util.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ProductCategoryService {
 
   constructor(

@@ -19,6 +19,11 @@ import { ProductCategoryService } from 'src/app/services/product-category.servic
     ProductPageRoutingModule
   ],
   declarations: [ProductPage],
-  providers: [ProductDetailService, ProductBrandService, ProductCategoryService]
+  providers: [
+    ProductDetailService,
+    ProductBrandService,
+    ProductCategoryService
+  ]
+
 })
 export class ProductPageModule { }

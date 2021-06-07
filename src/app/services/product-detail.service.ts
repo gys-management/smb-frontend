@@ -5,7 +5,9 @@ import { HttpMethods } from '../models/http';
 import { ProductDetail, ProductDetailResponse } from '../models/product-details.model';
 import { HttpUtilService } from './util/http/http-util.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ProductDetailService {
 
   constructor(

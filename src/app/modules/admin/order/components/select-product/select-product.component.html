@@ -20,7 +20,8 @@
         <button (click)="updateQuantity(productDetail)">
           <ion-icon color="danger" slot="icon-only" name="add-outline"></ion-icon>
         </button>
-          | Price: {{ productDetail.sellingPrice |  currency:'INR'}}</p>
+          | Price: {{ productDetail.sellingPrice | currency:'INR'}}
+      </p>
     </ion-label>
 
   </ng-template>
@@ -33,7 +34,7 @@
         </ion-button>
       </ion-buttons>
       <ion-buttons slot="start">
-        <ion-button (click)="addProductsURL()">
+        <ion-button (click)="addProductsURL($event)">
           <ion-icon name="add-circle-outline"></ion-icon> &nbsp;
           <ion-label>Add Products</ion-label>
         </ion-button>

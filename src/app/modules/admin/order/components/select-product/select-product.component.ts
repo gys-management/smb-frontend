@@ -6,7 +6,10 @@ import { ProductDetail } from 'src/app/models/product-details.model';
 import { ProductDetailService } from 'src/app/services/product-detail.service';
 import { ProductdetailPresentactionsheetComponent }
   from '../../../product/product-details/components/productdetail-presentactionsheet/productdetail-presentactionsheet.component';
-import { UrlConstant } from 'src/app/constants/url.constants';
+import { ModalUtilService } from 'src/app/services/util/modal/modal-util.service';
+import { ProductDetailsAddEditComponent }
+  from '../../../product/product-details/components/product-details-add-edit/product-details-add-edit.component';
+import { LoggerService } from 'src/app/services/util/logger/logger.service';
 
 @Component({
   selector: 'app-select-product',
@@ -33,7 +36,8 @@ export class SelectProductComponent implements OnInit, OnDestroy, AfterViewInit 
   constructor(
     private _productDetailService: ProductDetailService,
     private _navCtrl: NavController,
-    private _productdetailPresentactionsheet: ProductdetailPresentactionsheetComponent
+    private _productdetailPresentactionsheet: ProductdetailPresentactionsheetComponent,
+    private _modalService: ModalUtilService
   ) { }
   ngOnInit() {
     // this.removeSelectedProductDetailFromListView(this.selectedProductDetail)
@@ -195,9 +199,14 @@ export class SelectProductComponent implements OnInit, OnDestroy, AfterViewInit 
     this.productDetailSelectable.close();
   }
 
-  addProductsURL() {
-    this.productDetailSelectable.close();
-    this._navCtrl.navigateRoot(UrlConstant.URL_ADD);
+  async addProductsURL(event) {
+    // this.productDetailSelectable.close();
+    // this._navCtrl.navigateRoot(UrlConstant.URL_ADMIN_PRODUCTS_DETAILS + UrlConstant.URL_ADD);
+
+    await this._modalService.presentModalNew({
+      component: ProductDetailsAddEditComponent
+    });
+    this.productDetailSelectableSearch({ component: this.productDetailSelectable, text: '' });
   }
 
   ngOnDestroy() {
