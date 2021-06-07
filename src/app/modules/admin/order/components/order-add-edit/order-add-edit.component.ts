@@ -71,10 +71,10 @@ export class OrderAddEditComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
     'productName',
     'price',
-    'quantity',
-    'discount',
-    'subTotal',
-    'gstAmount',
+    // 'quantity',
+    // 'discount',
+    // 'subTotal',
+    // 'gstAmount',
     'totalAmount',
     'action',
   ];
@@ -96,7 +96,7 @@ export class OrderAddEditComponent implements OnInit, OnDestroy {
     private _orgConfigService: OrganizationConfigService
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.fetchOrganization();
     this.initializeFields();
     this.loadConfigurationDetails();
@@ -160,8 +160,8 @@ export class OrderAddEditComponent implements OnInit, OnDestroy {
   async fetchOrderbyIDLocal(id: string) {
     const order = await this._orderService.getOrderById(id);
     try {
-
-      if (this.checkOrderStatusIsPending(order)) {
+      const checkOrderStatus = await this.checkOrderStatusIsPending(order);
+      if (checkOrderStatus) {
         this.orderDetail = this._orderController.jsonCopy(order);
         this.dataSource = new MatTableDataSource(order.orderItems);
         this.dataSource.filter = '';
@@ -268,7 +268,7 @@ export class OrderAddEditComponent implements OnInit, OnDestroy {
 
   }
 
-  loadConfigurationDetails() {
+  async loadConfigurationDetails() {
     const configServiceSub = this._orgConfigService.getOrganizationConfig.subscribe(
       (config) => {
         if (config) {
@@ -282,7 +282,7 @@ export class OrderAddEditComponent implements OnInit, OnDestroy {
     this.editOrderSub.push(configServiceSub);
   }
 
-  orderDateChanges() {
+  async orderDateChanges() {
     const orderDateLocal = new Date(this.form.get('orderedDate').value);
     // estimatedDeliveryDate should be 2 days from orderedDate
     const estimatedDeliveryDate = new Date(
@@ -336,7 +336,8 @@ export class OrderAddEditComponent implements OnInit, OnDestroy {
           gstIncluded: x.gstIncluded,
           basicPriceTax: x.basicPriceTax,
           buyingPrice: x.buyingPrice,
-          margin: null
+          margin: null,
+          sellingPrice: x.sellingPrice
         };
         // this.orderItemListView.push(localOrderItem);
         orderItemList.push(localOrderItem);
@@ -376,33 +377,33 @@ export class OrderAddEditComponent implements OnInit, OnDestroy {
   }
 
   // Triggers when order Item any field changes
-  orderItemFieldsChange(orderItem: OrderItem) {
+  async orderItemFieldsChange(orderItem: OrderItem) {
     if (orderItem !== null && orderItem !== undefined) {
-      this._orderController.checkQuanity(
+      const checkQuanityVariable = await this._orderController.checkQuanity(
         orderItem,
         false,
         this.orderDetail,
         this.saveOrupdate,
-        this.productDetailList)
-        .then(checkQuanityVariable => {
-          // console.log('checkQuanityVariable -->', checkQuanityVariable);
-          const checkDiscountVariable = this._orderController.checkDiscount(orderItem);
-          // console.log('checkDiscountVariable -->', checkDiscountVariable);
-          if (!checkQuanityVariable || !checkDiscountVariable) {
-            return;
-          } else if (orderItem.gstIncluded) {  // GST and Amount calculation
-            this._orderController.inclusiveGstCalculation(orderItem);
-          } else {
-            this._orderController.exclusiveGstCalculation(orderItem);
-          }
+        this.productDetailList);
 
-          // set active as true in item for total amount calculation.
-          this.dataSource.data.forEach((x) => {
-            x.active = true;
-          });
+      const checkDiscountVariable = await this._orderController.checkDiscount(orderItem);
 
-          this.orderItemFieldsTotalChange();
-        });
+      //  NOTE: Below check will not valid since the qty can go on minus value
+      // if (!checkQuanityVariable || !checkDiscountVariable) {
+      //   return;
+      // } else
+      if (orderItem.gstIncluded) {  // GST and Amount calculation
+        this._orderController.inclusiveGstCalculation(orderItem);
+      } else {
+        this._orderController.exclusiveGstCalculation(orderItem);
+      }
+
+      // set active as true in item for total amount calculation.
+      this.dataSource.data.forEach((x) => {
+        x.active = true;
+      });
+
+      this.orderItemFieldsTotalChange();
     }
 
   }
@@ -534,7 +535,7 @@ export class OrderAddEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  onClick() {
+  async onClick() {
     this.form.markAllAsTouched();
     if (!this.customer) {
       this._msgService.messageErrorAlert(null, ErrorConstant.ERR_SELECT_CUSTOMER);
@@ -551,23 +552,18 @@ export class OrderAddEditComponent implements OnInit, OnDestroy {
       return;
     } else {
 
-      const discountWhileSaving = this._orderController.doubleCheckOnDiscountWhileSaving(this.dataSource);
-      this._orderController.doubleCheckOnQuanityWhileSaving(this.dataSource)
-        .then(quantityWhileSaving => {
-          // console.log('discountWhileSaving -->', discountWhileSaving);
-          // console.log('quantityWhileSaving -->', quantityWhileSaving);
+      const discountWhileSaving = await this._orderController.doubleCheckOnDiscountWhileSaving(this.dataSource);
+      // const quantityWhileSaving = await this._orderController.doubleCheckOnQuanityWhileSaving(this.dataSource);
 
-          if (discountWhileSaving && quantityWhileSaving) {
+      // if (discountWhileSaving && quantityWhileSaving) {
+      if (discountWhileSaving) {
 
-            // console.log(this.formToOrderMapping());
-
-            if (this.saveOrupdate) {
-              this.onAddOrder();
-            } else {
-              this.onUpdateOrder();
-            }
-          }
-        });
+        if (this.saveOrupdate) {
+          this.onAddOrder();
+        } else {
+          this.onUpdateOrder();
+        }
+      }
     }
 
   }
@@ -600,7 +596,6 @@ export class OrderAddEditComponent implements OnInit, OnDestroy {
   onCancel() {
     this._navCtrl.back();
   }
-
 
   async formToOrderMapping() {
     const formValue = await this.form.getRawValue();
@@ -651,8 +646,6 @@ export class OrderAddEditComponent implements OnInit, OnDestroy {
     }
 
   }
-
-
 
   ngOnDestroy() {
     this.editOrderSub.forEach((sub) => {

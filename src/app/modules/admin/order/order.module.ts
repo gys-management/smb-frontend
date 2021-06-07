@@ -22,7 +22,8 @@ import { SelectCustomerComponent } from './components/select-customer/select-cus
 import { PipeModule } from 'src/app/pipes/pipe.module';
 import { ProductDetailService } from 'src/app/services/product-detail.service';
 import { OrderController } from '../../utils/order-controller.util';
-import { ProductdetailPresentactionsheetComponent } from '../product/product-details/components/productdetail-presentactionsheet/productdetail-presentactionsheet.component';
+import { ProductdetailPresentactionsheetComponent }
+  from '../product/product-details/components/productdetail-presentactionsheet/productdetail-presentactionsheet.component';
 
 @NgModule({
   imports: [

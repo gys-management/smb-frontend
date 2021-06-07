@@ -28,7 +28,7 @@ export class ProductDetailsListComponent implements OnInit {
   filterBy = '';
   filterID = '';
 
-  columnsToDisplay = ['name', 'quantity', 'basicPrice', 'action'];
+  columnsToDisplay = ['name', 'quantity', 'sellingPrice', 'action'];
 
   constructor(
     private _pdService: ProductDetailService,

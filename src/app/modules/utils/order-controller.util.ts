@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
 import { NavController } from '@ionic/angular';
 import { ErrorConstant } from 'src/app/constants/error-constants';
 import { OrderItem, Order, OrganizationConfig } from 'src/app/models/order.model';
 import { ProductDetail } from 'src/app/models/product-details.model';
+import { MessageService } from 'src/app/services/util/messages/message.service';
 import { ToastUtilService } from 'src/app/services/util/toast/toast-util.service';
 
 @Injectable()
@@ -12,6 +12,7 @@ export class OrderController {
   constructor(
     private _toastUtilCtrl: ToastUtilService,
     private _navCtrl: NavController,
+    private _msgService: MessageService
   ) { }
 
   async checkQuanity(
@@ -22,70 +23,72 @@ export class OrderController {
     produtDetailListLocal?: ProductDetail[]
   ): Promise<boolean> {
     if (orderItem.quantity === null && checkNull) { // check the quanity is greater then one
-      this._toastUtilCtrl.presentToast(orderItem.productName + ' -- ' +
+      this._toastUtilCtrl.presentToast(orderItem.productName + ' is ' +
         ErrorConstant.ERR_UPDATE_QUANTITY_NULL, 1000);
       return Promise.resolve(false);
     } else if (orderItem.quantity != null && orderItem.quantity <= 0) {
-      this._toastUtilCtrl.presentToast(orderItem.productName + ' -- ' +
+      this._toastUtilCtrl.presentToast(orderItem.productName + ' is ' +
         ErrorConstant.ERR_UPDATE_QUANTITY, 1000);
 
       return Promise.resolve(false);
     } else if (orderItem.quantity != null && orderItem.quantity > 0
       && orderDetailLocal && produtDetailListLocal) {
-      const quantityResponse = this.quantityCheckOnAddOrUpdateOrderItem(orderDetailLocal, saveOrupdate, orderItem, produtDetailListLocal);
+      const quantityResponse = await this.quantityCheckOnAddOrUpdateOrderItem(
+        orderDetailLocal, saveOrupdate, orderItem, produtDetailListLocal);
       return Promise.resolve(quantityResponse);
     } else {
       return Promise.resolve(true);
     }
   }
 
-  quantityCheckOnAddOrUpdateOrderItem(
+  async quantityCheckOnAddOrUpdateOrderItem(
     orderDetailLocal: Order,
     saveOrupdate: boolean,
     orderItem: OrderItem,
     produtDetailListLocal: ProductDetail[]
-  ): boolean {
+  ): Promise<boolean> {
 
     // copy by value, not reference
     const productDetail = this.jsonCopy(produtDetailListLocal.find(x => x.id === orderItem.productId));
 
     if (saveOrupdate) { // Add new Product check quantity
-      return this.quantityCheckOnOrderItem(productDetail, orderItem);
+      return await this.quantityCheckOnOrderItem(productDetail, orderItem);
     } else { // Edit old product check quantity
       const existingOrderItem = orderDetailLocal.orderItems.find(x => x.productId === productDetail.id);
       if (existingOrderItem) {// check the order item already present
         productDetail.quantity = productDetail.quantity + existingOrderItem.quantity;
-        return this.quantityCheckOnOrderItem(productDetail, orderItem);
+        return await this.quantityCheckOnOrderItem(productDetail, orderItem);
       }
       else { // if new product is added
-        return this.quantityCheckOnOrderItem(productDetail, orderItem);
+        return await this.quantityCheckOnOrderItem(productDetail, orderItem);
       }
     }
 
 
   }
 
-  quantityCheckOnOrderItem(productDetail: ProductDetail, orderItem: OrderItem): boolean {
+  async quantityCheckOnOrderItem(productDetail: ProductDetail, orderItem: OrderItem): Promise<boolean> {
     if (productDetail && orderItem.quantity > productDetail.quantity) {
       const customErrorMessage = productDetail.name + ErrorConstant.ERR_INSUFFICIENT_QUANTITY +
         '.\r Available Quantity - ' + productDetail.quantity;
       this._toastUtilCtrl.presentToast(customErrorMessage, 2000);
+      // this._msgService.messageErrorAlert(null, customErrorMessage);
       return false;
     } else {
       return true;
     }
   }
 
-  checkDiscount(
+  async checkDiscount(
     orderItem: OrderItem,
     checkNull: boolean = false
-  ): boolean {
+  ): Promise<boolean> {
     if (orderItem.discountUser === null && checkNull) {
-      this._toastUtilCtrl.presentToast(orderItem.productName + ' -- ' +
+      this._toastUtilCtrl.presentToast(orderItem.productName + ' is ' +
         ErrorConstant.ERR_UPDATE_DISCOUNT_NULL, 1000);
       return false;
     } else if (orderItem.discountUser != null && orderItem.discountUser < 0) {
-      this._toastUtilCtrl.presentToast(orderItem.productName + ' -- ' +
+      this._toastUtilCtrl.presentToast(orderItem.productName + ' is ' +
         ErrorConstant.ERR_UPDATE_DISCOUNT, 1000);
       return false;
     } else {
@@ -184,30 +187,31 @@ export class OrderController {
     return +num.toFixed(2);
   }
 
-  async doubleCheckOnQuanityWhileSaving(dataSource: MatTableDataSource<OrderItem>): Promise<boolean> {
-    const result = [];
-    const orderItem = dataSource.data;
-    return new Promise((resolve, reject) => {
-      for (let index = 0; index < orderItem.length; index++) {
-        this.checkQuanity(orderItem[index], true).then(checkQuanity => {
-          result.push(checkQuanity); // push the result to array
+  // async doubleCheckOnQuanityWhileSaving(dataSource: MatTableDataSource<OrderItem>): Promise<boolean> {
+  //   const result = [];
+  //   const orderItem = dataSource.data;
+  //   return new Promise((resolve, reject) => {
+  //     for (let index = 0; index < orderItem.length; index++) {
+  //       this.checkQuanity(orderItem[index], true).then(checkQuanity => {
+  //         result.push(checkQuanity); // push the result to array
 
-          // check whether the index is last and result array dosn't contain the false
-          if (index === orderItem.length - 1 && !result.includes(false)) {
-            resolve(true);
-          } else if (!checkQuanity) {
-            resolve(false);
-          }
-        });
-      }
-    });
+  //         // check whether the index is last and result array dosn't contain the false
+  //         if (index === orderItem.length - 1 && !result.includes(false)) {
+  //           resolve(true);
+  //         } else if (!checkQuanity) {
+  //           resolve(false);
+  //         }
+  //       });
+  //     }
+  //   });
 
-  }
+  // }
 
-  doubleCheckOnDiscountWhileSaving(dataSource): boolean {
+  async doubleCheckOnDiscountWhileSaving(dataSource): Promise<boolean> {
     let result = true;
-    dataSource.data.forEach((x: OrderItem) => {
-      switch (this.checkDiscount(x, true)) {
+    dataSource.data.forEach(async (x: OrderItem) => {
+      const valueCheckDiscount = await this.checkDiscount(x, true);
+      switch (valueCheckDiscount) {
         case false:
           result = false;
           break;

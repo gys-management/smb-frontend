@@ -13,7 +13,8 @@ import { HeaderModel } from 'src/app/models/header.model';
 import { Order, OrderItem } from 'src/app/models/order.model';
 import { Organization } from 'src/app/models/organization.model';
 import { Payment } from 'src/app/models/payments/payment.model';
-import { PaymentHistoryComponent } from 'src/app/modules/shared/payment/payment-history/payment-history.component';
+import { PaymentHistoryComponent }
+  from 'src/app/modules/shared/payment/payment-history/payment-history.component';
 import { CustomerService } from 'src/app/services/customer.service';
 import { OrderService } from 'src/app/services/order.service';
 import { OrganizationService } from 'src/app/services/organization.service';
@@ -28,7 +29,7 @@ import { ModalUtilService } from 'src/app/services/util/modal/modal-util.service
   styleUrls: ['./order-view.component.scss'],
 })
 export class OrderViewComponent implements OnInit, OnDestroy {
-  headerModel = new HeaderModel(AppConstant.DETAILS, false, UrlConstant.URL_ADMIN_ORDER);
+  headerModel = new HeaderModel(AppConstant.DETAILS, false, UrlConstant.URL_ADMIN_ORDER, false,);
 
   detailOrderSub: Subscription[] = [];
   form: FormGroup;
@@ -41,10 +42,6 @@ export class OrderViewComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
     'productName',
     'price',
-    'quantity',
-    'discount',
-    'subTotal',
-    'gstAmount',
     'totalAmount'
   ];
   dataSource: MatTableDataSource<OrderItem>;

@@ -35,7 +35,7 @@ export class OrderItem {
   productId: string;
   productName: string;
   quantity?: number;
-  price: number;
+  price: number; // basicPrice
   discountUser: number;
   discountActual?: number;
   discountTax?: number;
@@ -52,6 +52,7 @@ export class OrderItem {
   basicPriceTax: number; // will get from product details
   hsnCode?: string; // will get from product details
 
+  sellingPrice: number;
   buyingPrice: number;
   margin: number;
 }

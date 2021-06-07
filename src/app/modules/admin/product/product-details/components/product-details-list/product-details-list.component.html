@@ -29,12 +29,12 @@
             </td>
           </ng-container>
 
-          <ng-container matColumnDef="basicPrice">
+          <ng-container matColumnDef="sellingPrice">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
               <ion-label color="primary"> Price </ion-label>
             </th>
             <td mat-cell *matCellDef="let element">
-              {{element.basicPrice| currency:'INR'}}
+              {{element.sellingPrice| currency:'INR'}}
             </td>
           </ng-container>
 

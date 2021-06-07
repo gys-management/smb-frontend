@@ -1,161 +1,51 @@
-.mat-column-discount,
-.mat-column-gstAmount {
-  position: relative;
+/*   dff */
+p {
+  font-size: small;
+  margin: 0px;
+
+  span {
+    display: block;
+    font-size: medium;
+    text-align: right;
+  }
 }
 
-.ion-label-bottom {
-  position: absolute;
-  font-size: 9px;
-  bottom: 5px;
-  right: 0px;
-}
-
-.select-customer-btn {
-  margin-inline-start: 0px;
-}
-
-table th.mat-header-cell,
-table td.mat-cell,
-table td.mat-footer-cell {
-  padding: 0px 2px;
+ion-card-title {
+  color: var(--ion-color-primary);
 }
 
 table tr th:first-child,
 table tr td:first-child {
   padding: 0px;
-  min-width: 70px;
-}
-
-table tr.example-detail-row {
-  height: 0;
-}
-
-.example-element-row td {
-  border-bottom-width: 0;
-}
-
-.example-element-detail {
-  overflow: hidden;
-  display: flex;
-}
-
-.add-edit-order-details-table-container {
-  padding-left: 0px;
-  padding-right: 0px;
+  min-width: 150px;
 }
 
 table ion-input {
   --padding-start: 0px;
 }
 
-table tr td.mat-cell:last-of-type.action-btn,
-table tr td.mat-footer-cell:last-of-type.action-btn,
-table tr th.mat-header-cell:last-of-type.action-btn {
-  width: 24px;
-  ion-buttons {
-    width: 24px;
-  }
-  ion-button {
-    width: 24px;
-  }
-}
-
-.mat-column-quantity {
-  text-align: center;
-  width: 30px;
-}
-
-.mat-column-discount {
-  max-width: 36px;
-  text-align: right;
-}
-
-.mat-column-price,
-.mat-column-subTotal,
-.mat-column-totalAmount {
-  text-align: right;
-  width: 68px;
-}
-
-.mat-column-gstAmount {
-  text-align: right;
-  width: 58px;
-}
-
-@media only screen and (min-width: 768px) {
-  table th.mat-header-cell,
-  table td.mat-cell,
-  table td.mat-footer-cell {
-    padding: 0px 8px;
-  }
-
-  .ion-label-bottom {
-    right: 8px;
-  }
-
-  .mat-column-price,
-  .mat-column-subTotal,
-  .mat-column-totalAmount {
-    text-align: right;
-    width: 100px;
-  }
-
-  .mat-column-quantity {
-    text-align: center;
-    width: 50px;
-  }
-
-  .mat-column-discount {
-    width: 80px;
-    text-align: right;
-  }
-
-  .mat-column-gstAmount {
-    text-align: right;
-    width: 70px;
-  }
-}
-
-@media only screen and (min-width: 992px) {
-  table th.mat-header-cell,
-  table td.mat-cell,
-  table td.mat-footer-cell {
-    padding: 0px 16px;
-  }
-
-  .ion-label-bottom {
-    right: 16px;
-  }
-
-  .mat-column-price {
-    text-align: right;
-    width: 140px;
-  }
-
-  .mat-column-subTotal,
-  .mat-column-totalAmount {
-    text-align: right;
-    width: 170px;
-  }
-
-  .mat-column-quantity {
-    text-align: center;
-    width: 80px;
-  }
-
-  .mat-column-discount {
-    width: 100px;
-    text-align: right;
-  }
-
-  .mat-column-gstAmount {
-    text-align: right;
-    width: 120px;
-  }
-}
-
 .native-input-custom {
+  max-width: 50px;
   border-color: unset;
   border-width: 0.1px;
   border-bottom-style: solid;
+}
+
+@media screen and (max-width: 576px) {
+  p {
+    font-size: x-small;
+    margin: 0px;
+
+    span {
+      display: block;
+      font-size: small;
+      text-align: right;
+    }
+  }
+
+  table tr th:first-child,
+  table tr td:first-child {
+    padding: 0px;
+    min-width: 80px;
+  }
 }

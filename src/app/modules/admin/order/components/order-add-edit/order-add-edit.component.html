@@ -121,102 +121,47 @@
               <th mat-header-cell *matHeaderCellDef>
                 <ion-label color="primary"> Name </ion-label>
               </th>
-              <td mat-cell *matCellDef="let row" [class.example-expanded-row]="expandedElement === row"
-                (click)="expandedElement = expandedElement === row ? null : row">
-                <ion-label style="cursor: pointer;">{{row.productName}}</ion-label>
+              <td mat-cell *matCellDef="let row">
+                <ion-text>{{row.productName}}</ion-text>
+                <ion-note>
+                  <p>{{row.hsnCode}}</p>
+                  <p>{{row.sellingPrice | currency:'INR'}} </p>
+                  <p>{{row.gstPercentage}}% - {{row.gstIncluded?'incl':'excl'}}</p>
+                </ion-note>
             </ng-container>
 
             <ng-container matColumnDef="price">
               <th mat-header-cell *matHeaderCellDef>
-                <ion-label color="primary"> Price </ion-label>
-              </th>
-              <td mat-cell *matCellDef="let row">
-                <!-- <ion-input type="number" readonly="true" name="price" [ngModelOptions]="{standalone: true}"
-                  [(ngModel)]="row.price" min=0 inputmode="decimal">
-                </ion-input> -->
-                {{row.price | number: '1.2-2'}}
-              </td>
-            </ng-container>
-
-            <ng-container matColumnDef="quantity">
-              <th mat-header-cell *matHeaderCellDef>
                 <ion-label color="primary"> Qty </ion-label>
               </th>
               <td mat-cell *matCellDef="let row">
-                <ion-input class="native-input-custom" type="number" name="quantity"
-                  [ngModelOptions]="{standalone: true}" [(ngModel)]="row.quantity" min="1" inputmode="decimal"
-                  (ionChange)="orderItemFieldsChange(row)">
-                </ion-input>
+                <ion-note>
+                  <p>Qty:<span>
+                      <ion-input class="native-input-custom" type="number" name="quantity"
+                        [ngModelOptions]="{standalone: true}" [(ngModel)]="row.quantity" min="1" inputmode="decimal"
+                        (ionChange)="orderItemFieldsChange(row)"></ion-input>
+                    </span>
+                  </p>
+                  <p>Discount:<span>
+                      <ion-input class="native-input-custom" type="number" name="discountUser"
+                        [ngModelOptions]="{standalone: true}" inputmode="decimal" [(ngModel)]="row.discountUser" min="0"
+                        (ionChange)="orderItemFieldsChange(row)"></ion-input>
+                    </span> </p>
+
+                </ion-note>
               </td>
             </ng-container>
-
-            <ng-container matColumnDef="discount">
-              <th mat-header-cell *matHeaderCellDef>
-                <ion-label color="primary"> Discount </ion-label>
-              </th>
-              <td mat-cell *matCellDef="let row">
-                <ion-input class="native-input-custom" type="number" name="discountUser"
-                  [ngModelOptions]="{standalone: true}" inputmode="decimal" [(ngModel)]="row.discountUser" min="0"
-                  (ionChange)="orderItemFieldsChange(row)"></ion-input>
-                <ion-label class="ion-label-bottom" *ngIf="row.discountActual>0">({{row.discountTax}})</ion-label>
-              </td>
-            </ng-container>
-
-            <ng-container matColumnDef="subTotal">
-              <th mat-header-cell *matHeaderCellDef>
-                <ion-label color="primary"> Sub-Total </ion-label>
-              </th>
-              <td mat-cell *matCellDef="let row">
-                <!-- <ion-input type="number" name="subTotal" [ngModelOptions]="{standalone: true}"
-                  [(ngModel)]="row.subTotal" readonly="true">
-                </ion-input> -->
-                {{row.subTotal | number: '1.2-2'}}
-              </td>
-            </ng-container>
-
-            <!-- <ng-container matColumnDef="gstPercentage">
-              <th mat-header-cell *matHeaderCellDef>
-                <ion-label color="primary"> GST % </ion-label>
-              </th>
-              <td mat-cell *matCellDef="let row">
-                <ion-input type="number" name="gstPercentage" readonly="true" [ngModelOptions]="{standalone: true}" inputmode="decimal"
-                  [(ngModel)]="row.gstPercentage"></ion-input>
-              </td>
-            </ng-container> -->
-
-            <ng-container matColumnDef="gstAmount">
-              <th mat-header-cell *matHeaderCellDef>
-                <ion-label color="primary"> GST </ion-label>
-              </th>
-              <td mat-cell *matCellDef="let row">
-                <!-- <ion-input type="number" name="gstAmount" readonly="true" [ngModelOptions]="{standalone: true}"
-                  inputmode="decimal" [(ngModel)]="row.gstAmount"></ion-input> -->
-                {{row.gstAmount | number: '1.2-2'}}
-                <ion-label class="ion-label-bottom">
-                  ({{row.gstIncluded?'incl':'excl'}}- {{row.gstPercentage}} %)</ion-label>
-
-              </td>
-            </ng-container>
-
-            <!-- <ng-container matColumnDef="cgstAmount">
-              <th mat-header-cell *matHeaderCellDef>
-                <ion-label color="primary"> CGST </ion-label>
-              </th>
-              <td mat-cell *matCellDef="let row">
-                <ion-input type="number" name="cgstAmount" readonly="true" [ngModelOptions]="{standalone: true}" inputmode="decimal"
-                  [(ngModel)]="row.cgstAmount" ></ion-input>
-              </td>
-            </ng-container> -->
 
             <ng-container matColumnDef="totalAmount">
               <th mat-header-cell *matHeaderCellDef>
                 <ion-label color="primary"> Total </ion-label>
               </th>
               <td mat-cell *matCellDef="let row">
-                <!-- <ion-input type="number" name="totalAmount" [ngModelOptions]="{standalone: true}"
-                  [(ngModel)]="row.totalAmount" readonly="true">
-                </ion-input> -->
-                {{row.totalAmount | number: '1.2-2'}}
+                <ion-note>
+                  <p>Sub-total:<span> {{row.subTotal | currency:'INR'}} </span> </p>
+                  <p>GST:<span> {{row.gstAmount | currency:'INR'}} </span> </p>
+                  <p>Total: <span> {{row.totalAmount | currency:'INR'}} </span></p>
+                </ion-note>
               </td>
             </ng-container>
 
