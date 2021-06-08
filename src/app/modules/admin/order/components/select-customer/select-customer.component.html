@@ -1,4 +1,4 @@
-<ionic-selectable #cusomterSelectable [(ngModel)]="customer" itemValueField="id"
+<ionic-selectable modalCssClass='modal-fullscreen' #cusomterSelectable [(ngModel)]="customer" itemValueField="id"
   itemTextField="companyName" [canSearch]="true" [hasInfiniteScroll]="true" (onChange)="customerSelectableChange()"
   (onSearch)="customerSelectableSearch($event)" (onInfiniteScroll)="getMoreCustomer($event)"
   searchPlaceholder="Search By Company Name or Phone No.">
@@ -23,13 +23,14 @@
   </ng-template>
 
   <ng-template ionicSelectableHeaderTemplate>
-    <ion-toolbar>
-      <ion-buttons slot="end">
+    <ion-toolbar color="primary">
+      <ion-buttons slot="start">
         <ion-button (click)="close()">
-          <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
+          <!-- <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon> -->
+          <ion-icon slot="icon-only" name="arrow-back-outline"> </ion-icon>
         </ion-button>
       </ion-buttons>
-      <ion-buttons slot="start">
+      <ion-buttons slot="end">
         <ion-button (click)="addCustomerURL()">
           <ion-icon name="person-add-outline"></ion-icon> &nbsp;
           <ion-label>Add Customer</ion-label>
