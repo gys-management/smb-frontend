@@ -17,6 +17,7 @@ import { ProductBrandService } from 'src/app/services/product-brand.service';
 import { ProductCategoryService } from 'src/app/services/product-category.service';
 import { ProductDetailService } from 'src/app/services/product-detail.service';
 import { MessageService } from 'src/app/services/util/messages/message.service';
+import { ModalUtilService } from 'src/app/services/util/modal/modal-util.service';
 
 @Component({
   selector: 'app-product-details-add-edit-comp',
@@ -47,7 +48,8 @@ export class ProductDetailsAddEditComponent implements OnInit {
     private _pcService: ProductCategoryService,
     private _gstService: GstService,
     private _msgService: MessageService,
-    private _navCtrl: NavController
+    private _navCtrl: NavController,
+    private _modalService: ModalUtilService
   ) { }
 
   async ngOnInit() {
@@ -58,7 +60,6 @@ export class ProductDetailsAddEditComponent implements OnInit {
 
     const actived = await this._activatedRoute.paramMap.pipe(take(1)).toPromise();
     const id = actived.get('id');
-    console.log(id);
 
     if (!id) {
       this.productDetail = new ProductDetail();
@@ -108,8 +109,7 @@ export class ProductDetailsAddEditComponent implements OnInit {
       basicPrice: new FormControl({ value: this.productDetail.basicPrice, disabled: true }),
       basicPriceTax: new FormControl({ value: this.productDetail.basicPriceTax, disabled: true }),
       gstIncluded: new FormControl(this.productDetail.gstIncluded, {
-        updateOn: 'change',
-        validators: [Validators.required],
+        updateOn: 'change'
       }),
       quantity: new FormControl(this.productDetail.quantity, {
         updateOn: 'change',
@@ -195,8 +195,14 @@ export class ProductDetailsAddEditComponent implements OnInit {
     }
   }
 
-  onCancel() {
-    this._navCtrl.back();
+  async onCancel() {
+    // If component close the modal. else back to page
+    const result = await this._modalService.isModalPresent();
+    if (result !== undefined) {
+      this._modalService.dismissPresentModal();
+    } else {
+      this._navCtrl.back();
+    }
   }
 
   private async initilize(id: string) {

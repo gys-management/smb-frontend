@@ -82,9 +82,14 @@ export class CustomerAddEditComponent implements OnInit {
     }
   }
 
-  onCancel() {
-    // this._navCtrl.navigateBack(UrlConstant.URL_ADMIN_CUSTOMER);
-    this._navCtrl.back();
+  async onCancel() {
+    // If component close the modal. else back to page
+    const result = await this._modalService.isModalPresent();
+    if (result !== undefined) {
+      this._modalService.dismissPresentModal();
+    } else {
+      this._navCtrl.back();
+    }
   }
 
   private async loadCustomerDetailById(custId: string) {

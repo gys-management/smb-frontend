@@ -30,12 +30,12 @@ export class MenuBarConstants {
         }
       ],
     },
-    {
-      title: 'Payments',
-      url: UrlConstant.URL_ADMIN_PAYMENTS,
-      icon: 'cash',
-      role: [UserRole.ADMIN, UserRole.STAFF]
-    },
+    // {
+    //   title: 'Payments',
+    //   url: UrlConstant.URL_ADMIN_PAYMENTS,
+    //   icon: 'cash',
+    //   role: [UserRole.ADMIN, UserRole.STAFF]
+    // },
     {
       title: 'Orders',
       url: UrlConstant.URL_ADMIN_ORDER,

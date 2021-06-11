@@ -1,5 +1,6 @@
 export class AppConstant {
 
+  // Storage Constants
   static readonly AUTH_DATA_STORAGE = 'AuthDataStorage';
   // static readonly HAS_LOGGED_IN = 'hasLoggedIn';
 
@@ -17,7 +18,8 @@ export class AppConstant {
   static readonly QUANTITY = 'Quantity';
   static readonly DETAILS = 'Details';
   static readonly DEALER_INCENTIVE = 'Dealer Incentive';
-
+  static readonly SUCCESS = 'success';
+  static readonly CANCEL = 'cancel';
 
   static readonly DASHBOARD = 'Dashboard';
 
@@ -26,8 +28,6 @@ export class AppConstant {
 
   // Customer
   static readonly CUSTOMER = 'Customer';
-  // static readonly DEALER_SEGMENT_DETAIL = 'Detail';
-  // static readonly DEALER_SEGMENT_ORDER = 'Order';
 
   // Route
   static readonly ROUTE = 'Route';
@@ -45,6 +45,9 @@ export class AppConstant {
   static readonly ORDER_ITEM = 'OrderItem';
   static readonly INCENTIVE_MONTHLY_DATE = 1;
 
+  // Internet Error Messages
+  static readonly NETWORK_ERROR = 'Network Error';
+  static readonly ERR_INTERNET = 'No internet! Check your internet conection';
 
   // CSS Classname
   static readonly CSS_MODAL_75_PER_SCREEN = 'modal-75-percentage-screen';

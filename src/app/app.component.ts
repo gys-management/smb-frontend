@@ -9,7 +9,7 @@ import { Organization } from './models/organization.model';
 import { OrganizationService } from './services/organization.service';
 import { AuthService } from './services/util/auth/auth.service';
 import { MenuBarService } from './services/util/menu/menu-bar.service';
-import { MessageService } from './services/util/messages/message.service';
+import { NetworkUtilService } from './services/util/network/network-util.service';
 import { SpinnerService } from './services/util/spinner/spinner.service';
 import { ToastUtilService } from './services/util/toast/toast-util.service';
 
@@ -36,7 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private _navCtrl: NavController,
     private _modalCtrl: ModalController,
     private _orgService: OrganizationService,
-    private _msgService: MessageService,
+    private _networkUtilService: NetworkUtilService,
     private _spinnerService: SpinnerService
   ) {
     this.initializeApp();
@@ -54,7 +54,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // }
 
-  initializeApp() {
+  async initializeApp() {
+    await this._networkUtilService.getNetWorkStatus();
+
     this._platform.ready().then(() => {
       // this._statusBar.styleDefault();
       // this._splashScreen.hide();

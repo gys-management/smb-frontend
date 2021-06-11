@@ -1,0 +1,15 @@
+<app-header [headerModel]="headerModel"></app-header>
+
+
+<ion-content class="ion-text-center">
+  <ion-img [src]="imageURL" [alt]="errorMessage"></ion-img>
+  <h2>
+    Once internet is back. Kindly click the reload button!!!
+  </h2>
+  <br />
+  <ion-button color="primary" class="ion-text-center" (click)="navBack()">
+    Reload
+  </ion-button>
+
+
+</ion-content>

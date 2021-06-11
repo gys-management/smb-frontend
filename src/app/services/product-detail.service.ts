@@ -5,7 +5,9 @@ import { HttpMethods } from '../models/http';
 import { ProductDetail, ProductDetailResponse } from '../models/product-details.model';
 import { HttpUtilService } from './util/http/http-util.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ProductDetailService {
 
   constructor(
@@ -25,7 +27,7 @@ export class ProductDetailService {
       .set('page', pageNumber.toString())
       .set('size', pageSize.toString())
       .set('sortby', sortFiled)
-      .set('sortOrder', sortOrder.toUpperCase())
+      .set('sortorder', sortOrder.toUpperCase())
       .set('searchterm', searchTerm)
       .set('filterBy', filterBy)
       .set('filterId', filterId);
@@ -81,6 +83,25 @@ export class ProductDetailService {
       null,
       null,
       { excludeAuthHeader: false }
+    );
+  }
+
+  async updateProductDetailQuantity(id, quantity): Promise<ProductDetail> {
+    return await this._http.makeRequest(
+      `${ApiUrlContant.PRODUCT_DETAILS}/${id}/quantity`,
+      HttpMethods.PUT,
+      { quantity },
+      null,
+      null,
+      { excludeAuthHeader: false }
+    );
+  }
+
+
+  async fetchProductDetailByIdsList(id: string[]): Promise<ProductDetail[]> {
+    return await this._http.makeRequest(
+      `${ApiUrlContant.PRODUCT_DETAILS}/${id}/list`,
+      HttpMethods.GET,
     );
   }
 }

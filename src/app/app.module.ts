@@ -17,9 +17,13 @@ import { DirectivesModule } from './directives/directives.module';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
+import { NetworkUtilService } from './services/util/network/network-util.service';
+import { SharedModule } from './modules/shared/shared.module';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent
+  ],
   entryComponents: [],
   imports: [
     BrowserModule,
@@ -38,9 +42,13 @@ import { MatSelectModule } from '@angular/material/select';
     DirectivesModule,
     OverlayModule,
     MatTooltipModule,
-    MatSelectModule
+    MatSelectModule,
+    SharedModule
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, GooglePlus],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    GooglePlus,
+    NetworkUtilService
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

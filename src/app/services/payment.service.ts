@@ -44,4 +44,16 @@ export class PaymentService {
       { hideSpinner: true }
     );
   }
+
+
+  async getPaymentByOrderId(orderId: string): Promise<Payment[]> {
+    return await this._httpUtilService.makeRequest(
+      `${ApiUrlContant.PAYMENT}/order/${orderId}`,
+      HttpMethods.GET,
+      null,
+      null,
+      null,
+      { hideSpinner: true }
+    );
+  }
 }

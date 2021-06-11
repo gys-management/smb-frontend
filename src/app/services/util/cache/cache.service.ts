@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { AuthModel } from 'src/app/models/auth/auth.model';
+import { OrganizationConfig } from 'src/app/models/order.model';
 import { Organization } from 'src/app/models/organization.model';
 
 /*
@@ -16,6 +17,7 @@ import { Organization } from 'src/app/models/organization.model';
 export class CacheService {
   authDetails = new BehaviorSubject<AuthModel>(null);
   organization = new BehaviorSubject<Organization>(null);
+  orgConfig = new BehaviorSubject<OrganizationConfig>(null);
 
 
   constructor() { }

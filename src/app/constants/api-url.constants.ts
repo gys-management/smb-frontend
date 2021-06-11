@@ -2,8 +2,10 @@ export class ApiUrlContant {
   static readonly LOGIN = '/login';
   static readonly STAFFS = '/staffs';
   static readonly ORGANIZATION = '/organization';
+  static readonly ORG_CONFIG = '/configuration';
   static readonly CUSTOMER = '/customers';
   static readonly GST = '/gst';
+  static readonly ORDERS = '/orders';
 
 
   static readonly PRODUCT_CATEGORY = '/productCategory';

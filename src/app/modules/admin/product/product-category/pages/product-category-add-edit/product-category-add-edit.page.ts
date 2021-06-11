@@ -40,7 +40,6 @@ export class ProductCategoryAddEditPage implements OnInit {
 
     const actived = await this._activatedRoute.paramMap.pipe(take(1)).toPromise();
     const id = actived.get('id');
-    console.log(id);
 
     if (!id) {
       this.isEdit = false;

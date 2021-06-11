@@ -10,7 +10,7 @@ import { HeaderModel } from 'src/app/models/header.model';
   styleUrls: ['./product-details.page.scss'],
 })
 export class ProductDetailsPage implements OnInit {
-  headerModel = new HeaderModel(AppConstant.PRODUCT, true, UrlConstant.URL_ADMIN_PRODUCTS);
+  headerModel = new HeaderModel(AppConstant.PRODUCT, true, UrlConstant.URL_ADMIN_PRODUCTS_DETAILS);
 
   constructor(
     private _navCtrl: NavController

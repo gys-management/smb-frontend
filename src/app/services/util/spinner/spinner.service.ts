@@ -35,7 +35,7 @@ export class SpinnerService {
     await loadinEl.present();
     const spinnerId = `${Date.now()}_${this._spinnerIdToElMap.size}`;
     this._spinnerIdToElMap.set(spinnerId, loadinEl);
-    this._logger.debug(
+    LoggerService.debug(
       `presentSpinner() :: spinner count :: ${this._spinnerIdToElMap.size}`
     );
     return spinnerId;
@@ -46,7 +46,7 @@ export class SpinnerService {
       spinnerId
     );
     this._spinnerIdToElMap.delete(spinnerId);
-    this._logger.debug(
+    LoggerService.debug(
       `dismissSpinner() :: spinner count :: ${this._spinnerIdToElMap.size}`
     );
     await loadingEl.dismiss();

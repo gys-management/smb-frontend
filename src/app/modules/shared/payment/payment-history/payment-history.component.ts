@@ -22,7 +22,7 @@ export class PaymentHistoryComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  headerModel = new HeaderModel(AppConstant.PAYMENT, false, null, true);
+  headerModel = new HeaderModel(AppConstant.PAYMENT, false, null, false);
 
   paymentListSub: Subscription[] = [];
 
