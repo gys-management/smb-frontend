@@ -13,5 +13,7 @@ export class ApiUrlContant {
   static readonly PRODUCT_DETAILS = '/productDetails';
 
   static readonly PAYMENT = '/payments';
+  static readonly PRODUCT_CHART = '/product-chart';
+  static readonly DASHBOARDS = '/dashboards';
 
 }

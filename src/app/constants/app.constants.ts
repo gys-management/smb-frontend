@@ -1,3 +1,5 @@
+import { ChartOptions, ChartType } from 'chart.js';
+
 export class AppConstant {
 
   // Storage Constants
@@ -52,6 +54,54 @@ export class AppConstant {
   // CSS Classname
   static readonly CSS_MODAL_75_PER_SCREEN = 'modal-75-percentage-screen';
 
+  // Dashboard
+  static readonly TOP_SELLING_PRODUCT_DEFAULT_COUNT = 5;
+  static readonly PRODUCT_DETAILS_CHART_LEGEND_TITLE = 'Number of Products Sold';
+  static readonly ORDER_COUNT_CHART_LEGEND_TITLE = 'Number of Orders';
+
+  // Default chart configs.
+  static readonly DEFAULT_CHART_OPTIONS: ChartOptions = {
+    responsiveAnimationDuration: 2000,
+    animation: {},
+    responsive: true
+  };
+  static readonly CHART_TYPE: {
+    [key: string]: ChartType;
+  } = {
+      LINE_CHART: 'line',
+      PIE_CHART: 'pie',
+      BAR_CHART: 'bar',
+      DOUGNHUT_CHART: 'doughnut',
+    };
+  static readonly CHART_COLOR: {
+    [key: string]: string;
+  } = {
+      PRIMARY: 'rgba(56,128,255,0.8)',
+      SECONDARY: 'rgba(61,194,255,0.8)',
+      TERTIARY: 'rgba(82,96,255,0.8)',
+      SUCCESS: 'rgba(45,211,111,0.8)',
+      WARNING: 'rgba(255,196,9,0.8)',
+      DANGER: 'rgba(235,68,90,0.8)',
+      DARK: 'rgba(34,36,40,0.8)',
+      MEDIUM: 'rgba(146,148,156,0.8)',
+      LIGHT: 'rgba(244,245,248,0.8)',
+      CYAN: 'rgba(28,130,130,0.8)',
+      STEEL_BLUE: 'rgba(123,104,238,0.8)',
+
+      BG_PRIMARY: 'rgba(56,128,255,0.5)',
+      BG_SECONDARY: 'rgba(61,194,255,0.5)',
+      BG_TERTIARY: 'rgba(82,96,255,0.5)',
+      BG_SUCCESS: 'rgba(45,211,111,0.5)',
+      BG_WARNING: 'rgba(255,196,9,0.5)',
+      BG_DANGER: 'rgba(235,68,90,0.5)',
+      BG_DARK: 'rgba(34,36,40,0.5)',
+      BG_MEDIUM: 'rgba(146,148,156,0.5)',
+      BG_LIGHT: 'rgba(244,245,248,0.5)',
+      BG_CYAN: 'rgba(28,130,130,0.5)',
+      BG_STEEL_BLUE: 'rgba(123,104,238,0.5)',
+    };
+
+
 
   static readonly countryList: string[] = ['India'];
   static readonly stateList: string[] = [
@@ -93,6 +143,8 @@ export class AppConstant {
     'Uttarakhand',
     'West Bengal'
   ];
+
+
 
   static reload() {
     document.location.reload();
