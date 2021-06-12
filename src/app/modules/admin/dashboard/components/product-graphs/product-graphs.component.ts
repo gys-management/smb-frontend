@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartDataSets, ChartOptions } from 'chart.js';
-import { Label, Colors } from 'ng2-charts';
+import { Label, Colors, SingleDataSet } from 'ng2-charts';
 import { Subscription } from 'rxjs';
 import { AppConstant } from 'src/app/constants/app.constants';
 import { OrderChartData } from 'src/app/models/order.model';
@@ -8,6 +8,7 @@ import { TopSellerProductsChartData } from 'src/app/models/topSellerProductsChar
 import { CommonUtils } from 'src/app/modules/utils/common.utils';
 import { DashboardService } from 'src/app/services/dashboard.service';
 import { OrderService } from 'src/app/services/order.service';
+import { LoggerService } from 'src/app/services/util/logger/logger.service';
 
 @Component({
   selector: 'app-product-graphs',
@@ -32,9 +33,12 @@ export class ProductGraphsComponent implements OnInit {
 
   productDetailsChartLabel: Label[];
   productDetailsChartData: ChartDataSets[];
-  productDetailsChartColors: Colors[] = [{
-    backgroundColor: this.CHART_COLOR.TERTIARY,
-  }];
+  productDetailsChartColors: Colors[] = [
+    { backgroundColor: this.CHART_COLOR.SECONDARY },
+    { backgroundColor: this.CHART_COLOR.TERTIARY },
+    { backgroundColor: this.CHART_COLOR.SUCCESS },
+    { backgroundColor: this.CHART_COLOR.WARNING },
+  ];
 
   productCategoryChartLabel: Label[];
   productCategoryChartData: ChartDataSets[];
@@ -83,6 +87,8 @@ export class ProductGraphsComponent implements OnInit {
     }
   };
 
+  orderDateRange: string;
+
   constructor(
     private _dashboardService: DashboardService,
     private _orderService: OrderService,
@@ -104,57 +110,48 @@ export class ProductGraphsComponent implements OnInit {
   }
 
   populateProductDetailsChart({ productNameToQtyMap }: TopSellerProductsChartData) {
-    const productName: string[] = [];
-    const productDetailsQty: number[] = [];
+    const localChart: ChartDataSets[] = [];
     for (const key in productNameToQtyMap) {
       if (productNameToQtyMap.hasOwnProperty(key)) {
-        productName.push(key);
-        productDetailsQty.push(productNameToQtyMap[key]);
+        localChart.push({
+          data: [productNameToQtyMap[key]],
+          label: key
+        });
       }
     }
 
     // Populate the processed response data to the global chart data object.
-    this.productDetailsChartLabel = productName;
-    this.productDetailsChartData = [{
-      data: productDetailsQty,
-      label: AppConstant.PRODUCT_DETAILS_CHART_LEGEND_TITLE,
-    }];
+    this.productDetailsChartData = localChart;
   }
 
   populateProductCategoryChart({ productCategoryToQtyMap }: TopSellerProductsChartData) {
-    const productCategory: string[] = [];
-    const productCategoryQty: number[] = [];
+    const localChart: ChartDataSets[] = [];
     for (const key in productCategoryToQtyMap) {
       if (productCategoryToQtyMap.hasOwnProperty(key)) {
-        productCategory.push(key);
-        productCategoryQty.push(productCategoryToQtyMap[key]);
+        localChart.push({
+          data: [productCategoryToQtyMap[key]],
+          label: key
+        });
       }
     }
 
     // Populate the processed response data to the global chart data object.
-    this.productCategoryChartLabel = productCategory;
-    this.productCategoryChartData = [{
-      data: productCategoryQty,
-      label: AppConstant.PRODUCT_DETAILS_CHART_LEGEND_TITLE,
-    }];
+    this.productCategoryChartData = localChart;
   }
 
   populateProductBrandChart({ productBrandToQtyMap }: TopSellerProductsChartData) {
-    const productBrand: string[] = [];
-    const productBrandQty: number[] = [];
+    const localChart: ChartDataSets[] = [];
     for (const key in productBrandToQtyMap) {
       if (productBrandToQtyMap.hasOwnProperty(key)) {
-        productBrand.push(key);
-        productBrandQty.push(productBrandToQtyMap[key]);
+        localChart.push({
+          data: [productBrandToQtyMap[key]],
+          label: key
+        });
       }
     }
 
     // Populate the processed response data to the global chart data object.
-    this.productBrandChartLabel = productBrand;
-    this.productBrandChartData = [{
-      data: productBrandQty,
-      label: AppConstant.PRODUCT_DETAILS_CHART_LEGEND_TITLE,
-    }];
+    this.productBrandChartData = localChart;
   }
 
   populateOrderCountChart({ orderDateToCountMap }: OrderChartData) {
@@ -168,6 +165,8 @@ export class ProductGraphsComponent implements OnInit {
       }
     }
 
+    this.orderDateRange = `${orderDates[0]}-${orderDates[orderDates.length - 1]}`;
+
     // Populate the processed response data to the global chart data object.
     this.orderCountChartLabel = orderDates;
     this.orderCountChartData = [{
@@ -175,6 +174,11 @@ export class ProductGraphsComponent implements OnInit {
       label: AppConstant.ORDER_COUNT_CHART_LEGEND_TITLE,
       lineTension: 0
     }];
+  }
+
+  // Note: Will implement in next sprint
+  filterIcon() {
+
   }
 
 }
