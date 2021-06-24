@@ -96,6 +96,7 @@ export class ProductGraphsComponent implements OnInit {
 
   ngOnInit() {
     this.fetchTopSellingProducts();
+    this.fetchOrderChartData();
   }
 
   async fetchTopSellingProducts() {
@@ -103,10 +104,11 @@ export class ProductGraphsComponent implements OnInit {
     this.populateProductDetailsChart(productsChartData);
     this.populateProductCategoryChart(productsChartData);
     this.populateProductBrandChart(productsChartData);
+  }
 
+  async fetchOrderChartData() {
     const ordercountChartData = await this._orderService.fetchOrderCountChartData();
     this.populateOrderCountChart(ordercountChartData);
-
   }
 
   populateProductDetailsChart({ productNameToQtyMap }: TopSellerProductsChartData) {
