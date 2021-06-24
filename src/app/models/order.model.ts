@@ -71,3 +71,9 @@ export class OrganizationConfig {
   isStaffLoginEnabled: boolean;
   isCustomerLoginEnabled: boolean;
 }
+
+export class OrderChartData {
+  orderDateToCountMap: {
+    [key: string]: number;
+  };
+}

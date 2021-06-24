@@ -96,5 +96,8 @@ export class ErrorConstant {
   // Internet
   static readonly ERR_INTERNET = 'Check your Internet Connection!!!';
 
+  // Dashboard
+  static readonly ERR_FETCH_COUNTS = 'Error while Fetching Value. Kindly try again';
+
 
 }

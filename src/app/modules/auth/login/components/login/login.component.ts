@@ -10,6 +10,7 @@ import { LoginModel } from 'src/app/models/auth/login.model';
 import { OrganizationService } from 'src/app/services/organization.service';
 import { take } from 'rxjs/operators';
 import { MessageService } from 'src/app/services/util/messages/message.service';
+import { AppConstant } from 'src/app/constants/app.constants';
 
 @Component({
   selector: 'app-login-comp',
@@ -128,7 +129,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       const orgSub = this._orginazationService.fetchOrginzationById().pipe(take(1)).subscribe();
       this.loginSub.push(orgSub);
-    }, 1000);
+      AppConstant.reload();
+
+    }, 10);
 
     // const configSub = this._configurationServices.fetchConfigurationDetails().subscribe();
     // this.loginSub.push(configSub);

@@ -4,7 +4,7 @@ import { take } from 'rxjs/operators';
 import { ApiUrlContant } from '../constants/api-url.constants';
 import { OrderStatus } from '../enum/order-status.enum';
 import { HttpMethods } from '../models/http';
-import { Order } from '../models/order.model';
+import { Order, OrderChartData } from '../models/order.model';
 import { PaginatedResponse } from '../models/paginatedResponse.model';
 import { HttpUtilService } from './util/http/http-util.service';
 
@@ -122,6 +122,13 @@ export class OrderService {
     return await this._http.makeRequest(
       `${ApiUrlContant.ORDERS}/${id}/statusCompleted`,
       HttpMethods.PUT
+    );
+  }
+
+  async fetchOrderCountChartData(): Promise<OrderChartData> {
+    return await this._http.makeRequest(
+      `${ApiUrlContant.ORDERS}/chart-data`,
+      HttpMethods.GET
     );
   }
 
