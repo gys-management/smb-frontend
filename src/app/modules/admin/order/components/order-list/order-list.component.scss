@@ -1,12 +1,15 @@
 p {
   font-size: small;
-  margin: 1px;
+  margin: 1.5px;
 
   span {
-    // display: block;
     font-size: small;
     text-align: left;
     color: var(--ion-color-step-350, rgba(29, 29, 29, 0.87));
+  }
+
+  ion-note {
+    font-size: small;
   }
 }
 
@@ -17,9 +20,14 @@ p {
 
     span {
       display: block;
-      font-size: small;
+      font-size: x-small;
       text-align: left;
       color: var(--ion-color-step-350, rgba(0, 0, 0, 0.87));
+    }
+
+    ion-note {
+      display: block;
+      font-size: x-small;
     }
   }
 }

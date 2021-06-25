@@ -76,7 +76,21 @@ export class OrderListComponent implements OnInit {
         this.paginator.pageIndex,
         this.paginator.pageSize
       );
-      this.dataSource = new MatTableDataSource(result.responseDataList);
+      const orderList: Order[] = result.responseDataList;
+      orderList.map((order: Order) => {
+        if (order.orderStatus === OrderStatus.CANCELLED) {
+          order.color = 'danger';
+        } else if (order.orderStatus === OrderStatus.COMPLETED) {
+          order.color = 'secondary';
+        } else if (order.orderStatus === OrderStatus.PAID) {
+          order.color = 'success';
+        } else {
+          order.color = 'primary';
+        }
+      });
+      this.dataSource = new MatTableDataSource(orderList);
+
+
       this.resultsLength = result.totalCount;
       this.isLoadingResults = false;
     } catch {

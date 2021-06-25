@@ -29,6 +29,9 @@ export class Order {
   total: number;
   roundOffAmount: number;
   orderMargin: number;
+
+  // ui fields
+  color?: string;
 }
 
 

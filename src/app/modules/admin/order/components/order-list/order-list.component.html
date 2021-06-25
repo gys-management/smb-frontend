@@ -128,7 +128,8 @@
       <td mat-cell *matCellDef="let row">
         {{row.companyName | titlecase}}
         <ion-note>
-          <p>Status: <span>{{row.orderStatus | titlecase}}</span> </p>
+          <p>Status: <ion-note [color]="row.color">{{row.orderStatus | titlecase}}</ion-note>
+          </p>
         </ion-note>
       </td>
     </ng-container>
