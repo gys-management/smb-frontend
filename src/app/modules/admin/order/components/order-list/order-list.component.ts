@@ -11,6 +11,8 @@ import { SuccessConstants } from 'src/app/constants/success-constants';
 import { UrlConstant } from 'src/app/constants/url.constants';
 import { OrderStatus } from 'src/app/enum/order-status.enum';
 import { Order } from 'src/app/models/order.model';
+import { Payment } from 'src/app/models/payments/payment.model';
+import { PaymentAddComponent } from 'src/app/modules/shared/payment/payment-add/payment-add.component';
 import { OrderService } from 'src/app/services/order.service';
 import { ActionSheetUtilService } from 'src/app/services/util/actionSheet/action-sheet-util.service';
 import { AlertUtilService } from 'src/app/services/util/alert/alert-util.service';
@@ -149,7 +151,9 @@ export class OrderListComponent implements OnInit {
         text: 'Paid',
         icon: 'cash-outline',
         cssClass: 'action-sheet-success',
-        handler: () => { }
+        handler: () => {
+          this.paidAmt(order);
+        }
       });
     }
 
@@ -206,7 +210,7 @@ export class OrderListComponent implements OnInit {
   }
 
   async cancelOrder(id: string) {
-    await this._orderService.updateOrderStatus(id, OrderStatus.CANCELLED);
+    await this._orderService.cancelOrder(id);
     try {
       this.fetchAllOrders();
       this._msgService.messageSuccessToast(SuccessConstants.SUCCESS_ORDER_CANCEL);
@@ -217,7 +221,7 @@ export class OrderListComponent implements OnInit {
 
 
   async completeOrder(id: string) {
-    await this._orderService.updateOrderStatus(id, OrderStatus.COMPLETED);
+    await this._orderService.completedOrder(id);
     try {
       this.fetchAllOrders();
       this._msgService.messageSuccessToast(SuccessConstants.SUCCESS_ORDER_CANCEL);
@@ -226,6 +230,27 @@ export class OrderListComponent implements OnInit {
     }
   }
 
+  async paidAmt(order: Order) {
+    const result = await this._modalService.presentModalNew({
+      component: PaymentAddComponent
+    });
+    if (result.role === AppConstant.CONFIRM_MODAL) {
+      const paymentResult: Payment = result.data;
+
+      order.amountPaid = paymentResult.amount;
+      order.paymentMode = paymentResult.paymentMode;
+      order.paymentReference = paymentResult.paymentReference;
+      // order.paymentDate = paymentResult.paymentDate;
+
+      await this._orderService.payAmtForOrder(order.id, order);
+      try {
+        this.fetchAllOrders();
+        this._msgService.messageSuccessToast(SuccessConstants.SUCCESS_ORDER_PAYMENT);
+      } catch (error) {
+        this._msgService.messageErrorToast(error);
+      }
+    }
+  }
 
 }
 

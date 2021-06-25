@@ -19,6 +19,8 @@ export class SuccessConstants {
   static readonly SUCCESS_UPDATE_CONFIG = 'Configuration settings are updated successfully';
 
   // Order
+  static readonly SUCCESS_ORDER_PAYMENT = 'Payment is updated successfully for the Order';
+
   static readonly SUCCESS_ORDER_CANCEL = 'Order is Canceled successfully';
   static readonly SUCCESS_ORDER_COMPLETED = 'Order is Completed successfully';
   static readonly SUCCESS_DELETED_ORDER_ITEM = 'You have deleted the product ';

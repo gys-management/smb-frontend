@@ -24,6 +24,7 @@ export class Order {
   amountPaid: number;
   paymentMode?: PaymentMode;
   paymentReference: string;
+  paymentDate: Date;
 
   total: number;
   roundOffAmount: number;

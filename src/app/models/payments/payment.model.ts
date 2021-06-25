@@ -6,6 +6,7 @@ export class Payment {
   paymentMode: PaymentMode;
   customerId: string;
   paymentReference: string;
+  paymentDate: Date;
 }
 
 export class PaymentTotalResponse {

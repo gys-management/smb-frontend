@@ -87,6 +87,8 @@ export class ErrorConstant {
   static readonly ERR_EMAIL_SENDING = 'Error while sending Email. Kindly try again';
   static readonly ERR_EDITING_ORDERS = 'Can\'t edit completed/cancelled/Paid orders';
 
+  // Payment
+  static readonly ERR_PAYMENT_AMOUNT_INVALID = 'The payment amount is greater than the order value';
 
   // Org config
   static readonly ERR_FETCH_CONFIG = 'Error while fetching configuration. kindly try agian';

@@ -83,10 +83,10 @@ export class OrderService {
     );
   }
 
-  async deleteOrder(id: string): Promise<Order> {
+  async cancelOrder(id: string): Promise<Order> {
     return await this._http.makeRequest(
-      `${ApiUrlContant.ORDERS}/${id}`,
-      HttpMethods.DELETE,
+      `${ApiUrlContant.ORDERS}/${id}/cancel`,
+      HttpMethods.PUT,
       null,
       null,
       null,
@@ -117,11 +117,18 @@ export class OrderService {
     );
   }
 
-  async completedOrder(id, order: Order): Promise<Order> {
-
+  async completedOrder(id: string): Promise<Order> {
     return await this._http.makeRequest(
-      `${ApiUrlContant.ORDERS}/${id}/statusCompleted`,
+      `${ApiUrlContant.ORDERS}/${id}/complete`,
       HttpMethods.PUT
+    );
+  }
+
+  async payAmtForOrder(id: string, order: Order): Promise<Order> {
+    return await this._http.makeRequest(
+      `${ApiUrlContant.ORDERS}/${id}/payment`,
+      HttpMethods.PUT,
+      order
     );
   }
 
