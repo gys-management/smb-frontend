@@ -84,8 +84,7 @@ export class ProductDetailsAddEditComponent implements OnInit {
         validators: [Validators.required],
       }),
       hsnCode: new FormControl(this.productDetail.hsnCode, {
-        updateOn: 'change',
-        validators: [Validators.required],
+        updateOn: 'change'
       }),
       description: new FormControl(this.productDetail.description, {
         updateOn: 'change',

@@ -30,19 +30,27 @@ export class OrderListComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('mySearchBar', { static: true }) searchbar: IonSearchbar;
 
-
+  orderStatus = OrderStatus;
   dataSource: MatTableDataSource<Order>;
+
+  // columnsToDisplay: string[] = [
+  //   'orderNumber',
+  //   'companyName',
+  //   'finalAmount',
+  //   'amountPaid',
+  //   'orderedDate',
+  //   'orderStatus',
+  //   'action'];
 
   columnsToDisplay: string[] = [
     'orderNumber',
     'companyName',
-    'finalAmount',
-    'amountPaid',
-    'orderedDate',
-    'orderStatus',
+    'date',
+    'amt',
     'action'];
   isLoadingResults = false;
   resultsLength = 0;
+
 
   constructor(
     private _navCtrl: NavController,

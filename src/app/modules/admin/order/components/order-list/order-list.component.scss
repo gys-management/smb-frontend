@@ -1,0 +1,25 @@
+p {
+  font-size: small;
+  margin: 1px;
+
+  span {
+    // display: block;
+    font-size: small;
+    text-align: left;
+    color: var(--ion-color-step-350, rgba(29, 29, 29, 0.87));
+  }
+}
+
+@media screen and (max-width: 576px) {
+  p {
+    font-size: xx-small;
+    margin: 1px;
+
+    span {
+      display: block;
+      font-size: small;
+      text-align: left;
+      color: var(--ion-color-step-350, rgba(0, 0, 0, 0.87));
+    }
+  }
+}
