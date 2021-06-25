@@ -22,22 +22,11 @@ export class ErrorConstant {
   static readonly ERR_UNAUTHORIZED_EXCEPTION = 'The user does not have access to the requested resource';
 
   // Role
-  static readonly ERR_ROLE_NOT_FOUND = 'The requested role does not exists';
 
   // Staff Error
-  static readonly ERR_STAFF_NOT_FOUND = 'The requested staff does not exists';
-
-  // Dealer Error
-  static readonly ERR_DEALER_NOT_FOUND = 'The requested dealer does not exists';
-
-  // Route
-  static readonly ERR_ROUTE_NOT_FOUND = 'The requested route does not exists';
 
   // Product
-  static readonly ERR_PRODUCT_NOT_FOUND = 'The requested product does not exists';
 
-  // Volume Unit
-  static readonly ERR_VOLUME_UNIT_NOT_FOUND = 'The requested volume unit does not exists';
 
   // Gst
   static readonly ERR_GST_NOT_FOUND = 'The requested gst does not exists';
@@ -88,7 +77,6 @@ export class ErrorConstant {
   static readonly ERR_EDITING_ORDERS = 'Can\'t edit completed/cancelled/Paid orders';
 
   // Payment
-  static readonly ERR_PAYMENT_AMOUNT_INVALID = 'The payment amount is greater than the order value';
 
   // Org config
   static readonly ERR_FETCH_CONFIG = 'Error while fetching configuration. kindly try agian';
@@ -101,5 +89,14 @@ export class ErrorConstant {
   // Dashboard
   static readonly ERR_FETCH_COUNTS = 'Error while Fetching Value. Kindly try again';
 
+  // server return Errors
+  static readonly ERR_CUSTOMER_NOT_FOUND = 'The requested customer does not exists';
+  static readonly ERR_INVALID_ORDERSTATUS = 'Order status is invalid';
+  static readonly ERR_ORDER_NOT_FOUND = 'The requested order does not exists';
+  static readonly ERR_ORGANIZATION_NOT_FOUND = 'The requested organization does not exists';
+  static readonly ERR_PRODUCT_NOT_FOUND = 'The requested product does not exists';
+  static readonly ERR_STAFF_NOT_FOUND = 'The requested staff does not exists';
+  static readonly ERR_ROLE_NOT_FOUND = 'The requested role does not exists';
+  static readonly ERR_PAYMENT_AMOUNT_INVALID = 'The payment amount is greater than the order value';
 
 }

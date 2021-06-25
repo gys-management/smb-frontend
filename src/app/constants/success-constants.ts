@@ -25,4 +25,8 @@ export class SuccessConstants {
   static readonly SUCCESS_ORDER_COMPLETED = 'Order is Completed successfully';
   static readonly SUCCESS_DELETED_ORDER_ITEM = 'You have deleted the product ';
 
+  // Payment
+  static readonly SUCCESS_PAYMENT = 'Payment is updated successfully';
+
+
 }

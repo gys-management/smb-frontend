@@ -5,10 +5,17 @@ import { MatTableDataSource } from '@angular/material/table';
 import { IonSearchbar, NavController } from '@ionic/angular';
 import { merge } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap, startWith } from 'rxjs/operators';
+import { AppConstant } from 'src/app/constants/app.constants';
+import { SuccessConstants } from 'src/app/constants/success-constants';
 import { UrlConstant } from 'src/app/constants/url.constants';
 import { Customer, CustomerResponse } from 'src/app/models/customer.model';
+import { Payment } from 'src/app/models/payments/payment.model';
+import { PaymentAddComponent } from 'src/app/modules/shared/payment/payment-add/payment-add.component';
 import { CustomerService } from 'src/app/services/customer.service';
+import { PaymentService } from 'src/app/services/payment.service';
 import { ActionSheetUtilService } from 'src/app/services/util/actionSheet/action-sheet-util.service';
+import { MessageService } from 'src/app/services/util/messages/message.service';
+import { ModalUtilService } from 'src/app/services/util/modal/modal-util.service';
 
 @Component({
   selector: 'app-customer-list',
@@ -28,8 +35,11 @@ export class CustomerListComponent implements OnInit {
 
   constructor(
     private _customerService: CustomerService,
+    private _paymentService: PaymentService,
     private _navCtrl: NavController,
-    private _actionService: ActionSheetUtilService
+    private _actionService: ActionSheetUtilService,
+    private _modalService: ModalUtilService,
+    private _msgService: MessageService
   ) { }
 
   async ngOnInit() {
@@ -45,7 +55,7 @@ export class CustomerListComponent implements OnInit {
           icon: 'cash-outline',
           cssClass: 'action-sheet-google',
           handler: () => {
-            // this.updateAmountAlert(element);
+            this.updateMiscAmount(element);
           }
         },
         {
@@ -133,6 +143,23 @@ export class CustomerListComponent implements OnInit {
 
     this.customerDataSource = new MatTableDataSource(customerList.customers);
     this.resultsLength = customerList.totalCount;
+  }
+
+  private async updateMiscAmount(customer: Customer) {
+    const result = await this._modalService.presentModalNew({
+      component: PaymentAddComponent
+    });
+    if (result.role === AppConstant.CONFIRM_MODAL) {
+      const paymentResult: Payment = result.data;
+      paymentResult.customerId = customer.id;
+      await this._paymentService.addMiscellaneousPayment(paymentResult);
+      try {
+        this.fetchAllCustomers();
+        this._msgService.messageSuccessToast(SuccessConstants.SUCCESS_PAYMENT);
+      } catch (error) {
+        this._msgService.messageErrorToast(error);
+      }
+    }
   }
 
 }
