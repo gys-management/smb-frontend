@@ -17,9 +17,9 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() { }
 
-  dismissComp() {
+  async dismissComp() {
     // this._modalSerice.dismissPresentModal(null, AppConstant.CANCEL_MODAL);
-    this._customBackButton.dismissComp();
+    await this._customBackButton.dismissComp();
   }
 
   async backButton() {
@@ -34,7 +34,7 @@ export class HeaderComponent implements OnInit {
     //     this._navCtrl.navigateBack(this.headerModel.defaultRoutingUrl);
     //   }
     // }
-    this._customBackButton.backButton();
+    await this._customBackButton.backButton(this.headerModel);
   }
 
 }
