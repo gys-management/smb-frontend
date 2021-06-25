@@ -240,7 +240,7 @@ export class OrderListComponent implements OnInit {
       order.amountPaid = paymentResult.amount;
       order.paymentMode = paymentResult.paymentMode;
       order.paymentReference = paymentResult.paymentReference;
-      // order.paymentDate = paymentResult.paymentDate;
+      order.paymentDate = paymentResult.paymentDate;
 
       await this._orderService.payAmtForOrder(order.id, order);
       try {
