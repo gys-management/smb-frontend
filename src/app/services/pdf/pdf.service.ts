@@ -5,7 +5,7 @@ import { Organization } from 'src/app/models/organization.model';
 import { CommonUtils } from 'src/app/modules/utils/common.utils';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
-import { getDocumentContent } from './pdf-layout-definition';
+import { getDocumentContent } from './pdf-generic-layout-definition';
 
 @Injectable({
   providedIn: 'root',
