@@ -35,39 +35,6 @@ const NO_TOP_TABLE_BORDER: CustomTableLayout = {
     },
 };
 
-const ORDER_ITEM_TABLE_LAYOUT: CustomTableLayout = {
-    hLineWidth: (rowIndex: number, node: ContentTable, colIndex: number) => {
-        // Displaying the horizontal line only around the headers and for the table bottom outline.
-        if (
-            rowIndex === 0 ||
-            rowIndex === 1 ||
-            (rowIndex >= node.table.body.length - 2)
-        ) {
-            return 1;
-        } else {
-            return 0;
-        }
-    },
-    paddingBottom: (rowIndex: number, node: any, colIndex: number) => {
-        const DEFAULT_PADDING = 2;
-        // The content height is static.
-        const ORDER_TOTAL_DISPLAY_ROW_HEIGHT = 16.5;
-
-        // Calculating height for the last order item.
-        // NOTE: length - 1 gives the last element of the table.
-        // But instead -3 is used to neglect the two rows displaying the order total.
-        if (rowIndex === node.table.body.length - 3) {
-            const currentPosition = node.positions[node.positions.length - 1];
-            const totalPageHeight = currentPosition.pageInnerHeight;
-            const currentHeight = currentPosition.top;
-            const paddingBottom = totalPageHeight - currentHeight - ORDER_TOTAL_DISPLAY_ROW_HEIGHT;
-            return paddingBottom;
-        } else {
-            return DEFAULT_PADDING;
-        }
-    },
-};
-
 // Formatter used to convert amount to proper INR format.
 const inrFormatter = new Intl.NumberFormat('en-IN', {
     currency: 'INR',
@@ -102,24 +69,6 @@ const createDummyData = (count: number): Content[] => {
     return dummyTableCells;
 };
 
-// Function to generate the data to be populated in orders table.
-const generateOrderDetailsData = ({ orderItems }: Order): any[][] => {
-    return orderItems.map((item: OrderItem, index) => [
-        index + 1,
-        { text: `${item.hsnCode}`, style: 'text-align-center' },
-        { text: `${item.gstPercentage}%`, style: 'text-align-center' },
-        item.productName,
-        { text: convertToInrString(item.price), style: 'text-align-right' },
-        { text: item.quantity, style: 'text-align-center' },
-        { text: convertToInrString(item.discountActual), style: 'text-align-right' },
-        { text: convertToInrString(item.subTotal), style: 'text-align-right' },
-        { text: convertToInrString(item.cgstAmount), style: 'text-align-right' },
-        { text: convertToInrString(item.sgstAmount), style: 'text-align-right' },
-        { text: convertToInrString(item.igstAmount), style: 'text-align-right' },
-        { text: convertToInrString(item.totalAmount), style: 'text-align-right' },
-    ]);
-}
-
 // TODO: Fetch the pdf template preference from backend
 const orgPdfTemplatePreference: string = 'template2';
 const getDocumentContent = (
@@ -143,11 +92,9 @@ const getDocumentContent = (
 export {
     NO_TOP_BOTTOM_TABLE_BORDER,
     NO_TOP_TABLE_BORDER,
-    ORDER_ITEM_TABLE_LAYOUT,
     inrFormatter,
     convertToInrString,
     createWidthArray,
     createDummyData,
-    generateOrderDetailsData,
     getDocumentContent
 }

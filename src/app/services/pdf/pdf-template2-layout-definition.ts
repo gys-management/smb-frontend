@@ -1,21 +1,19 @@
 import * as moment from 'moment';
-import { TDocumentDefinitions, Content, Column } from 'pdfmake/interfaces';
+import { TDocumentDefinitions, Content, Column, CustomTableLayout, ContentTable } from 'pdfmake/interfaces';
 import { numberToWords } from 'number-to-words';
 
 import { Customer } from 'src/app/models/customer.model';
 import { Order, OrderItem } from 'src/app/models/order.model';
 import { Organization } from 'src/app/models/organization.model';
 import { IWidthType } from 'src/app/models/pdf.model';
-import { pdfConstants, orderTableWidth, orderTableHeader } from 'src/app/constants/pdf.constants';
+import { pdfConstants, orderTableWidth_Template2, orderTableHeader_Template2 } from 'src/app/constants/pdf.constants';
 
 import {
   NO_TOP_BOTTOM_TABLE_BORDER,
-  ORDER_ITEM_TABLE_LAYOUT,
   inrFormatter,
   convertToInrString,
   createWidthArray,
-  createDummyData,
-  generateOrderDetailsData
+  createDummyData
 } from './pdf-generic-layout-definition';
 
 const getTemplate2DocumentContent = (
@@ -53,6 +51,7 @@ const getTemplate2DocumentContent = (
     sgstAmount,
     subTotal,
     finalAmount,
+    discount
   } = order;
 
   // Function to generate the organization data to be displayed from the organization object.
@@ -93,6 +92,73 @@ const getTemplate2DocumentContent = (
 
     // Return column array containing organization details.
     return columns;
+  };
+
+  // Order item table layout.
+  const ORDER_ITEM_TABLE_LAYOUT_TEMPLATE2: CustomTableLayout = {
+      hLineWidth: (rowIndex: number, node: ContentTable, colIndex: number) => {
+          // Displaying the horizontal line only around the headers and for the table bottom outline.
+          if (
+              rowIndex === 0 ||
+              rowIndex === 1 ||
+              (rowIndex >= node.table.body.length - 2)
+          ) {
+              return 1;
+          } else {
+              return 0;
+          }
+      },
+      paddingBottom: (rowIndex: number, node: any, colIndex: number) => {
+          const DEFAULT_PADDING = 2;
+          // The content height is static.
+          const ORDER_TOTAL_DISPLAY_ROW_HEIGHT = 55.5;
+  
+          // Calculating height for the last order item.
+          // NOTE: length - 1 gives the last element of the table.
+          // But instead -3 is used to neglect the two rows displaying the order total.
+          if (rowIndex === node.table.body.length - 3) {
+              const currentPosition = node.positions[node.positions.length - 1];
+              const totalPageHeight = currentPosition.pageInnerHeight;
+              const currentHeight = currentPosition.top;
+              const paddingBottom = totalPageHeight - currentHeight - ORDER_TOTAL_DISPLAY_ROW_HEIGHT;
+              return paddingBottom;
+          } else {
+              return DEFAULT_PADDING;
+          }
+      },
+  };
+  
+  // Function to generate the data to be populated in orders table.
+  const generateOrderDetailsData = ({ orderItems }: Order): any[][] => {
+    return orderItems.map((item: OrderItem, index) => [
+      index + 1,
+
+      {
+        columns: [
+          [
+            item.productName,
+            `HSN: ${item.hsnCode}`,
+            `GST: ${item.gstPercentage}%`
+          ]
+        ]
+      },
+
+      { text: convertToInrString(item.price), style: 'text-align-right' },
+      { text: item.quantity, style: 'text-align-center' },
+      { text: convertToInrString(item.discountActual), style: 'text-align-right' },
+      { text: convertToInrString(item.subTotal), style: 'text-align-right' },
+
+      {
+        columns: [
+          [
+            { text: `C: ${convertToInrString(item.cgstAmount)}`, style: 'text-align-right' },
+            { text: `S: ${convertToInrString(item.sgstAmount)}`, style: 'text-align-right' },
+          ]
+        ]
+      },
+      
+      { text: convertToInrString(item.totalAmount), style: 'text-align-right' },
+    ]);
   };
 
   // Return the actual content to form the PDF.
@@ -200,12 +266,12 @@ const getTemplate2DocumentContent = (
       // Content 3 - Table to iterate and print the order items and its total.
       {
         margin: [0, 10],
-        layout: ORDER_ITEM_TABLE_LAYOUT,
+        layout: ORDER_ITEM_TABLE_LAYOUT_TEMPLATE2,
         table: {
-          widths: orderTableWidth,
+          widths: orderTableWidth_Template2,
           headerRows: 1,
           body: [
-            [...orderTableHeader],
+            [...orderTableHeader_Template2],
 
             // As the method returns any[][], spreading the result leads to 1D array.
             // The pdf creator interprets 1D array as row and values inside it as columns.
@@ -215,14 +281,20 @@ const getTemplate2DocumentContent = (
             [
               {
                 text: ORDER_TOTAL_LABEL,
-                colSpan: '7',
+                colSpan: '4',
                 style: 'text-align-right',
               },
-              ...createDummyData(6),
+              ...createDummyData(3),
+              convertToInrString(discount),
               convertToInrString(subTotal),
-              convertToInrString(cgstAmount),
-              convertToInrString(sgstAmount),
-              convertToInrString(igstAmount),
+              {
+                columns: [
+                  [
+                    `C: ${convertToInrString(cgstAmount)}`,
+                    `S: ${convertToInrString(sgstAmount)}`
+                  ]
+                ]
+              },
               {
                 text: convertToInrString(finalAmount),
                 // Setting the bottom border of the table cell to false.
@@ -235,9 +307,9 @@ const getTemplate2DocumentContent = (
               {
                 // Convert the number to text
                 text: `${AMOUNT_IN_WORDS_LABEL} ${numberToWords.toWords(finalAmount).toUpperCase()}`,
-                colSpan: 11,
+                colSpan: 7,
               },
-              ...createDummyData(10),
+              ...createDummyData(6),
               {
                 text: '',
                 // Setting the top border of the table cell to false.
@@ -301,5 +373,5 @@ const getTemplate2DocumentContent = (
 
 // Export.
 export {
-  NO_TOP_BOTTOM_TABLE_BORDER, ORDER_ITEM_TABLE_LAYOUT, getTemplate2DocumentContent
+  NO_TOP_BOTTOM_TABLE_BORDER, getTemplate2DocumentContent
 };
