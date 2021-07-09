@@ -630,6 +630,7 @@ export class OrderAddEditComponent implements OnInit, OnDestroy {
         amountPaid: formValue.amountPaid,
         paymentMode: paymentModeLocal,
         paymentReference: formValue.paymentReference,
+        paymentDate: this.form.get('orderedDate').value,
         total: formValue.total,
         roundOffAmount: formValue.roundOffAmount,
         orderMargin: this._orderController.fixedConversionMargin(orderMarginLocal)
@@ -641,6 +642,7 @@ export class OrderAddEditComponent implements OnInit, OnDestroy {
         order.amountPaid = this.orderDetail.amountPaid;
         order.paymentMode = this.orderDetail.paymentMode;
         order.paymentReference = this.orderDetail.paymentReference;
+        order.paymentDate = this.orderDetail.paymentDate;
       }
       return order;
     }

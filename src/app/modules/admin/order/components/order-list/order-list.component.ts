@@ -11,6 +11,8 @@ import { SuccessConstants } from 'src/app/constants/success-constants';
 import { UrlConstant } from 'src/app/constants/url.constants';
 import { OrderStatus } from 'src/app/enum/order-status.enum';
 import { Order } from 'src/app/models/order.model';
+import { Payment } from 'src/app/models/payments/payment.model';
+import { PaymentAddComponent } from 'src/app/modules/shared/payment/payment-add/payment-add.component';
 import { OrderService } from 'src/app/services/order.service';
 import { ActionSheetUtilService } from 'src/app/services/util/actionSheet/action-sheet-util.service';
 import { AlertUtilService } from 'src/app/services/util/alert/alert-util.service';
@@ -28,19 +30,27 @@ export class OrderListComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('mySearchBar', { static: true }) searchbar: IonSearchbar;
 
-
+  orderStatus = OrderStatus;
   dataSource: MatTableDataSource<Order>;
+
+  // columnsToDisplay: string[] = [
+  //   'orderNumber',
+  //   'companyName',
+  //   'finalAmount',
+  //   'amountPaid',
+  //   'orderedDate',
+  //   'orderStatus',
+  //   'action'];
 
   columnsToDisplay: string[] = [
     'orderNumber',
     'companyName',
-    'finalAmount',
-    'amountPaid',
-    'orderedDate',
-    'orderStatus',
+    'date',
+    'amt',
     'action'];
   isLoadingResults = false;
   resultsLength = 0;
+
 
   constructor(
     private _navCtrl: NavController,
@@ -66,7 +76,21 @@ export class OrderListComponent implements OnInit {
         this.paginator.pageIndex,
         this.paginator.pageSize
       );
-      this.dataSource = new MatTableDataSource(result.responseDataList);
+      const orderList: Order[] = result.responseDataList;
+      orderList.map((order: Order) => {
+        if (order.orderStatus === OrderStatus.CANCELLED) {
+          order.color = 'danger';
+        } else if (order.orderStatus === OrderStatus.COMPLETED) {
+          order.color = 'secondary';
+        } else if (order.orderStatus === OrderStatus.PAID) {
+          order.color = 'success';
+        } else {
+          order.color = 'primary';
+        }
+      });
+      this.dataSource = new MatTableDataSource(orderList);
+
+
       this.resultsLength = result.totalCount;
       this.isLoadingResults = false;
     } catch {
@@ -149,7 +173,9 @@ export class OrderListComponent implements OnInit {
         text: 'Paid',
         icon: 'cash-outline',
         cssClass: 'action-sheet-success',
-        handler: () => { }
+        handler: () => {
+          this.paidAmt(order);
+        }
       });
     }
 
@@ -206,7 +232,7 @@ export class OrderListComponent implements OnInit {
   }
 
   async cancelOrder(id: string) {
-    await this._orderService.updateOrderStatus(id, OrderStatus.CANCELLED);
+    await this._orderService.cancelOrder(id);
     try {
       this.fetchAllOrders();
       this._msgService.messageSuccessToast(SuccessConstants.SUCCESS_ORDER_CANCEL);
@@ -217,7 +243,7 @@ export class OrderListComponent implements OnInit {
 
 
   async completeOrder(id: string) {
-    await this._orderService.updateOrderStatus(id, OrderStatus.COMPLETED);
+    await this._orderService.completedOrder(id);
     try {
       this.fetchAllOrders();
       this._msgService.messageSuccessToast(SuccessConstants.SUCCESS_ORDER_CANCEL);
@@ -226,6 +252,27 @@ export class OrderListComponent implements OnInit {
     }
   }
 
+  async paidAmt(order: Order) {
+    const result = await this._modalService.presentModalNew({
+      component: PaymentAddComponent
+    });
+    if (result.role === AppConstant.CONFIRM_MODAL) {
+      const paymentResult: Payment = result.data;
+
+      order.amountPaid = paymentResult.amount;
+      order.paymentMode = paymentResult.paymentMode;
+      order.paymentReference = paymentResult.paymentReference;
+      order.paymentDate = paymentResult.paymentDate;
+
+      await this._orderService.payAmtForOrder(order.id, order);
+      try {
+        this.fetchAllOrders();
+        this._msgService.messageSuccessToast(SuccessConstants.SUCCESS_ORDER_PAYMENT);
+      } catch (error) {
+        this._msgService.messageErrorToast(error);
+      }
+    }
+  }
 
 }
 

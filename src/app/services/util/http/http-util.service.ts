@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { AppConstant } from 'src/app/constants/app.constants';
 import { ErrorConstant } from 'src/app/constants/error-constants';
 import { AppError } from 'src/app/models/app-error';
@@ -10,6 +10,7 @@ import { MessageService } from '../messages/message.service';
 import { NetworkUtilService } from '../network/network-util.service';
 import { SpinnerService } from '../spinner/spinner.service';
 import { Storage } from '@ionic/storage';
+import { AuthService } from '../auth/auth.service';
 
 interface IRequestOptions {
   body?: any;
@@ -29,7 +30,8 @@ export class HttpUtilService {
     private _messageService: MessageService,
     private _spinnerService: SpinnerService,
     private _networkUtilService: NetworkUtilService,
-    private _storage: Storage
+    private _storage: Storage,
+    private _injector: Injector
   ) { }
 
   async getToken() {
@@ -56,28 +58,28 @@ export class HttpUtilService {
 
     requestHeaders = requestHeaders || new HttpHeaders();
     if (!options?.excludeAuthHeader) {
-      // const _authService: AuthService = this._injector.get(AuthService);
-      // _authService.token.subscribe(async (tokenLocal) => {
-      //   if (tokenLocal) {
-      //     requestHeaders = requestHeaders.append(
-      //       'Authorization',
-      //       `Bearer ${tokenLocal}`
-      //     );
-      //   }
-      //   // else {
-      //   //   const token = await _authService.getToken();
-      //   //   requestHeaders = requestHeaders.append(
-      //   //     'Authorization',
-      //   //     `Bearer ${token}`
-      //   //   );
-      //   // }
-      // });
+      const _authService: AuthService = this._injector.get(AuthService);
+      _authService.token.subscribe(async (tokenLocal) => {
+        if (tokenLocal) {
+          requestHeaders = requestHeaders.append(
+            'Authorization',
+            `Bearer ${tokenLocal}`
+          );
+        }
+        //   // else {
+        //   //   const token = await _authService.getToken();
+        //   //   requestHeaders = requestHeaders.append(
+        //   //     'Authorization',
+        //   //     `Bearer ${token}`
+        //   //   );
+        //   // }
+      });
 
-      const token = await this.getToken();
-      requestHeaders = requestHeaders.append(
-        'Authorization',
-        `Bearer ${token}`
-      );
+      // const token = await this.getToken();
+      // requestHeaders = requestHeaders.append(
+      //   'Authorization',
+      //   `Bearer ${token}`
+      // );
     }
 
     return this.makeExternalRequest(

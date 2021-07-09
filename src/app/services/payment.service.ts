@@ -56,4 +56,12 @@ export class PaymentService {
       { hideSpinner: true }
     );
   }
+
+  async addMiscellaneousPayment(payment: Payment): Promise<Payment> {
+    return await this._httpUtilService.makeRequest(
+      `${ApiUrlContant.PAYMENT}/misc`,
+      HttpMethods.POST,
+      payment
+    );
+  }
 }

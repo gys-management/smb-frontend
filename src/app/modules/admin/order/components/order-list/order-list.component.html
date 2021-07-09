@@ -9,7 +9,7 @@
   <div *ngIf="isLoadingResults">
     <ion-progress-bar color="primary" type="indeterminate"></ion-progress-bar>
   </div>
-  <table mat-table [dataSource]="dataSource" matSort matSortDirection="desc" matSortDisableClear
+  <!-- <table mat-table [dataSource]="dataSource" matSort matSortDirection="desc" matSortDisableClear
     matSortActive="orderNumber" multiTemplateDataRows>
 
     <ng-container matColumnDef="orderNumber">
@@ -88,7 +88,132 @@
 
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef>
-        <!-- <ion-label color="primary"> Action </ion-label> -->
+      </th>
+      <td mat-cell *matCellDef="let row" class="action-btn">
+        <ion-buttons>
+          <ion-button color="dark" (click)="presentActionSheet(row)">
+            <ion-icon slot="icon-only" name="ellipsis-vertical-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnsToDisplay;" class="example-element-row">
+    </tr>
+  </table> -->
+
+  <!-- new style-->
+
+  <table mat-table [dataSource]="dataSource" matSort matSortDirection="desc" matSortDisableClear
+    matSortActive="orderNumber" multiTemplateDataRows>
+
+    <ng-container matColumnDef="orderNumber">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <ion-label color="primary"> Order No </ion-label>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <ion-buttons>
+          <ion-button (click)="onView(row.id)">
+            <ion-text color="primary"> {{row.orderNumber}}</ion-text>
+          </ion-button>
+        </ion-buttons>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="companyName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <ion-label color="primary"> Customer </ion-label>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        {{row.companyName | titlecase}}
+        <ion-note>
+          <p>Status: <ion-note [color]="row.color">{{row.orderStatus | titlecase}}</ion-note>
+          </p>
+        </ion-note>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <ion-label color="primary"> Date </ion-label>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <ion-note>
+          <p>Ordered: <span>{{row.orderedDate | date}}</span> </p>
+          <p *ngIf="row.deliveredDate">Delivered: <span>{{row.orderedDate | date}}</span> </p>
+          <p *ngIf="row.orderStatus === orderStatus.CANCELLED">Canceled: <span>{{row.updatedDate | date}}</span> </p>
+        </ion-note>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="amt">
+      <th mat-header-cell *matHeaderCellDef>
+        <ion-label color="primary"> Amount </ion-label>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <ion-note>
+          <p>Amt:<span> {{row.finalAmount | currency:'INR'}} </span> </p>
+          <p>Paid:<span> {{row.amountPaid | currency:'INR'}} </span> </p>
+        </ion-note>
+      </td>
+    </ng-container>
+
+    <!-- <ng-container matColumnDef="orderedDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <ion-label color="primary"> Ordered Date </ion-label>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        {{row.orderedDate | date}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="deliveredDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <ion-label color="primary"> Delivered Date </ion-label>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <span *ngIf="row.deliveredDate; else dash_representing_nil">{{row.deliveredDate | date}}</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="updatedDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <ion-label color="primary"> Canceled Date </ion-label>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        {{row.updatedDate | date}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="finalAmount">
+      <th mat-header-cell *matHeaderCellDef>
+        <ion-label color="primary"> Final Amount </ion-label>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <ion-text>{{row.finalAmount | currency: 'INR'}}</ion-text>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="amountPaid">
+      <th mat-header-cell *matHeaderCellDef>
+        <ion-label color="primary"> Amount Paid </ion-label>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <span *ngIf="row.amountPaid; else currency_formatted_zero">{{row.amountPaid | currency: 'INR'}}</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="orderStatus">
+      <th mat-header-cell *matHeaderCellDef>
+        <ion-label color="primary"> Order Status </ion-label>
+      </th>
+      <td mat-cell *matCellDef="let row"> {{row.orderStatus}} </td>
+    </ng-container>
+  -->
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>
       </th>
       <td mat-cell *matCellDef="let row" class="action-btn">
         <ion-buttons>
@@ -110,10 +235,10 @@
     showFirstLastButtons>
   </mat-paginator>
 
-  <ng-template #dash_representing_nil>
+  <!-- <ng-template #dash_representing_nil>
     <span> - </span>
   </ng-template>
   <ng-template #currency_formatted_zero>
     <span> {{"0" | currency: 'INR'}} </span>
-  </ng-template>
+  </ng-template> -->
 </div>

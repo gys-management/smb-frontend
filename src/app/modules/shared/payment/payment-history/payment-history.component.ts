@@ -102,7 +102,7 @@ export class PaymentHistoryComponent implements OnInit, OnDestroy {
   }
 
   cancel() {
-    this._modalController.dismiss(null, 'cancel');
+    this._modalController.dismiss(null, AppConstant.CANCEL_MODAL);
   }
 
   ngOnDestroy() {

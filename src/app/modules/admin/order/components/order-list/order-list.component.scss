@@ -1,0 +1,33 @@
+p {
+  font-size: small;
+  margin: 1.5px;
+
+  span {
+    font-size: small;
+    text-align: left;
+    color: var(--ion-color-step-350, rgba(29, 29, 29, 0.87));
+  }
+
+  ion-note {
+    font-size: small;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  p {
+    font-size: xx-small;
+    margin: 1px;
+
+    span {
+      display: block;
+      font-size: x-small;
+      text-align: left;
+      color: var(--ion-color-step-350, rgba(0, 0, 0, 0.87));
+    }
+
+    ion-note {
+      display: block;
+      font-size: x-small;
+    }
+  }
+}

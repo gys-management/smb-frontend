@@ -9,26 +9,33 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { PaymentHistoryComponent } from './payment/payment-history/payment-history.component';
 import { NoDataMessageComponent } from './no-data-message/no-data-message.component';
+import { PaymentAddComponent } from './payment/payment-add/payment-add.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { PipeModule } from 'src/app/pipes/pipe.module';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     NoDataMessageComponent,
-    PaymentHistoryComponent
+    PaymentHistoryComponent,
+    PaymentAddComponent
   ],
   imports: [
     IonicModule,
     CommonModule,
+    ReactiveFormsModule,
     MatTableModule,
     MatPaginatorModule,
     MatProgressBarModule,
     MatSortModule,
-    MatTooltipModule
+    MatTooltipModule,
+    PipeModule
   ],
   exports: [
     HeaderComponent,
     NoDataMessageComponent,
-    PaymentHistoryComponent
+    PaymentHistoryComponent,
+    PaymentAddComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

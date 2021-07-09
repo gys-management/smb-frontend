@@ -21,7 +21,7 @@
                 </ion-card-subtitle>
               </ion-card-header>
 
-              <ion-buttons slot="end" class="select-customer-btn">
+              <ion-buttons *ngIf="saveOrupdate" slot="end" class="select-customer-btn">
                 <app-select-customer (customerDetailSelectionChange)="customerSelectableChange($event)">
                 </app-select-customer>
               </ion-buttons>
