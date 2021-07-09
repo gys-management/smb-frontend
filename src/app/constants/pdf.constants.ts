@@ -21,7 +21,7 @@ const pdfConstants = {
 };
 
 // Array containing the width of the orders table.
-const orderTableWidth: string[] = [
+const orderTableWidth_Template1: string[] = [
   'auto', // 1. s.no
   'auto', // 2. hsn
   'auto', // 3. gst percentage
@@ -36,8 +36,20 @@ const orderTableWidth: string[] = [
   'auto', // 12. total amounnt
 ];
 
+// Array containing the width of the orders table.
+const orderTableWidth_Template2: string[] = [
+  'auto', // 1. s.no
+  '*', // 2. product name
+  'auto', // 3. base price
+  'auto', // 4. qty
+  'auto', // 5. discount
+  'auto', // 6. sub total
+  'auto', // 7. gst
+  'auto', // 8. total amounnt
+];
+
 // Array containing the headers of the orders table.
-const orderTableHeader: Content[] = [
+const orderTableHeader_Template1: Content[] = [
   'S. No',
   'HSN Code',
   'Gst %',
@@ -78,6 +90,18 @@ const orderTableHeader: Content[] = [
   },
 ];
 
+// Array containing the headers of the orders table.
+const orderTableHeader_Template2: Content[] = [
+  'S. No',
+  'Product',
+  'Price',
+  'Qty',
+  'Discount',
+  'Sub-Total',
+  'GST',
+  'Total'
+];
+
 // export interface IDummyOrganization {
 //   companyName: string;
 //   gstNumber?: string;
@@ -115,6 +139,8 @@ const orderTableHeader: Content[] = [
 
 export {
   pdfConstants,
-  orderTableHeader,
-  orderTableWidth
+  orderTableHeader_Template1,
+  orderTableHeader_Template2,
+  orderTableWidth_Template1,
+  orderTableWidth_Template2,
 };

@@ -1,63 +1,22 @@
 import * as moment from 'moment';
-import { CustomTableLayout, ContentTable } from 'pdfmake/interfaces';
-import { TDocumentDefinitions, Content, Column } from 'pdfmake/interfaces';
+import { TDocumentDefinitions, Content, Column, CustomTableLayout, ContentTable } from 'pdfmake/interfaces';
 import { numberToWords } from 'number-to-words';
 
 import { Customer } from 'src/app/models/customer.model';
 import { Order, OrderItem } from 'src/app/models/order.model';
 import { Organization } from 'src/app/models/organization.model';
 import { IWidthType } from 'src/app/models/pdf.model';
-import { pdfConstants, orderTableWidth, orderTableHeader } from 'src/app/constants/pdf.constants';
+import { pdfConstants, orderTableWidth_Template1, orderTableHeader_Template1 } from 'src/app/constants/pdf.constants';
 
-const NO_TOP_BOTTOM_TABLE_BORDER: CustomTableLayout = {
-  hLineWidth: (rowIndex: number, node: ContentTable) => {
-    // Avoiding horizontal border for the first and last row of the table.
-    // NOTE: If there are 5 rows in a table, there will be 6 horizontal lines.
-    // 0 being the table's top most border
-    // 6 being the table's bottom most border
-    if (rowIndex === 0 || rowIndex === node.table.body.length) {
-      return 0;
-    } else {
-      return 1;
-    }
-  },
-};
+import {
+  NO_TOP_BOTTOM_TABLE_BORDER,
+  convertToInrString,
+  createWidthArray,
+  createDummyData,
+  NO_TOP_TABLE_BORDER
+} from './pdf-generic-layout-definition';
 
-const ORDER_ITEM_TABLE_LAYOUT: CustomTableLayout = {
-  hLineWidth: (rowIndex: number, node: ContentTable, colIndex: number) => {
-    // Displaying the horizontal line only around the headers and for the table bottom outline.
-    if (
-      rowIndex === 0 ||
-      rowIndex === 1 ||
-      (rowIndex >= node.table.body.length - 2 &&
-        rowIndex !== node.table.body.length)
-    ) {
-      return 1;
-    } else {
-      return 0;
-    }
-  },
-  paddingBottom: (rowIndex: number, node: any, colIndex: number) => {
-    const DEFAULT_PADDING = 2;
-    // The content height is static.
-    const ORDER_TOTAL_DISPLAY_ROW_HEIGHT = 15.5;
-
-    // Calculating height for the last order item.
-    // NOTE: length - 1 gives the last element of the table.
-    // But instead -3 is used to neglect the two rows displaying the order total.
-    if (rowIndex === node.table.body.length - 3) {
-      const currentPosition = node.positions[node.positions.length - 1];
-      const totalPageHeight = currentPosition.pageInnerHeight;
-      const currentHeight = currentPosition.top;
-      const paddingBottom = totalPageHeight - currentHeight - ORDER_TOTAL_DISPLAY_ROW_HEIGHT;
-      return paddingBottom;
-    } else {
-      return DEFAULT_PADDING;
-    }
-  },
-};
-
-const getDocumentContent = (
+const getTemplate1DocumentContent = (
   order: Order,
   sellerOrganization: Organization,
   buyer: Customer
@@ -93,40 +52,6 @@ const getDocumentContent = (
     subTotal,
     finalAmount,
   } = order;
-
-  // Formatter used to convert amount to proper INR format.
-  const inrFormatter = new Intl.NumberFormat('en-IN', {
-    currency: 'INR',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 3,
-  });
-
-  // Function to convert amount to proper INR format.
-  const convertToInrString = (val: number) => inrFormatter.format(val);
-
-  // Function to generate auto width array for the given count.
-  const createWidthArray = (count: number, type: IWidthType): string[] => {
-    const widthArray: string[] = [];
-
-    for (let i = 0; i < count; i++) {
-      if (type === IWidthType.STAR) {
-        widthArray.push('*');
-      } else if (type === IWidthType.AUTO) {
-        widthArray.push('auto');
-      }
-    }
-    return widthArray;
-  };
-
-  // Function to create dummy data. i.e., create an object with empty text.
-  const createDummyData = (count: number): Content[] => {
-    const dummyTableCells: Content[] = [];
-
-    for (let i = 0; i < count; i++) {
-      dummyTableCells.push({ text: '' });
-    }
-    return dummyTableCells;
-  };
 
   // Function to generate the organization data to be displayed from the organization object.
   const generateOrganizationAddressData = ({
@@ -169,9 +94,43 @@ const getDocumentContent = (
     return columns;
   };
 
+  // Order item table layout
+  const ORDER_ITEM_TABLE_LAYOUT_TEMPLATE1: CustomTableLayout = {
+      hLineWidth: (rowIndex: number, node: ContentTable, colIndex: number) => {
+          // Displaying the horizontal line only around the headers and for the table bottom outline.
+          if (
+              rowIndex === 0 ||
+              rowIndex === 1 ||
+              (rowIndex >= node.table.body.length - 2)
+          ) {
+              return 1;
+          } else {
+              return 0;
+          }
+      },
+      paddingBottom: (rowIndex: number, node: any, colIndex: number) => {
+          const DEFAULT_PADDING = 2;
+          // The content height is static.
+          const ORDER_TOTAL_DISPLAY_ROW_HEIGHT = 16.5;
+  
+          // Calculating height for the last order item.
+          // NOTE: length - 1 gives the last element of the table.
+          // But instead -3 is used to neglect the two rows displaying the order total.
+          if (rowIndex === node.table.body.length - 3) {
+              const currentPosition = node.positions[node.positions.length - 1];
+              const totalPageHeight = currentPosition.pageInnerHeight;
+              const currentHeight = currentPosition.top;
+              const paddingBottom = totalPageHeight - currentHeight - ORDER_TOTAL_DISPLAY_ROW_HEIGHT;
+              return paddingBottom;
+          } else {
+              return DEFAULT_PADDING;
+          }
+      },
+  };
+
   // Function to generate the data to be populated in orders table.
-  const generateOrderDetailsData = ({ orderItems }: Order): any[][] =>
-    orderItems.map((item: OrderItem, index) => [
+  const generateOrderDetailsData = ({ orderItems }: Order): any[][] => {
+    return orderItems.map((item: OrderItem, index) => [
       index + 1,
       { text: `${item.hsnCode}`, style: 'text-align-center' },
       { text: `${item.gstPercentage}%`, style: 'text-align-center' },
@@ -185,6 +144,7 @@ const getDocumentContent = (
       { text: convertToInrString(item.igstAmount), style: 'text-align-right' },
       { text: convertToInrString(item.totalAmount), style: 'text-align-right' },
     ]);
+  };
 
   // Return the actual content to form the PDF.
   return {
@@ -285,12 +245,12 @@ const getDocumentContent = (
       // Content 3 - Table to iterate and print the order items and its total.
       {
         margin: 0,
-        layout: ORDER_ITEM_TABLE_LAYOUT,
+        layout: ORDER_ITEM_TABLE_LAYOUT_TEMPLATE1,
         table: {
-          widths: orderTableWidth,
+          widths: orderTableWidth_Template1,
           headerRows: 1,
           body: [
-            [...orderTableHeader],
+            [...orderTableHeader_Template1],
 
             // As the method returns any[][], spreading the result leads to 1D array.
             // The pdf creator interprets 1D array as row and values inside it as columns.
@@ -344,6 +304,7 @@ const getDocumentContent = (
         // Footer content - Signature of the organization and customer.
         const footerContent: Content = {
           margin: [20, 0],
+          layout: NO_TOP_TABLE_BORDER,
           table: {
             widths: [...createWidthArray(2, IWidthType.STAR)],
             body: [
@@ -400,5 +361,5 @@ const getDocumentContent = (
 
 // Export.
 export {
-  NO_TOP_BOTTOM_TABLE_BORDER, ORDER_ITEM_TABLE_LAYOUT, getDocumentContent
+  NO_TOP_BOTTOM_TABLE_BORDER, getTemplate1DocumentContent
 };
