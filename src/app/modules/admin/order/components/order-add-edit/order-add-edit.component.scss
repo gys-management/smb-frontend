@@ -31,6 +31,16 @@ table ion-input {
   border-bottom-style: solid;
 }
 
+ion-row {
+  ion-col {
+    ion-item {
+      ion-label {
+        font-size: small;
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 576px) {
   p {
     font-size: x-small;

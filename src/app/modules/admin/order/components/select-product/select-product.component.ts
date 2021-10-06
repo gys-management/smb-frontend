@@ -10,6 +10,7 @@ import { ModalUtilService } from 'src/app/services/util/modal/modal-util.service
 import { ProductDetailsAddEditComponent }
   from '../../../product/product-details/components/product-details-add-edit/product-details-add-edit.component';
 import { LoggerService } from 'src/app/services/util/logger/logger.service';
+import { AppConstant } from 'src/app/constants/app.constants';
 
 @Component({
   selector: 'app-select-product',
@@ -18,6 +19,7 @@ import { LoggerService } from 'src/app/services/util/logger/logger.service';
 })
 export class SelectProductComponent implements OnInit, OnDestroy, AfterViewInit {
 
+  @Input() pcIdEmitter: EventEmitter<string> = new EventEmitter<string>();
   @Input() selectedProductDetail: EventEmitter<ProductDetail[]> = new EventEmitter<ProductDetail[]>();
   @Input() deletedProductDetail: EventEmitter<ProductDetail> = new EventEmitter<ProductDetail>();
   @Output() productDetailSelectionChange: EventEmitter<IonicSelectableComponent> = new EventEmitter<IonicSelectableComponent>();
@@ -25,6 +27,7 @@ export class SelectProductComponent implements OnInit, OnDestroy, AfterViewInit 
   @ViewChild('productDetailSelectable') productDetailSelectable: IonicSelectableComponent;
 
 
+  pcId: string;
   productDetailList: ProductDetail[] = [];
   productDetail: ProductDetail;
   currentPage = 0;
@@ -41,11 +44,20 @@ export class SelectProductComponent implements OnInit, OnDestroy, AfterViewInit 
   ) { }
   ngOnInit() {
     // this.removeSelectedProductDetailFromListView(this.selectedProductDetail)
+
   }
 
   ngAfterViewInit(): void {
     this.addedProductDetailToProductDetailSelectable();
     this.removedProductDetailAddToProductDetailSelectable();
+    this.getProductCategoryIDToFilter();
+  }
+
+  getProductCategoryIDToFilter() {
+    this.pcIdEmitter.subscribe(id => {
+      this.pcId = id;
+      LoggerService.debug('getProductCategoryIDToFilter :: ', this.pcId);
+    });
   }
 
   productDetailSelectableChange() {
@@ -109,6 +121,7 @@ export class SelectProductComponent implements OnInit, OnDestroy, AfterViewInit 
     const searchText = event.text;
     event.component.startSearch();
     this.currentPage = 0;
+    LoggerService.debug('productDetailSelectableSearch :: ', this.pcId);
 
     // filtered by company name from our server.
     const pd = await this._productDetailService
@@ -117,7 +130,9 @@ export class SelectProductComponent implements OnInit, OnDestroy, AfterViewInit 
         undefined,
         undefined,
         this.currentPage,
-        this.fetchCountPerPage
+        this.fetchCountPerPage,
+        AppConstant.PRODUCT_CATEGORY_STRING,
+        this.pcId,
       );
     try {
       // this.customerList = cust.customers;
@@ -157,7 +172,9 @@ export class SelectProductComponent implements OnInit, OnDestroy, AfterViewInit 
           undefined,
           undefined,
           this.currentPage,
-          this.fetchCountPerPage
+          this.fetchCountPerPage,
+          AppConstant.PRODUCT_CATEGORY_STRING,
+          this.pcId
         );
       try {
         this.removeSelectedProductDetailFromListView(pd.productDetails);

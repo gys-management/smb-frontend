@@ -53,7 +53,7 @@
       </ion-row>
 
       <ion-row *ngIf="orderDetail">
-        <ion-col>
+        <ion-col size-xs="12" size-sm="6">
           <ion-item>
             <ion-label color="primary">Order No:</ion-label>
             <ion-input type="number" class="ion-text-right" slot="end" formControlName="orderNumber" readonly="true">
@@ -72,7 +72,7 @@
             </ion-input>
           </ion-item>
         </ion-col>
-        <ion-col>
+        <ion-col size-xs="12" size-sm="6">
           <ion-item>
             <ion-label color="primary"> Order Date<span class="required-field"></span> : </ion-label>
             <ion-icon name="calendar-outline"></ion-icon>
@@ -188,7 +188,7 @@
       </ion-row>
 
       <ion-row *ngIf="orderDetail">
-        <ion-col size-sm="6">
+        <ion-col size-xs="12" size-sm="6">
           <ion-item lines="none">
             <ion-label slot="start" color="primary">Sub-Total:
             </ion-label>
@@ -208,7 +208,7 @@
             </ion-input>
           </ion-item>
         </ion-col>
-        <ion-col size-sm="6">
+        <ion-col size-xs="12" size-sm="6">
           <ion-item lines="none">
             <ion-label slot="start" color="primary">Total: </ion-label>
             <ion-input class="ion-text-right" type="number" formControlName="total" readonly="true">
@@ -221,6 +221,7 @@
           </ion-item>
           <ion-item lines="none">
             <ion-label slot="start" color="primary">Final Amount: </ion-label>
+            <!-- <span> ₹</span> -->
             <ion-input class="ion-text-right" type="number" formControlName="finalAmount" readonly="true">
             </ion-input>
           </ion-item>
@@ -245,10 +246,12 @@
   </form>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button color="primary">
-      <app-select-product [selectedProductDetail]="selectProductDetailList" [deletedProductDetail]="deletedOrderItem"
+      <app-select-product [pcIdEmitter]="pcIdEmittor" [selectedProductDetail]="selectProductDetailList"
+        [deletedProductDetail]="deletedOrderItem"
         (productDetailSelectionChange)="productDetailLocalSelectableChange($event)">
       </app-select-product>
     </ion-fab-button>
   </ion-fab>
+
 
 </ion-content>
