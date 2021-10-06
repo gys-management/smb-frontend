@@ -40,7 +40,7 @@ export class MenuBarConstants {
       title: 'Orders',
       url: UrlConstant.URL_ADMIN_ORDER,
       icon: 'bookmarks',
-      role: [UserRole.ADMIN, UserRole.STAFF]
+      role: [UserRole.ADMIN, UserRole.STAFF],
     },
     {
       title: 'Products',
@@ -48,7 +48,7 @@ export class MenuBarConstants {
       role: [UserRole.ADMIN, UserRole.STAFF],
       subPages: [
         {
-          title: 'Product',
+          title: 'Product/Service',
           url: UrlConstant.URL_ADMIN_PRODUCTS_DETAILS,
           icon: 'people',
           role: [UserRole.ADMIN]
@@ -59,12 +59,12 @@ export class MenuBarConstants {
           icon: 'people',
           role: [UserRole.ADMIN]
         },
-        {
-          title: 'Category',
-          url: UrlConstant.URL_ADMIN_PRODUCTS_CATEGORY,
-          icon: 'man',
-          role: [UserRole.ADMIN, UserRole.STAFF]
-        }
+        // {
+        //   title: 'Category',
+        //   url: UrlConstant.URL_ADMIN_PRODUCTS_CATEGORY,
+        //   icon: 'man',
+        //   role: [UserRole.ADMIN, UserRole.STAFF]
+        // }
       ],
     }
   ];

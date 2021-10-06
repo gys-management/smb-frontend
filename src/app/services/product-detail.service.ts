@@ -102,6 +102,10 @@ export class ProductDetailService {
     return await this._http.makeRequest(
       `${ApiUrlContant.PRODUCT_DETAILS}/${id}/list`,
       HttpMethods.GET,
+      null,
+      null,
+      null,
+      { hideSpinner: true }
     );
   }
 }

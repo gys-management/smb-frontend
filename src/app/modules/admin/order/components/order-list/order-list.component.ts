@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { NavigationExtras } from '@angular/router';
 import { IonSearchbar, NavController } from '@ionic/angular';
 import { merge } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap, startWith } from 'rxjs/operators';
@@ -45,7 +46,7 @@ export class OrderListComponent implements OnInit {
   columnsToDisplay: string[] = [
     'orderNumber',
     'companyName',
-    'date',
+    // 'date',
     'amt',
     'action'];
   isLoadingResults = false;
@@ -147,7 +148,11 @@ export class OrderListComponent implements OnInit {
           icon: 'create-outline',
           cssClass: 'action-sheet-primary',
           handler: () => {
-            this._navCtrl.navigateRoot(UrlConstant.URL_ADMIN_ORDER + UrlConstant.URL_EDIT + '/' + order.id);
+            const navigationExtras: NavigationExtras = { queryParams: { pcid: order.pcId } };
+            this._navCtrl.navigateRoot(
+              UrlConstant.URL_ADMIN_ORDER + UrlConstant.URL_EDIT + '/' + order.id,
+              navigationExtras
+            );
           },
         },
         {
@@ -254,22 +259,24 @@ export class OrderListComponent implements OnInit {
 
   async paidAmt(order: Order) {
     const result = await this._modalService.presentModalNew({
-      component: PaymentAddComponent
+      component: PaymentAddComponent,
+      componentProps: { order }
     });
     if (result.role === AppConstant.CONFIRM_MODAL) {
       const paymentResult: Payment = result.data;
 
+      const localOrderPaidAmt = order.amountPaid;
       order.amountPaid = paymentResult.amount;
       order.paymentMode = paymentResult.paymentMode;
       order.paymentReference = paymentResult.paymentReference;
       order.paymentDate = paymentResult.paymentDate;
-
-      await this._orderService.payAmtForOrder(order.id, order);
       try {
+        await this._orderService.payAmtForOrder(order.id, order);
         this.fetchAllOrders();
         this._msgService.messageSuccessToast(SuccessConstants.SUCCESS_ORDER_PAYMENT);
       } catch (error) {
-        this._msgService.messageErrorToast(error);
+        order.amountPaid = localOrderPaidAmt;
+        this._msgService.messageErrorAlert(error);
       }
     }
   }

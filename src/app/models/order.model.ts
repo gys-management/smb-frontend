@@ -30,6 +30,7 @@ export class Order {
   roundOffAmount: number;
   orderMargin: number;
 
+  pcId: string; // product category ID
   // ui fields
   color?: string;
 }

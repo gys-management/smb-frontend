@@ -1,6 +1,5 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { take } from 'rxjs/operators';
 import { ApiUrlContant } from '../constants/api-url.constants';
 import { OrderStatus } from '../enum/order-status.enum';
 import { HttpMethods } from '../models/http';
@@ -57,7 +56,7 @@ export class OrderService {
       null,
       null,
       null,
-      { excludeAuthHeader: false }
+      { excludeAuthHeader: false, hideSpinner: true }
     );
   }
 

@@ -84,6 +84,10 @@ export class OrderAddEditComponent implements OnInit, OnDestroy {
   selectProductDetailList: EventEmitter<ProductDetail[]> = new EventEmitter<ProductDetail[]>();
   deletedOrderItem: EventEmitter<ProductDetail> = new EventEmitter<ProductDetail>();
 
+  // product category ID
+  pcIdEmittor: EventEmitter<string> = new EventEmitter<string>();
+  pcId: string;
+
   constructor(
     private _activedRoute: ActivatedRoute,
     private _customerService: CustomerService,
@@ -121,6 +125,12 @@ export class OrderAddEditComponent implements OnInit, OnDestroy {
     const actived = await this._activedRoute.paramMap.pipe(take(1)).toPromise();
     const id = actived.get('id');
 
+    const queryParam = await this._activedRoute.queryParamMap.pipe(take(1)).toPromise();
+    this.pcId = queryParam.get('pcid');
+    this.pcIdEmittor.emit(this.pcId);
+    LoggerService.debug(`queryParam :: ${JSON.stringify(queryParam)}, ${this.pcId}`);
+
+
     if (!id) {
       this.saveOrupdate = true;
 
@@ -145,7 +155,7 @@ export class OrderAddEditComponent implements OnInit, OnDestroy {
       const orderCount = await this._orderService.fetchOrderCount();
 
       this.orderDetail = new Order();
-      this.orderDetail.orderNumber = orderCount + 1;
+      this.orderDetail.orderNumber = this.organization.orgNumber + orderCount + 1;
       this.orderDetail.orderedDate = new Date().toISOString();
 
 
@@ -633,7 +643,8 @@ export class OrderAddEditComponent implements OnInit, OnDestroy {
         paymentDate: this.form.get('orderedDate').value,
         total: formValue.total,
         roundOffAmount: formValue.roundOffAmount,
-        orderMargin: this._orderController.fixedConversionMargin(orderMarginLocal)
+        orderMargin: this._orderController.fixedConversionMargin(orderMarginLocal),
+        pcId: this.pcId
       };
 
       if (!this.saveOrupdate) {

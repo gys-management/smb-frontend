@@ -1,6 +1,7 @@
 export class Organization {
   id: string;
   companyName: string;
+  orgNumber: number;
   firstName: string;
   lastName: string;
   email: string;
