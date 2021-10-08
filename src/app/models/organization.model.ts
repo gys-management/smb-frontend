@@ -14,4 +14,5 @@ export class Organization {
   pincode: number;
   gstNumber: string;
   providerId: string;
+  profilePic: string;
 }
