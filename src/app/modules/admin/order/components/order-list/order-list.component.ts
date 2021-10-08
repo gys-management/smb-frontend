@@ -202,7 +202,7 @@ export class OrderListComponent implements OnInit {
       backdropDismiss: false,
       buttons: [
         {
-          text: 'Ok',
+          text: 'Cancel',
           handler: () => {
             this.cancelOrder(id);
           },
@@ -223,7 +223,7 @@ export class OrderListComponent implements OnInit {
       backdropDismiss: false,
       buttons: [
         {
-          text: 'Ok',
+          text: 'Complete',
           handler: () => {
             this.completeOrder(id);
           },
@@ -251,7 +251,7 @@ export class OrderListComponent implements OnInit {
     await this._orderService.completedOrder(id);
     try {
       this.fetchAllOrders();
-      this._msgService.messageSuccessToast(SuccessConstants.SUCCESS_ORDER_CANCEL);
+      this._msgService.messageSuccessToast(SuccessConstants.SUCCESS_ORDER_COMPLETED);
     } catch (error) {
       this._msgService.messageErrorToast(error);
     }
