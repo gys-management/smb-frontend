@@ -119,10 +119,12 @@ export class AppComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this._orgService.getOrganizationById.subscribe(
         (org) => {
-          this.organizationDetails = org;
+          if (org) {
+            this.organizationDetails = org;
+          }
         }
       );
-    }, 1000);
+    }, 3000);
 
   }
 
