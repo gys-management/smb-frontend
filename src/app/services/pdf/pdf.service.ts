@@ -21,7 +21,7 @@ export class PdfService {
     (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
   }
 
-  generateInvoice(
+  async generateInvoice(
     order: Order,
     sellerOrganization: Organization,
     buyer: Customer,
@@ -36,19 +36,19 @@ export class PdfService {
 
     switch (action) {
       case 'open':
-        pdfMake.createPdf(documentContent).open();
+        pdfMake.createPdf(await documentContent).open();
         break;
       case 'print':
-        pdfMake.createPdf(documentContent).print();
+        pdfMake.createPdf(await documentContent).print();
         break;
       case 'download':
-        pdfMake.createPdf(documentContent).download(fileName);
+        pdfMake.createPdf(await documentContent).download(fileName);
         break;
       // case 'email':
       //   this.triggerEmail(documentContent, fileName, order, buyer, sellerOrganization);
       //   break;
       default:
-        pdfMake.createPdf(documentContent).open();
+        pdfMake.createPdf(await documentContent).open();
         break;
     }
   }

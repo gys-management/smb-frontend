@@ -205,14 +205,15 @@ export class OrderViewComponent implements OnInit, OnDestroy {
     }
     if (order.orderStatus !== OrderStatus.CANCELLED) {
       button.push(
-        {
-          text: 'Open',
-          icon: 'folder-open-outline',
-          cssClass: 'action-sheet-instagram',
-          handler: () => {
-            this.generateInvoice('open');
-          },
-        },
+        // having issue when PWA have this feature
+        // {
+        //   text: 'Open',
+        //   icon: 'folder-open-outline',
+        //   cssClass: 'action-sheet-instagram',
+        //   handler: () => {
+        //     this.generateInvoice('open');
+        //   },
+        // },
         {
           text: 'Download',
           icon: 'arrow-down-circle-outline',

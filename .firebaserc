@@ -15,6 +15,9 @@
       "hosting": {
         "smb-app":[
           "smb-app"
+        ],
+        "smb-pksc":[
+          "smb-pksc"
         ]
       }
     }

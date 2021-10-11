@@ -3,11 +3,13 @@ import { SwUpdate } from '@angular/service-worker';
 import { App } from '@capacitor/core';
 import { IonRouterOutlet, ModalController, NavController, Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { AppConstant } from './constants/app.constants';
 import { UrlConstant } from './constants/url.constants';
 import { Organization } from './models/organization.model';
 import { OrganizationService } from './services/organization.service';
 import { AuthService } from './services/util/auth/auth.service';
+import { LoggerService } from './services/util/logger/logger.service';
 import { MenuBarService } from './services/util/menu/menu-bar.service';
 import { NetworkUtilService } from './services/util/network/network-util.service';
 import { SpinnerService } from './services/util/spinner/spinner.service';
@@ -119,10 +121,12 @@ export class AppComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this._orgService.getOrganizationById.subscribe(
         (org) => {
-          this.organizationDetails = org;
+          if (org) {
+            this.organizationDetails = org;
+          }
         }
       );
-    }, 1000);
+    }, 3000);
 
   }
 

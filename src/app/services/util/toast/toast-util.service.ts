@@ -37,7 +37,7 @@ export class ToastUtilService {
       buttons: [
         {
           role: 'cancel',
-          text: 'Reload',
+          text: 'Update',
         },
       ],
     });

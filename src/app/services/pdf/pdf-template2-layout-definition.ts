@@ -7,6 +7,7 @@ import { Order, OrderItem } from 'src/app/models/order.model';
 import { Organization } from 'src/app/models/organization.model';
 import { IWidthType } from 'src/app/models/pdf.model';
 import { pdfConstants, orderTableWidth_Template2, orderTableHeader_Template2 } from 'src/app/constants/pdf.constants';
+import imageToBase64 from 'image-to-base64/browser';
 
 import {
   NO_TOP_BOTTOM_TABLE_BORDER,
@@ -15,12 +16,14 @@ import {
   createWidthArray,
   createDummyData
 } from './pdf-generic-layout-definition';
+import { LoggerService } from '../util/logger/logger.service';
 
-const getTemplate2DocumentContent = (
+
+const getTemplate2DocumentContent = async (
   order: Order,
   sellerOrganization: Organization,
   buyer: Customer
-): TDocumentDefinitions => {
+): Promise<TDocumentDefinitions> => {
   // Destructuring pdf constants.
   const {
     AMOUNT_IN_WORDS_LABEL,
@@ -96,70 +99,78 @@ const getTemplate2DocumentContent = (
 
   // Order item table layout.
   const ORDER_ITEM_TABLE_LAYOUT_TEMPLATE2: CustomTableLayout = {
-      hLineWidth: (rowIndex: number, node: ContentTable, colIndex: number) => {
-          // Displaying the horizontal line only around the headers and for the table bottom outline.
-          if (
-              rowIndex === 0 ||
-              rowIndex === 1 ||
-              (rowIndex >= node.table.body.length - 2)
-          ) {
-              return 1;
-          } else {
-              return 0;
-          }
-      },
-      paddingBottom: (rowIndex: number, node: any, colIndex: number) => {
-          const DEFAULT_PADDING = 2;
-          // The content height is static.
-          const ORDER_TOTAL_DISPLAY_ROW_HEIGHT = 55.5;
-  
-          // Calculating height for the last order item.
-          // NOTE: length - 1 gives the last element of the table.
-          // But instead -3 is used to neglect the two rows displaying the order total.
-          if (rowIndex === node.table.body.length - 3) {
-              const currentPosition = node.positions[node.positions.length - 1];
-              const totalPageHeight = currentPosition.pageInnerHeight;
-              const currentHeight = currentPosition.top;
-              const paddingBottom = totalPageHeight - currentHeight - ORDER_TOTAL_DISPLAY_ROW_HEIGHT;
-              return paddingBottom;
-          } else {
-              return DEFAULT_PADDING;
-          }
-      },
+    hLineWidth: (rowIndex: number, node: ContentTable, colIndex: number) => {
+      // Displaying the horizontal line only around the headers and for the table bottom outline.
+      if (
+        rowIndex === 0 ||
+        rowIndex === 1 ||
+        (rowIndex >= node.table.body.length - 2)
+      ) {
+        return 1;
+      } else {
+        return 0;
+      }
+    },
+    paddingBottom: (rowIndex: number, node: any, colIndex: number) => {
+      const DEFAULT_PADDING = 2;
+      // The content height is static.
+      const ORDER_TOTAL_DISPLAY_ROW_HEIGHT = 55.5;
+
+      // Calculating height for the last order item.
+      // NOTE: length - 1 gives the last element of the table.
+      // But instead -3 is used to neglect the two rows displaying the order total.
+      if (rowIndex === node.table.body.length - 3) {
+        const currentPosition = node.positions[node.positions.length - 1];
+        const totalPageHeight = currentPosition.pageInnerHeight;
+        const currentHeight = currentPosition.top;
+        const paddingBottom = totalPageHeight - currentHeight - ORDER_TOTAL_DISPLAY_ROW_HEIGHT;
+        return paddingBottom;
+      } else {
+        return DEFAULT_PADDING;
+      }
+    },
   };
-  
+
+  // Image to base64
+  const file = sellerOrganization.profilePic;
+  let imageAsBase64 = null;
+  try {
+    const response = await imageToBase64(file);
+    imageAsBase64 = 'data:image/png;base64,' + response;
+  } catch (error) {
+    LoggerService.error('imageToBase64 -->', error); // Logs an error if there was one
+  }
+
   // Function to generate the data to be populated in orders table.
-  const generateOrderDetailsData = ({ orderItems }: Order): any[][] => {
-    return orderItems.map((item: OrderItem, index) => [
-      index + 1,
+  const generateOrderDetailsData = ({ orderItems }: Order): any[][] => orderItems.map((item: OrderItem, index) => [
+    index + 1,
 
-      {
-        columns: [
-          [
-            item.productName,
-            `HSN: ${item.hsnCode}`,
-            `GST: ${item.gstPercentage}%`
-          ]
+    {
+      columns: [
+        [
+          item.productName,
+          `HSN: ${item.hsnCode}`,
+          `GST: ${item.gstPercentage}%`
         ]
-      },
+      ]
+    },
 
-      { text: convertToInrString(item.price), style: 'text-align-right' },
-      { text: item.quantity, style: 'text-align-center' },
-      { text: convertToInrString(item.discountActual), style: 'text-align-right' },
-      { text: convertToInrString(item.subTotal), style: 'text-align-right' },
+    { text: convertToInrString(item.price), style: 'text-align-right' },
+    { text: item.quantity, style: 'text-align-center' },
+    { text: convertToInrString(item.discountActual), style: 'text-align-right' },
+    { text: convertToInrString(item.subTotal), style: 'text-align-right' },
 
-      {
-        columns: [
-          [
-            { text: `C: ${convertToInrString(item.cgstAmount)}`, style: 'text-align-right' },
-            { text: `S: ${convertToInrString(item.sgstAmount)}`, style: 'text-align-right' },
-          ]
+    {
+      columns: [
+        [
+          { text: `C: ${convertToInrString(item.cgstAmount)}`, style: 'text-align-right' },
+          { text: `S: ${convertToInrString(item.sgstAmount)}`, style: 'text-align-right' },
         ]
-      },
-      
-      { text: convertToInrString(item.totalAmount), style: 'text-align-right' },
-    ]);
-  };
+      ]
+    },
+
+    { text: convertToInrString(item.totalAmount), style: 'text-align-right' },
+  ]);
 
   // Return the actual content to form the PDF.
   return {
@@ -187,7 +198,10 @@ const getTemplate2DocumentContent = (
               {
                 border: [false, false],
                 // TODO: TO BE REPLACED BY THE LOGO
-                text: 'To Be Replaced by the Logo'
+                // text: 'To Be Replaced by the Logo'
+                image: imageAsBase64,
+                width: 150,
+                height: 150
               },
               // Column 2 - From Address.
               {
