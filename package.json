@@ -23,6 +23,8 @@
     "firebase:prod:useproject": "firebase use --add stockmanagementbilling-adb46",
     "firebase:prod": "npm run firebase:prod:useproject && firebase deploy --only hosting:smb-app",
     "run:deploy:prod": "npm run deploy_web:prod && npm run firebase:prod",
+    "firebase:pksc:prod": "npm run firebase:prod:useproject && firebase deploy --only hosting:smb-pksc",
+    "run:deploy:pksc:prod": "npm run deploy_web:prod && npm run firebase:pksc:prod",
     "deploy_android:local": "ionic capacitor run android --prod --configuration=local --aot=true --release --output-hashing=all",
     "deploy_android:local:live": "ionic capacitor run android --aot=true --release --output-hashing=all -l",
     "deploy_android:dev": "ionic capacitor run android --prod --configuration=dev --aot=true --release --output-hashing=all",
