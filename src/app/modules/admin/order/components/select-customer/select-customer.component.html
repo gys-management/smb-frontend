@@ -1,0 +1,41 @@
+<ionic-selectable modalCssClass='modal-fullscreen' #cusomterSelectable [(ngModel)]="customer" itemValueField="id"
+  itemTextField="companyName" [canSearch]="true" [hasInfiniteScroll]="true" (onChange)="customerSelectableChange()"
+  (onSearch)="customerSelectableSearch($event)" (onInfiniteScroll)="getMoreCustomer($event)"
+  searchPlaceholder="Search By Company Name or Phone No.">
+  <ng-template ionicSelectableIconTemplate>
+    <!-- <ion-icon slot="icon-only" color="primary" name="person-add-outline"></ion-icon> -->
+    <ion-buttons>
+      <ion-button>
+        <ion-icon slot="icon-only" color="primary" name="person-add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ng-template>
+  <!-- Display empty view after selected-->
+  <ng-template ionicSelectableValueTemplate>
+  </ng-template>
+
+  <ng-template ionicSelectableItemTemplate let-customer="item" let-isCustomerSelected="isItemSelected">
+    <ion-label>
+      <h2> <i>{{customer.companyName| titlecase}}</i></h2>
+      <p> {{customer.firstName| titlecase}} </p>
+      <p> +91 {{customer.phoneNumber}}</p>
+    </ion-label>
+  </ng-template>
+
+  <ng-template ionicSelectableHeaderTemplate>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+        <ion-button (click)="close()">
+          <!-- <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon> -->
+          <ion-icon slot="icon-only" name="arrow-back-outline"> </ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-buttons slot="end">
+        <ion-button (click)="addCustomerURL()">
+          <ion-icon name="person-add-outline"></ion-icon> &nbsp;
+          <ion-label>Add Customer</ion-label>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ng-template>
+</ionic-selectable>

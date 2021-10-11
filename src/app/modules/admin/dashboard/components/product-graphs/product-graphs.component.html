@@ -1,0 +1,68 @@
+<ion-grid class="ion-text-center">
+  <ion-row>
+    <ion-col size-md="6" size-xs="12">
+
+      <ion-card class="ion-padding ion-text-center">
+        <ion-card-header>
+          <ion-card-title>
+            <ion-label>Order Trend</ion-label>
+            <!-- <ion-buttons class="funnel-icon">
+              <ion-button color="primary" (click)="filterIcon()">
+                <ion-icon slot="icon-only" name="funnel-outline"></ion-icon>
+              </ion-button>
+            </ion-buttons> -->
+          </ion-card-title>
+          <ion-note>Date Range: {{orderDateRange}}</ion-note>
+          <ion-spinner color="primary" name="dots" *ngIf="orderCountChartData == null"></ion-spinner>
+          <canvas *ngIf="orderCountChartData != null" baseChart [chartType]="CHART_TYPE.LINE_CHART"
+            [labels]="orderCountChartLabel" [datasets]="orderCountChartData" [options]="orderCountChartOptions"
+            [colors]="orderCountChartColors" [legend]="false">
+          </canvas>
+        </ion-card-header>
+
+      </ion-card>
+
+
+    </ion-col>
+
+
+    <!-- <ion-col size-md="6" size-xs="12">
+      <ion-card class="ion-padding ion-text-center">
+        <ion-card-subtitle class="ion-no-padding">Top 5 Products</ion-card-subtitle>
+        <div class="container">
+          <ion-spinner color="primary" name="dots" *ngIf="productDetailsChartData == null"></ion-spinner>
+          <canvas *ngIf="productDetailsChartData != null" baseChart [chartType]="CHART_TYPE.BAR_CHART"
+            [labels]="productDetailsChartLabel" [datasets]="productDetailsChartData" [options]="defaultChartOptions"
+            [colors]="productDetailsChartColors">
+          </canvas>
+        </div>
+      </ion-card>
+    </ion-col> -->
+
+    <!-- <ion-col size-md="6" size-xs="12">
+      <ion-card class="ion-padding ion-text-center">
+        <ion-card-subtitle class="ion-no-padding">Top 5 Brands</ion-card-subtitle>
+        <div class="container">
+          <ion-spinner color="primary" name="dots" *ngIf="productBrandChartData == null"></ion-spinner>
+          <canvas *ngIf="productBrandChartData != null" baseChart [chartType]="CHART_TYPE.BAR_CHART"
+            [labels]="productBrandChartLabel" [datasets]="productBrandChartData" [options]="defaultChartOptions"
+            [colors]="productBrandChartColors">
+          </canvas>
+        </div>
+      </ion-card>
+    </ion-col> -->
+
+    <!-- <ion-col size-md="6" size-xs="12">
+      <ion-card class="ion-padding ion-text-center">
+        <ion-card-subtitle class="ion-no-padding">Top 5 Product Categories</ion-card-subtitle>
+        <div class="container">
+          <ion-spinner color="primary" name="dots" *ngIf="productCategoryChartData == null"></ion-spinner>
+          <canvas *ngIf="productCategoryChartData != null" baseChart [chartType]="CHART_TYPE.BAR_CHART"
+            [labels]="productCategoryChartLabel" [datasets]="productCategoryChartData" [options]="defaultChartOptions"
+            [colors]="productCategoryChartColors">
+          </canvas>
+        </div>
+      </ion-card>
+    </ion-col> -->
+  </ion-row>
+</ion-grid>

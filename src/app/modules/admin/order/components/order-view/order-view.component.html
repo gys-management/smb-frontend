@@ -1,0 +1,205 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="headerModel.defaultRoutingUrl"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end" (click)="presentActionSheet()">
+      <ion-button>
+        <ion-icon slot="icon-only" name="ellipsis-vertical-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{headerModel.title}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form *ngIf="form" [formGroup]="form">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-sm="12" size-md="6">
+          <ion-card>
+            <ion-item lines="none">
+              <ion-card-header>
+                <ion-card-subtitle>Bill To <span class="required-field"></span></ion-card-subtitle>
+                <ion-card-title> {{customer!=undefined?customer.companyName:'Select the Cutomer'}}</ion-card-title>
+                <ion-card-subtitle>{{customer?.firstName}} {{customer?.lastName}}</ion-card-subtitle>
+                <ion-card-subtitle>+91 {{customer?.phoneNumber}}</ion-card-subtitle>
+                <ion-card-subtitle *ngIf="customer">
+                  {{customer?.addressLine1}}, {{customer?.addressLine1}},
+                  {{customer?.city}}, {{customer?.state}}, {{customer?.country}} <br />
+                  {{customer?.email}} <br />
+                  {{customer?.phoneNumber}} <br />
+                  {{customer?.gstNumber}}
+                </ion-card-subtitle>
+              </ion-card-header>
+
+            </ion-item>
+          </ion-card>
+        </ion-col>
+        <ion-col size-xs="12" size-sm="12" size-md="6">
+          <ion-card>
+            <ion-item lines="none">
+              <ion-card-header>
+                <ion-card-subtitle>Bill From</ion-card-subtitle>
+                <ion-card-title>{{organization?.companyName}}</ion-card-title>
+                <ion-card-subtitle>{{organization?.firstName}} {{organization?.lastName}}</ion-card-subtitle>
+                <ion-card-subtitle>+91 {{organization?.phoneNumber}}</ion-card-subtitle>
+                <ion-card-subtitle *ngIf="organization">
+                  {{organization?.addressLine1}}, {{organization?.addressLine1}},
+                  {{organization?.city}}, {{organization?.state}}, {{organization?.country}} <br />
+                  {{organization?.email}} <br />
+                  {{organization?.phoneNumber}} <br />
+                  {{organization?.gstNumber}}
+                </ion-card-subtitle>
+              </ion-card-header>
+            </ion-item>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="orderDetail">
+        <ion-col>
+          <ion-item lines="none">
+            <ion-label color="primary">Order No:</ion-label>
+            <ion-input type="number" class="ion-text-right" slot="end" formControlName="orderNumber" readonly="true">
+            </ion-input>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-label color="primary">Invoice No<span class="required-field"></span> : </ion-label>
+            <ion-input type="text" class="ion-text-right" slot="end" formControlName="invoiceNumber" readonly="true">
+            </ion-input>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-label color="primary">Reference : </ion-label>
+            <ion-input type="text" class="ion-text-right" slot="end" formControlName="reference" readonly="true">
+            </ion-input>
+          </ion-item>
+
+        </ion-col>
+        <ion-col>
+          <ion-item lines="none">
+            <ion-label color="primary"> Order Date<span class="required-field"></span> : </ion-label>
+            <ion-icon name="calendar-outline"></ion-icon>
+            <ion-datetime displayFormat="YYYY-MM-DD" #orderDateCtrl formControlName="orderedDate" readonly="true">
+            </ion-datetime>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-label color="primary"> Estimate Delivery Date<span class="required-field"></span> : </ion-label>
+            <ion-icon name="calendar-outline"></ion-icon>
+            <ion-datetime displayFormat="YYYY-MM-DD" [min]="orderDateCtrl.value" formControlName="estimatedDeliveryDate"
+              readonly="true">
+            </ion-datetime>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-label color="primary">Amount paid: </ion-label>
+            <ion-input slot="end" class="ion-text-right" type="number" formControlName="amountPaid" #amountPaidCtrl
+              readonly="true">
+            </ion-input>
+          </ion-item>
+          <!-- <ion-item lines="none">
+            <ion-label color="primary"> Delivered Date : </ion-label>
+            <ion-icon name="calendar-outline"></ion-icon>
+            <ion-datetime displayFormat="YYYY-MM-DD" formControlName="deliveredDate" readonly="true">
+            </ion-datetime>
+          </ion-item> -->
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="orderDetail">
+        <ion-col>
+
+          <table *ngIf="dataSource!=null || dataSource.data.length>0" mat-table [dataSource]="dataSource"
+            multiTemplateDataRows>
+            <ng-container matColumnDef="productName">
+              <th mat-header-cell *matHeaderCellDef>
+                <ion-label color="primary"> Name </ion-label>
+              </th>
+              <td mat-cell *matCellDef="let row">
+                <ion-text>{{row.productName}}</ion-text>
+                <ion-note>
+                  <p>{{row.hsnCode}}</p>
+                  <p>{{row.price | currency:'INR'}} </p>
+                  <p>{{row.gstPercentage}}% - {{row.gstIncluded?'incl':'excl'}}</p>
+                </ion-note>
+            </ng-container>
+
+            <ng-container matColumnDef="price">
+              <th mat-header-cell *matHeaderCellDef>
+                <ion-label color="primary"> Qty </ion-label>
+              </th>
+              <td mat-cell *matCellDef="let row">
+                <ion-note>
+                  <p>Qty:<span>{{row.quantity}} </span> </p>
+                  <p>Discount:<span>{{row.discountUser| currency:'INR'}} </span> </p>
+
+                </ion-note>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="totalAmount">
+              <th mat-header-cell *matHeaderCellDef>
+                <ion-label color="primary"> Total </ion-label>
+              </th>
+              <td mat-cell *matCellDef="let row">
+                <ion-note>
+                  <p>Sub-total:<span> {{row.subTotal | currency:'INR'}} </span> </p>
+                  <p>GST:<span> {{row.gstAmount | currency:'INR'}} </span> </p>
+                  <p>Total: <span> {{row.totalAmount | currency:'INR'}} </span></p>
+                </ion-note>
+              </td>
+            </ng-container>
+
+
+
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row">
+            </tr>
+
+          </table>
+
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="orderDetail">
+        <ion-col size-sm="6">
+          <ion-item lines="none">
+            <ion-label slot="start" color="primary">Sub-Total : </ion-label>
+            <ion-label class="ion-text-end">{{form.value.subTotal | currency: 'INR'}}</ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-label slot="start" color="primary">CGST : </ion-label>
+            <ion-label class="ion-text-end">{{form.value.cgstAmount | currency: 'INR'}}</ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-label slot="start" color="primary">SGST : </ion-label>
+            <ion-label class="ion-text-end">{{form.value.sgstAmount | currency: 'INR'}}</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col size-sm="6">
+          <ion-item lines="none">
+            <ion-label slot="start" color="primary">Total : </ion-label>
+            <ion-label class="ion-text-end">{{form.value.total | currency: 'INR'}}</ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-label slot="start" color="primary">RoundOff : </ion-label>
+            <ion-label class="ion-text-end">{{form.value.roundOffAmount | currency: 'INR'}}</ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-label slot="start" color="primary">Final Amount : </ion-label>
+            <ion-label class="ion-text-end">{{form.value.finalAmount | currency: 'INR'}}</ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+  </form>
+
+  <!-- <ion-fab vertical="start" horizontal="end" slot="fixed">
+    <ion-fab-button color="primary" (click)="presentActionSheet()">
+      <ion-icon name="paper-plane-outline">
+      </ion-icon>
+    </ion-fab-button>
+  </ion-fab> -->
+
+</ion-content>

@@ -16,7 +16,7 @@
 @import "~@ionic/angular/css/normalize.css";
 @import "~@ionic/angular/css/structure.css";
 @import "~@ionic/angular/css/typography.css";
-@import '~@ionic/angular/css/display.css';
+@import "~@ionic/angular/css/display.css";
 
 /* Optional CSS utils that can be commented out */
 @import "~@ionic/angular/css/padding.css";
@@ -24,3 +24,136 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+@import "./theme/action-sheet.scss";
+
+// Mat table custom
+table {
+  width: 100%;
+}
+
+table th.mat-header-cell,
+table td.mat-cell,
+table td.mat-footer-cell {
+  padding: 0px 4px;
+}
+
+table tr td.mat-cell:last-of-type.action-btn,
+table tr td.mat-footer-cell:last-of-type.action-btn,
+table tr th.mat-header-cell:last-of-type.action-btn {
+  padding-right: 0px;
+  text-align: right;
+  width: 36px;
+  ion-buttons {
+    display: block;
+    float: right;
+    width: 36px;
+  }
+  ion-button {
+    width: 36px;
+    --padding-start: 0px;
+    --padding-end: 0px;
+  }
+}
+
+tr.example-element-row {
+  text-align: left;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover,
+tr.example-element-row:not(.example-expanded-row):active {
+  // cursor: pointer;
+  // transform: scale(1.01);
+  // transition: all 0.3s ease;
+  border: 1.5px solid #b6b1b1;
+}
+
+// @media (prefers-color-scheme: dark) {
+//   .mat-table,
+//   .mat-primary,
+//   .mat-paginator,
+//   .mat-select-panel,
+//   .mat-select-panel-wrap,
+//   .mat-form-field,
+//   .mat-form-field-wrapper,
+//   .item-native,
+//   .mat-expansion-panel,
+//   .mat-stepper-vertical {
+//     background-color: var(--ion-background-color);
+//     color: var(--ion-text-color) !important;
+//   }
+//   .mat-cell,
+//   .mat-expansion-indicator::after,
+//   .mat-step-header,
+//   .mat-step-label,
+//   .mat-step-label-active {
+//     color: var(--ion-text-color) !important;
+//   }
+
+//   tr.example-element-row:not(.example-expanded-row):hover,
+//   tr.example-element-row:not(.example-expanded-row):active {
+//     border: 1.5px solid #474646;
+//   }
+// }
+
+// mat paginator align
+.mat-paginator-container {
+  justify-content: start !important;
+}
+
+// ion-card
+ion-card,
+.card-ios,
+.card-md {
+  margin: 5px !important;
+}
+
+.loading-wrapper {
+  box-shadow: none !important;
+}
+
+#ion-overlay-1 .loading-wrapper {
+  box-shadow: 0 16px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+// Mandatory field
+.required-field::before {
+  content: "*";
+  color: red;
+}
+
+// Mat-styling overrides
+// Product Details page
+.product-details-page-container .mat-expansion-panel-body {
+  padding: 0 8px 16px;
+}
+
+// Start : Modal display
+.modal-fullscreen {
+  .modal-wrapper {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    position: absolute;
+    top: 5;
+    bottom: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 95%;
+  }
+}
+
+.modal-75-percentage-screen {
+  .modal-wrapper {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    position: absolute;
+    top: 5;
+    bottom: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 75%;
+  }
+}
+
+// End: Modal display

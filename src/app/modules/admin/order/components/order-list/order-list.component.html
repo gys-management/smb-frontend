@@ -1,0 +1,103 @@
+<ion-row>
+  <ion-col>
+    <ion-searchbar #mySearchBar placeholder="Search By Display Name or Phone No." animated='true'>
+    </ion-searchbar>
+  </ion-col>
+</ion-row>
+<ion-row>
+  <ion-col>
+    <ion-note>
+      <p> *S-Status, *O-Ordered, *D-Delivered, *C-Canceled</p>
+    </ion-note>
+  </ion-col>
+</ion-row>
+
+<div class="mat-elevation-z8 order-list-table-container">
+  <div *ngIf="isLoadingResults">
+    <ion-progress-bar color="primary" type="indeterminate"></ion-progress-bar>
+  </div>
+
+  <!-- new style-->
+
+  <table mat-table [dataSource]="dataSource" matSort matSortDirection="desc" matSortDisableClear
+    matSortActive="orderNumber" multiTemplateDataRows>
+
+    <ng-container matColumnDef="orderNumber">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <ion-label color="primary"> Order No </ion-label>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <ion-buttons>
+          <ion-button (click)="onView(row.id)">
+            <ion-text color="primary"> {{row.orderNumber}}</ion-text>
+          </ion-button>
+        </ion-buttons>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="companyName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <ion-label color="primary"> Customer </ion-label>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        {{row.companyName | titlecase}}
+        <ion-note>
+          <p>S: <ion-note [color]="row.color">{{row.orderStatus | titlecase}}</ion-note>
+          </p>
+          <p>O: <span>{{row.orderedDate | date}}</span> </p>
+          <p *ngIf="row.deliveredDate">D: <span>{{row.orderedDate | date}}</span> </p>
+          <p *ngIf="row.orderStatus === orderStatus.CANCELLED">C: <span>{{row.updatedDate | date}}</span> </p>
+
+        </ion-note>
+      </td>
+    </ng-container>
+
+    <!-- <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <ion-label color="primary"> Date </ion-label>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <ion-note>
+          <p>Ordered: <span>{{row.orderedDate | date}}</span> </p>
+          <p *ngIf="row.deliveredDate">Delivered: <span>{{row.orderedDate | date}}</span> </p>
+          <p *ngIf="row.orderStatus === orderStatus.CANCELLED">Canceled: <span>{{row.updatedDate | date}}</span> </p>
+        </ion-note>
+      </td>
+    </ng-container> -->
+
+    <ng-container matColumnDef="amt">
+      <th mat-header-cell *matHeaderCellDef>
+        <ion-label color="primary"> Amount </ion-label>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <ion-note>
+          <p>Amt:<span> {{row.finalAmount | currency:'INR'}} </span> </p>
+          <p>Paid:<span> {{row.amountPaid | currency:'INR'}} </span> </p>
+        </ion-note>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>
+      </th>
+      <td mat-cell *matCellDef="let row" class="action-btn">
+        <ion-buttons>
+          <ion-button color="dark" (click)="presentActionSheet(row)">
+            <ion-icon slot="icon-only" name="ellipsis-vertical-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnsToDisplay;" class="example-element-row">
+    </tr>
+  </table>
+  <app-no-data-message *ngIf="resultsLength===0" [displayData]="resultsLength"> </app-no-data-message>
+
+
+  <mat-paginator [length]="resultsLength" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 50, 75, 100]"
+    showFirstLastButtons>
+  </mat-paginator>
+
+</div>

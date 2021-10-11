@@ -1,0 +1,71 @@
+<div>
+  <ion-grid class="ion-no-padding">
+    <ion-row>
+      <ion-col>
+        <ion-searchbar #mySearchBar placeholder="Search By Product Name " animated='true'>
+        </ion-searchbar>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <table mat-table [dataSource]="dataSource" matSort matSortDirection="asc" matSortDisableClear
+          matSortActive="quantity" multiTemplateDataRows class="mat-elevation-z8">
+
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>
+              <ion-label color="primary"> Name </ion-label>
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{element.name| titlecase}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              <ion-label color="primary"> Qty </ion-label>
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <ion-text [color]="element.qtyDisplayColor"> {{element.quantity}}</ion-text>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="sellingPrice">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              <ion-label color="primary"> Price </ion-label>
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{element.sellingPrice| currency:'INR'}}
+            </td>
+          </ng-container>
+
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef class="action-btn">
+              <ion-label color="primary">
+                Action
+              </ion-label>
+            </th>
+            <td mat-cell *matCellDef="let element" class="action-btn">
+              <ion-buttons>
+                <ion-button color="dark" (click)="presentActionSheet(element)">
+                  <ion-icon slot="icon-only" name="ellipsis-vertical-outline"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+            </td>
+
+          </ng-container>
+
+
+          <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+          <tr mat-row *matRowDef="let row; columns: columnsToDisplay;" class="example-element-row"></tr>
+        </table>
+        <app-no-data-message *ngIf="resultsLength===0" [displayData]="resultsLength"> </app-no-data-message>
+
+        <mat-paginator [length]="resultsLength" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 50, 75, 100]"
+          showFirstLastButtons>
+        </mat-paginator>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</div>

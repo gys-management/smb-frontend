@@ -1,0 +1,141 @@
+import { HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { ApiUrlContant } from '../constants/api-url.constants';
+import { OrderStatus } from '../enum/order-status.enum';
+import { HttpMethods } from '../models/http';
+import { Order, OrderChartData } from '../models/order.model';
+import { PaginatedResponse } from '../models/paginatedResponse.model';
+import { HttpUtilService } from './util/http/http-util.service';
+
+@Injectable()
+export class OrderService {
+
+  constructor(
+    private _http: HttpUtilService
+  ) { }
+
+  async getOrderAll(): Promise<Order[]> {
+    return await this._http.makeRequest(
+      ApiUrlContant.ORDERS,
+      HttpMethods.GET,
+      null,
+      null,
+      null,
+      { excludeAuthHeader: false }
+    );
+  }
+
+  getAllOrdersWithPagination(
+    filter: string = '',
+    sortFiled: string = 'orderNumber',
+    sortOrder: string = 'ASC',
+    pageNumber: number = 0,
+    pageSize: number = 10,
+    orderStatus: OrderStatus = OrderStatus.ALL
+  ): Promise<PaginatedResponse<Order>> {
+    const params = new HttpParams()
+      .set('page', pageNumber.toString())
+      .set('size', pageSize.toString())
+      .set('sortby', sortFiled)
+      .set('sortorder', sortOrder.toUpperCase())
+      .set('searchterm', filter)
+      .set('status', orderStatus);
+
+    return this._http.makeRequest(
+      `${ApiUrlContant.ORDERS}/page`,
+      HttpMethods.GET,
+      null,
+      params
+    );
+  }
+
+  async getOrderById(id: string): Promise<Order> {
+    return await this._http.makeRequest(
+      `${ApiUrlContant.ORDERS}/${id}`,
+      HttpMethods.GET,
+      null,
+      null,
+      null,
+      { excludeAuthHeader: false, hideSpinner: true }
+    );
+  }
+
+  async saveOrder(order: Order): Promise<Order> {
+    return await this._http.makeRequest(
+      ApiUrlContant.ORDERS,
+      HttpMethods.POST,
+      order,
+      null,
+      null,
+      { excludeAuthHeader: false }
+    );
+  }
+
+  async updateOrder(id: string, order: Order): Promise<Order> {
+    return await this._http.makeRequest(
+      `${ApiUrlContant.ORDERS}/${id}`,
+      HttpMethods.PUT,
+      order,
+      null,
+      null,
+      { excludeAuthHeader: false }
+    );
+  }
+
+  async cancelOrder(id: string): Promise<Order> {
+    return await this._http.makeRequest(
+      `${ApiUrlContant.ORDERS}/${id}/cancel`,
+      HttpMethods.PUT,
+      null,
+      null,
+      null,
+      { excludeAuthHeader: false }
+    );
+  }
+
+  async fetchOrderCount(): Promise<number> {
+    return await this._http.makeRequest(
+      `${ApiUrlContant.ORDERS}/count`,
+      HttpMethods.GET,
+      null,
+      null,
+      null,
+      { excludeAuthHeader: false, hideSpinner: true }
+    );
+  }
+
+  async updateOrderStatus(id: string, orderStatus: OrderStatus): Promise<Order> {
+    const params = new HttpParams()
+      .set('orderStatus', orderStatus);
+
+    return await this._http.makeRequest(
+      `${ApiUrlContant.ORDERS}/${id}/status`,
+      HttpMethods.PUT,
+      null,
+      params
+    );
+  }
+
+  async completedOrder(id: string): Promise<Order> {
+    return await this._http.makeRequest(
+      `${ApiUrlContant.ORDERS}/${id}/complete`,
+      HttpMethods.PUT
+    );
+  }
+
+  async payAmtForOrder(id: string, order: Order): Promise<Order> {
+    return await this._http.makeRequest(
+      `${ApiUrlContant.ORDERS}/${id}/payment`,
+      HttpMethods.PUT,
+      order
+    );
+  }
+
+  async fetchOrderCountChartData(): Promise<OrderChartData> {
+    return await this._http.makeRequest(
+      `${ApiUrlContant.ORDERS}/chart-data`,
+      HttpMethods.GET
+    );
+  }
+
+}

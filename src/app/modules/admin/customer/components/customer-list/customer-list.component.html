@@ -1,0 +1,133 @@
+<!-- <fa-icon size="2x" icon="camera-retro"></fa-icon>
+  <fa-icon icon="home"></fa-icon> -->
+<!-- Todo: Will enable once payment API is created -->
+<!-- <div>
+    <ion-grid>
+      <ion-row>
+        <ion-col size-xs="12" size-sm="4" size-md="4">
+          <ion-card class="customer-amount-card" (click)="paymentDetailByCustomerModal()">
+            <ion-card-title class="ion-text-center">
+              <ion-label> ORDERED</ion-label>
+            </ion-card-title>
+            <ion-card-header>
+              <ion-label> Total Order Amount so far... </ion-label>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-spinner color="secondary" name="lines" *ngIf="isLoadingSpinner"></ion-spinner>
+              <ion-label color="secondary" *ngIf="paymentTotal">
+                {{paymentTotal.totalOrderAmount | currency : 'INR'}}</ion-label>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col size-xs="12" size-sm="4" size-md="4">
+          <ion-card class="customer-amount-card" (click)="paymentDetailByCustomerModal()">
+            <ion-card-title class="ion-text-center">
+              <ion-label> RECEIVED</ion-label>
+            </ion-card-title>
+            <ion-card-header>
+              <ion-label> Amount Received so far... </ion-label>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-spinner color="success" name="lines" *ngIf="isLoadingSpinner"></ion-spinner>
+              <ion-label color="success" *ngIf="paymentTotal">
+                {{paymentTotal.totalPaymentAmount | currency : 'INR'}}</ion-label>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col size-xs="12" size-sm="4" size-md="4">
+          <ion-card class="customer-amount-card" (click)="paymentDetailByCustomerModal()">
+            <ion-card-title class="ion-text-center">
+              <ion-label> OUTSTANDING</ion-label>
+            </ion-card-title>
+            <ion-card-header>
+              <ion-label> Amount Pending so far... </ion-label>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-spinner color="danger" name="lines" *ngIf="isLoadingSpinner"></ion-spinner>
+              <ion-label color="danger" *ngIf="paymentTotal">{{paymentTotal.pendingAmount | currency : 'INR'}}
+              </ion-label>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div> -->
+
+<div>
+  <ion-grid class="ion-no-padding">
+    <ion-row>
+      <ion-col>
+        <ion-searchbar #mySearchBar placeholder="Search By Display Name or Phone No." animated='true'>
+        </ion-searchbar>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <!-- <div class="spinner-container" *ngIf="isLoadingResults">
+            <ion-progress-bar color="primary" type="indeterminate"></ion-progress-bar>
+          </div> -->
+        <table mat-table [dataSource]="customerDataSource" matSort matSortDirection="asc" matSortDisableClear
+          matSortActive="companyName" multiTemplateDataRows class="mat-elevation-z8">
+
+          <ng-container matColumnDef="checkbox">
+            <th mat-header-cell *matHeaderCellDef>
+              <ion-checkbox slot="start"></ion-checkbox>
+
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <ion-checkbox slot="start" [(ngModel)]="element.isChecked"></ion-checkbox>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="companyName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              <ion-label color="primary">
+                Name </ion-label>
+            </th>
+            <td mat-cell *matCellDef="let element">
+
+              <ion-item lines="none" class="customer-info-wrapper">
+                <ion-avatar (click)="onView(element.id)" class="ion-text-center ion-no-padding" slot="start">
+                  <h4> {{element.companyName.trim().substr(0,2).toUpperCase()}}</h4>
+                </ion-avatar>
+                <ion-label>
+                  <h2 (click)="onView(element.id)" class=" company-name">
+                    {{element.companyName| titlecase}}</h2>
+                  <h3>
+                    {{element.firstName| titlecase}}
+                  </h3>
+                  <p> +91 {{element.phoneNumber}}</p>
+                </ion-label>
+              </ion-item>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef class="action-btn">
+              <!-- <ion-label color="primary">
+                  Action
+                </ion-label> -->
+            </th>
+            <td mat-cell *matCellDef="let element" class="action-btn">
+              <ion-buttons>
+                <ion-button color="dark" (click)="presentActionSheet(element)">
+                  <ion-icon slot="icon-only" name="ellipsis-vertical-outline"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+            </td>
+
+          </ng-container>
+
+
+          <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+          <tr mat-row *matRowDef="let row; columns: columnsToDisplay;" class="example-element-row"></tr>
+        </table>
+        <app-no-data-message *ngIf="resultsLength===0" [displayData]="resultsLength"> </app-no-data-message>
+
+        <mat-paginator [length]="resultsLength" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 50, 75, 100]"
+          showFirstLastButtons>
+        </mat-paginator>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</div>

@@ -1,0 +1,108 @@
+ion-menu {
+  --side-width: 150px;
+}
+
+ion-menu ion-content {
+  --background: var(--ion-item-background, var(--ion-background-color, #fff));
+}
+
+/* Remove background transitions for switching themes */
+ion-menu ion-item {
+  --transition: none;
+}
+
+ion-item.selected {
+  --color: var(--ion-color-primary);
+}
+
+/*
+ * Material Design Menu
+*/
+ion-menu.md ion-list {
+  padding: 5px 0;
+}
+
+ion-menu.md ion-list-header {
+  padding-left: 8px;
+  padding-right: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 150;
+}
+
+ion-menu.md ion-item {
+  font-size: 14px;
+  --padding-start: 18px;
+  padding: -10px;
+  margin-right: 10px;
+  border-radius: 0 50px 50px 0;
+  font-weight: 400;
+}
+
+ion-menu.md ion-item.selected {
+  --background: rgba(var(--ion-color-primary-rgb), 0.14);
+}
+
+ion-menu.md ion-item.selected ion-icon {
+  color: var(--ion-color-primary);
+}
+
+ion-menu.md ion-list-header,
+ion-menu.md ion-item ion-icon {
+  color: var(--ion-color-step-650, #5f6368);
+}
+
+.item.sc-ion-label-md-h,
+.item .sc-ion-label-md-h {
+  overflow: visible;
+}
+
+ion-menu.md ion-list:not(:last-of-type) {
+  border-bottom: 0.1px solid var(--ion-color-step-150, #d7d8da);
+}
+
+/*
+ * iOS Menu
+*/
+ion-menu.ios ion-list-header {
+  padding-left: 8px;
+  padding-right: 8px;
+
+  margin-bottom: 8px;
+}
+
+ion-menu.ios ion-list {
+  padding: 5px 0 0;
+}
+
+ion-menu.ios ion-item {
+  --padding-start: 8px;
+  --min-height: 10px;
+}
+
+ion-menu.ios ion-item ion-icon {
+  font-size: 14px;
+  color: #73849a;
+}
+
+ion-menu.ios ion-item.selected ion-icon {
+  color: var(--ion-color-primary);
+}
+
+.ion-toolbar-local {
+  color: white;
+
+  ion-avatar,
+  ion-thumbnail {
+    margin: 5px 5px 5px 120px;
+  }
+
+  ion-chip,
+  ion-icon {
+    color: white;
+  }
+}
+
+* ::-webkit-scrollbar {
+  display: none;
+}
