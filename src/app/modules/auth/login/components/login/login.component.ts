@@ -15,11 +15,9 @@ import { AppConstant } from 'src/app/constants/app.constants';
 @Component({
   selector: 'app-login-comp',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
-
-
   // login: LoginModel = { userName: '7845781006', password: 'User@123' };
   login: LoginModel;
   login_url;
@@ -33,14 +31,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     private _router: Router,
     private _messageService: MessageService,
     private _orginazationService: OrganizationService,
-    private _oAuthService: OauthService,
-    // private _configurationServices: ConfigurationService
-  ) { }
+    private _oAuthService: OauthService
+  ) // private _configurationServices: ConfigurationService
+  {}
 
   ngOnInit() {
     this.login_url = {
       dashboard: UrlConstant.URL_ADMIN_DASHBOARD,
-      signup: UrlConstant.URL_SIGN_UP
+      signup: UrlConstant.URL_SIGN_UP,
     };
     this._authService.userRoleNavigation();
   }
@@ -69,14 +67,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     // this._customLoadinCtrl.load('Authenticating').then((loadinCtrl) => {
     googleSignCall
-      .then(
-        (googleSign: any) => {
-          const loginOAuthModelLocal: LoginOAuthModel = {
-            idToken: googleSign.user.za,
-            providerId: googleSign.credential.providerId
-          };
-          this.authenticateOAuth(loginOAuthModelLocal);
-        })
+      .then((googleSign: any) => {
+        const loginOAuthModelLocal: LoginOAuthModel = {
+          idToken: googleSign.user.za,
+          providerId: googleSign.credential.providerId,
+        };
+        this.authenticateOAuth(loginOAuthModelLocal);
+      })
       .catch((error) => {
         // const message = error.message + ' Kindly try again';
         this._messageService.messageErrorAlert(error);
@@ -97,46 +94,51 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   authenticate(login: LoginModel) {
-    const loginAuthSub: Subscription = this._authService.loginService(login).subscribe(
-      (resData) => {
-        if (resData) {
-          // Load the orgnazition details to subject when user logs in
-          this.orgLoadData();
+    const loginAuthSub: Subscription = this._authService
+      .loginService(login)
+      .subscribe(
+        (resData) => {
+          if (resData) {
+            // Load the orgnazition details to subject when user logs in
+            this.orgLoadData();
+          }
+        },
+        (error) => {
+          this._messageService.messageErrorAlert(error);
         }
-      },
-      (error) => {
-        this._messageService.messageErrorAlert(error);
-      }
-    );
+      );
     this.loginSub.push(loginAuthSub);
-
   }
 
   authenticateOAuth(login: LoginOAuthModel) {
-    const loginAuthSub: Subscription = this._authService.loginOAuthService(login).subscribe(
-      (resData) => {
-        // Load the orgnazition details to subject when user logs in
-        this.orgLoadData();
-      },
-      (error) => {
-        this._messageService.messageErrorAlert(error);
-      }
-    );
+    const loginAuthSub: Subscription = this._authService
+      .loginOAuthService(login)
+      .subscribe(
+        (resData) => {
+          // Load the orgnazition details to subject when user logs in
+          this.orgLoadData();
+        },
+        (error) => {
+          this._messageService.messageErrorAlert(error);
+        }
+      );
     this.loginSub.push(loginAuthSub);
   }
 
   private orgLoadData() {
-    const orgSub = this._orginazationService.fetchOrginzationById().pipe(take(2)).subscribe();
+    AppConstant.reload();
+    const orgSub = this._orginazationService
+      .fetchOrginzationById()
+      .pipe(take(2))
+      .subscribe();
     this.loginSub.push(orgSub);
-
 
     // const configSub = this._configurationServices.fetchConfigurationDetails().subscribe();
     // this.loginSub.push(configSub);
-
   }
   // eslint-disable-next-line @typescript-eslint/member-ordering
   ngOnDestroy() {
-    this.loginSub.forEach(loginSub => {
+    this.loginSub.forEach((loginSub) => {
       if (loginSub) {
         loginSub.unsubscribe();
       }
