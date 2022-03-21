@@ -31,9 +31,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private _router: Router,
     private _messageService: MessageService,
     private _orginazationService: OrganizationService,
-    private _oAuthService: OauthService
-  ) // private _configurationServices: ConfigurationService
-  {}
+    private _oAuthService: OauthService // private _configurationServices: ConfigurationService
+  ) {}
 
   ngOnInit() {
     this.login_url = {
@@ -126,12 +125,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   private orgLoadData() {
-    AppConstant.reload();
     const orgSub = this._orginazationService
       .fetchOrginzationById()
       .pipe(take(2))
       .subscribe();
-    this.loginSub.push(orgSub);
+    // this.loginSub.push(orgSub);
 
     // const configSub = this._configurationServices.fetchConfigurationDetails().subscribe();
     // this.loginSub.push(configSub);

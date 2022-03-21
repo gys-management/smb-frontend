@@ -32,7 +32,7 @@ export class HttpUtilService {
     private _networkUtilService: NetworkUtilService,
     private _storage: Storage,
     private _injector: Injector
-  ) { }
+  ) {}
 
   async getToken() {
     const data = await this._storage.get(AppConstant.AUTH_DATA_STORAGE);
@@ -49,11 +49,9 @@ export class HttpUtilService {
     queryParams?: HttpParams,
     requestHeaders?: HttpHeaders,
     options: HttpRequestOptions = {
-      excludeAuthHeader: false
+      excludeAuthHeader: false,
     }
   ): Promise<any> {
-
-
     const requestURL = environment.restAPI + url;
 
     requestHeaders = requestHeaders || new HttpHeaders();
@@ -91,7 +89,6 @@ export class HttpUtilService {
       options
     );
   }
-
 
   private async makeExternalRequest(
     requestUrl: string,
@@ -164,7 +161,7 @@ export class HttpUtilService {
       const errorResponse: AppError = await this.handleHttpError(err);
       return Promise.reject(errorResponse);
     }
-  };
+  }
 
   /*
   async makeMultiPartRequest(
@@ -262,6 +259,20 @@ export class HttpUtilService {
   private async handleHttpError(err: any): Promise<AppError> {
     let appError: AppError = new AppError();
     switch (err.status) {
+      case 401:
+        appError = new AppError(
+          null,
+          ErrorConstant.ERR_UNAUTHENTICATED,
+          ErrorConstant.ERR_UNAUTHENTICATED
+        );
+        // INFO: To avoid error toast message in initial login page, adding the condition for organization url
+        if (!err.url.includes('organization')) {
+          this._messageService.messageErrorToast(appError);
+        } else {
+          const _authService: AuthService = this._injector.get(AuthService);
+          _authService.logOutService();
+        }
+        break;
       case 500:
         appError = new AppError(
           null,
@@ -277,13 +288,14 @@ export class HttpUtilService {
         );
         break;
       default:
-        appError = new AppError(null, err.error.errorCode, err.error.errorMessage);
+        appError = new AppError(
+          null,
+          err.error.errorCode,
+          err.error.errorMessage
+        );
         break;
     }
-    // INFO: To avoid error toast message in initial login page, adding the condition for organization url
-    if (!err.url.includes('organization')) {
-      this._messageService.messageErrorToast(appError);
-    }
+
     return appError;
   }
 }

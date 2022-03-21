@@ -1,18 +1,14 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
-import { App } from '@capacitor/core';
-import { IonRouterOutlet, ModalController, NavController, Platform } from '@ionic/angular';
+import { App } from '@capacitor/app';
+import { IonRouterOutlet, ModalController, Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { AppConstant } from './constants/app.constants';
-import { UrlConstant } from './constants/url.constants';
 import { Organization } from './models/organization.model';
 import { OrganizationService } from './services/organization.service';
 import { AuthService } from './services/util/auth/auth.service';
-import { LoggerService } from './services/util/logger/logger.service';
 import { MenuBarService } from './services/util/menu/menu-bar.service';
 import { NetworkUtilService } from './services/util/network/network-util.service';
-import { SpinnerService } from './services/util/spinner/spinner.service';
 import { ToastUtilService } from './services/util/toast/toast-util.service';
 
 @Component({
@@ -35,11 +31,9 @@ export class AppComponent implements OnInit, OnDestroy {
     private _toastUtilService: ToastUtilService,
     private _authService: AuthService,
     private _menuBarService: MenuBarService,
-    private _navCtrl: NavController,
     private _modalCtrl: ModalController,
     private _orgService: OrganizationService,
-    private _networkUtilService: NetworkUtilService,
-    private _spinnerService: SpinnerService
+    private _networkUtilService: NetworkUtilService
   ) {
     this.initializeApp();
   }
@@ -48,7 +42,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.softwareUpdateNotification();
     await this.displayMenuBar();
     await this.getOrganizationDetails();
-
   }
 
   // async ionViewWillEnter() {
@@ -68,66 +61,63 @@ export class AppComponent implements OnInit, OnDestroy {
 
   async logout() {
     await this._authService.logOutService();
-    await this._spinnerService.presentSpinner('Logging out', { duration: 2000 });
-    this._navCtrl.navigateRoot(UrlConstant.URL_LOGIN);
   }
 
   refresh() {
     AppConstant.reload();
   }
 
-
   private backButtonToExit() {
-    const platformSub = this._platform.backButton.subscribeWithPriority(999, async () => {
-      if (this._modalCtrl.getTop()) {
-        const modal = await this._modalCtrl.getTop();
-        if (modal) {
-          this._modalCtrl.dismiss();
-          return;
+    const platformSub = this._platform.backButton.subscribeWithPriority(
+      999,
+      async () => {
+        if (this._modalCtrl.getTop()) {
+          const modal = await this._modalCtrl.getTop();
+          if (modal) {
+            this._modalCtrl.dismiss();
+            return;
+          }
+        }
+        if (!this.routerOutlet.canGoBack()) {
+          App.exitApp();
         }
       }
-      if (!this.routerOutlet.canGoBack()) {
-        App.exitApp();
-      }
-    });
+    );
     this.appCompSub.push(platformSub);
   }
 
   private softwareUpdateNotification() {
     if (this._swUpdate.isEnabled) {
-      const softUpdateSub = this._swUpdate.available.subscribe(async event => {
-        console.log('current version is', event.current);
-        console.log('available version is', event.available);
-        this._toastUtilService.presentUpdateToast().then(
-          (res) => {
-            res.onDidDismiss()
+      const softUpdateSub = this._swUpdate.available.subscribe(
+        async (event) => {
+          console.log('current version is', event.current);
+          console.log('available version is', event.available);
+          this._toastUtilService.presentUpdateToast().then((res) => {
+            res
+              .onDidDismiss()
               .then(() => this._swUpdate.activateUpdate())
               .then(() => this.refresh());
           });
-      });
+        }
+      );
       this.appCompSub.push(softUpdateSub);
     }
   }
 
-
-
   private async displayMenuBar() {
-    this._menuBarService.menuBar().subscribe(result => {
+    this._menuBarService.menuBar().subscribe((result) => {
       this.appPages = result;
     });
   }
 
   private async getOrganizationDetails() {
-    setTimeout(() => {
-      this._orgService.getOrganizationById.subscribe(
-        (org) => {
-          if (org) {
-            this.organizationDetails = org;
-          }
+    setTimeout(async () => {
+      this._orgService.getOrganizationById.subscribe((org) => {
+        if (org) {
+          this.organizationDetails = org;
         }
-      );
+      });
     }, 3000);
-
   }
 
   // eslint-disable-next-line @typescript-eslint/member-ordering

@@ -1,8 +1,7 @@
-
 import { Injectable, OnInit, OnDestroy } from '@angular/core';
 import { from, Observable } from 'rxjs';
-import { map, tap, take } from 'rxjs/operators';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { map, tap } from 'rxjs/operators';
+import { HttpParams } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 import { AuthModel } from 'src/app/models/auth/auth.model';
 import { LoginModel } from 'src/app/models/auth/login.model';
@@ -21,7 +20,6 @@ import { NavController } from '@ionic/angular';
   providedIn: 'root',
 })
 export class AuthService implements OnInit, OnDestroy {
-
   private activeLogoutTimer: any;
 
   constructor(
@@ -34,9 +32,7 @@ export class AuthService implements OnInit, OnDestroy {
   }
 
   // eslint-disable-next-line @angular-eslint/contextual-lifecycle
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
   get userIsAuthenticated() {
     return this._cacheService.authDetails.asObservable().pipe(
@@ -86,8 +82,6 @@ export class AuthService implements OnInit, OnDestroy {
     );
   }
 
-
-
   autoLogin() {
     return from(this._storage.get(AppConstant.AUTH_DATA_STORAGE)).pipe(
       map((storedData) => {
@@ -123,49 +117,54 @@ export class AuthService implements OnInit, OnDestroy {
   }
 
   loginService(loginForm: LoginModel) {
-    return from(this._httpUtilService.makeRequest(
-      ApiUrlContant.LOGIN,
-      HttpMethods.POST,
-      { loginId: loginForm.userName, password: loginForm.password },
-      null,
-      null,
-      { excludeAuthHeader: true }
-    )).pipe(tap(this.setAuthData.bind(this)));;
+    return from(
+      this._httpUtilService.makeRequest(
+        ApiUrlContant.LOGIN,
+        HttpMethods.POST,
+        { loginId: loginForm.userName, password: loginForm.password },
+        null,
+        null,
+        { excludeAuthHeader: true }
+      )
+    ).pipe(tap(this.setAuthData.bind(this)));
   }
 
   loginOAuthService(loginOAuthForm: LoginOAuthModel) {
-    return from(this._httpUtilService.makeRequest(
-      `${ApiUrlContant.LOGIN}/oauth`,
-      HttpMethods.POST,
-      loginOAuthForm,
-      null,
-      null,
-      { excludeAuthHeader: true }
-    )).pipe(tap(this.setAuthData.bind(this)));
+    return from(
+      this._httpUtilService.makeRequest(
+        `${ApiUrlContant.LOGIN}/oauth`,
+        HttpMethods.POST,
+        loginOAuthForm,
+        null,
+        null,
+        { excludeAuthHeader: true }
+      )
+    ).pipe(tap(this.setAuthData.bind(this)));
   }
 
   userRoleNavigation() {
     this.autoLogin().subscribe();
-    this.userRole.subscribe(
-      (userLocal) => {
-        if (userLocal) {
-          // const userLocal = JSON.parse(user);
-          if (userLocal === UserRole.ADMIN || userLocal === UserRole.STAFF) {
-            this._navCtrl.navigateRoot(UrlConstant.URL_ADMIN_DASHBOARD);
-          } else if (userLocal === UserRole.CUSTOMER) {
-            this._navCtrl.navigateRoot(UrlConstant.URL_CUSTOMER_DASHBOARD);
-          }
+    this.userRole.subscribe((userLocal) => {
+      if (userLocal) {
+        // const userLocal = JSON.parse(user);
+        if (userLocal === UserRole.ADMIN || userLocal === UserRole.STAFF) {
+          this._navCtrl.navigateRoot(UrlConstant.URL_ADMIN_DASHBOARD);
+        } else if (userLocal === UserRole.CUSTOMER) {
+          this._navCtrl.navigateRoot(UrlConstant.URL_CUSTOMER_DASHBOARD);
         }
-      });
+      }
+    });
   }
-
 
   async logOutService() {
     if (this.activeLogoutTimer) {
       clearTimeout(this.activeLogoutTimer);
     }
-    await this._cacheService.authDetails.next(null);
+    this._cacheService.authDetails.next(null);
+    this._cacheService.orgConfig.next(null);
+    this._cacheService.organization.next(null);
     this._storage.remove(AppConstant.AUTH_DATA_STORAGE);
+    this._navCtrl.navigateRoot(UrlConstant.URL_LOGIN);
   }
 
   private setAuthData(loginResponse: LoginResponse) {
@@ -192,7 +191,10 @@ export class AuthService implements OnInit, OnDestroy {
     this._storage.set(AppConstant.AUTH_DATA_STORAGE, JSON.stringify(authData));
   }
 
-  private checkIsEmailPresent(email: string, providerId: string): Observable<LoginOAuthModel> {
+  private checkIsEmailPresent(
+    email: string,
+    providerId: string
+  ): Observable<LoginOAuthModel> {
     // return this._http.get<LoginOAuthModel>(`${ApiUrlContant.LOGIN}checkIsEmailPresent`,
     //   {
     //     params: new HttpParams()
@@ -201,22 +203,21 @@ export class AuthService implements OnInit, OnDestroy {
     //   })
     //   .pipe(take(1));
 
-
     const params = new HttpParams()
       .set('email', email)
       .set('providerId', providerId);
 
-    return from(this._httpUtilService.makeRequest(
-      `${ApiUrlContant.LOGIN}/checkIsEmailPresent`,
-      HttpMethods.POST,
-      null,
-      params,
-      null,
-      { excludeAuthHeader: false }
-    )).pipe(tap(this.setAuthData.bind(this)));
-
+    return from(
+      this._httpUtilService.makeRequest(
+        `${ApiUrlContant.LOGIN}/checkIsEmailPresent`,
+        HttpMethods.POST,
+        null,
+        params,
+        null,
+        { excludeAuthHeader: false }
+      )
+    ).pipe(tap(this.setAuthData.bind(this)));
   }
-
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
   ngOnDestroy() {
