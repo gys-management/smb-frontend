@@ -1,7 +1,12 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
-import { App } from '@capacitor/core';
-import { IonRouterOutlet, ModalController, NavController, Platform } from '@ionic/angular';
+import { App } from '@capacitor/app';
+import {
+  IonRouterOutlet,
+  ModalController,
+  NavController,
+  Platform,
+} from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AppConstant } from './constants/app.constants';
@@ -48,7 +53,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.softwareUpdateNotification();
     await this.displayMenuBar();
     await this.getOrganizationDetails();
-
   }
 
   // async ionViewWillEnter() {
@@ -68,7 +72,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   async logout() {
     await this._authService.logOutService();
-    await this._spinnerService.presentSpinner('Logging out', { duration: 2000 });
+    await this._spinnerService.presentSpinner('Logging out', {
+      duration: 2000,
+    });
     this._navCtrl.navigateRoot(UrlConstant.URL_LOGIN);
   }
 
@@ -76,58 +82,57 @@ export class AppComponent implements OnInit, OnDestroy {
     AppConstant.reload();
   }
 
-
   private backButtonToExit() {
-    const platformSub = this._platform.backButton.subscribeWithPriority(999, async () => {
-      if (this._modalCtrl.getTop()) {
-        const modal = await this._modalCtrl.getTop();
-        if (modal) {
-          this._modalCtrl.dismiss();
-          return;
+    const platformSub = this._platform.backButton.subscribeWithPriority(
+      999,
+      async () => {
+        if (this._modalCtrl.getTop()) {
+          const modal = await this._modalCtrl.getTop();
+          if (modal) {
+            this._modalCtrl.dismiss();
+            return;
+          }
+        }
+        if (!this.routerOutlet.canGoBack()) {
+          App.exitApp();
         }
       }
-      if (!this.routerOutlet.canGoBack()) {
-        App.exitApp();
-      }
-    });
+    );
     this.appCompSub.push(platformSub);
   }
 
   private softwareUpdateNotification() {
     if (this._swUpdate.isEnabled) {
-      const softUpdateSub = this._swUpdate.available.subscribe(async event => {
-        console.log('current version is', event.current);
-        console.log('available version is', event.available);
-        this._toastUtilService.presentUpdateToast().then(
-          (res) => {
-            res.onDidDismiss()
+      const softUpdateSub = this._swUpdate.available.subscribe(
+        async (event) => {
+          console.log('current version is', event.current);
+          console.log('available version is', event.available);
+          this._toastUtilService.presentUpdateToast().then((res) => {
+            res
+              .onDidDismiss()
               .then(() => this._swUpdate.activateUpdate())
               .then(() => this.refresh());
           });
-      });
+        }
+      );
       this.appCompSub.push(softUpdateSub);
     }
   }
 
-
-
   private async displayMenuBar() {
-    this._menuBarService.menuBar().subscribe(result => {
+    this._menuBarService.menuBar().subscribe((result) => {
       this.appPages = result;
     });
   }
 
   private async getOrganizationDetails() {
     setTimeout(() => {
-      this._orgService.getOrganizationById.subscribe(
-        (org) => {
-          if (org) {
-            this.organizationDetails = org;
-          }
+      this._orgService.getOrganizationById.subscribe((org) => {
+        if (org) {
+          this.organizationDetails = org;
         }
-      );
+      });
     }, 3000);
-
   }
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
