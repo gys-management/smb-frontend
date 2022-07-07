@@ -5,24 +5,34 @@
         <div class="login-logo">
           <!-- <ion-icon style="font-size: xx-large;" name="lock-closed-outline"></ion-icon> -->
           <!-- <img src="../../../../assets/img/fotoJet.jpg" alt="Ionic logo"> -->
-
         </div>
         <!-- <ion-label style="font-size: x-large;" color="primary">Stock Management and Billing</ion-label> <br /> -->
         <br />
         <br />
-        <ion-label style="font-size: large;" color="dark">Sign-in</ion-label>
-
+        <ion-label style="font-size: large" color="dark">Sign-in</ion-label>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col size-md="6" offset-md="3">
         <ion-item>
-          <ion-label position="floating" color="primary">UserId<span class="required-field"></span></ion-label>
-          <ion-input type="text" (ngModel)="login.userName" name="userName" inputmode="decimal" #username="ngModel"
-            spellcheck="false" autocapitalize="off" required>
+          <ion-label position="floating" color="primary"
+            >UserId<span class="required-field"></span
+          ></ion-label>
+          <ion-input
+            type="text"
+            (ngModel)="(login.userName)"
+            name="userName"
+            #username="ngModel"
+            spellcheck="false"
+            autocapitalize="off"
+            required
+          >
           </ion-input>
         </ion-item>
-        <ion-item *ngIf="username.invalid && (username.dirty || username.touched)" lines="none">
+        <ion-item
+          *ngIf="username.invalid && (username.dirty || username.touched)"
+          lines="none"
+        >
           <ion-label color="danger">Enter the User Id</ion-label>
         </ion-item>
         <!-- <ion-text color="danger">
@@ -35,11 +45,22 @@
     <ion-row>
       <ion-col size-md="6" offset-md="3">
         <ion-item>
-          <ion-label position="floating" color="primary">Password<span class="required-field"></span></ion-label>
-          <ion-input (ngModel)="login.password" name="password" type="password" #password="ngModel" required>
+          <ion-label position="floating" color="primary"
+            >Password<span class="required-field"></span
+          ></ion-label>
+          <ion-input
+            (ngModel)="(login.password)"
+            name="password"
+            type="password"
+            #password="ngModel"
+            required
+          >
           </ion-input>
         </ion-item>
-        <ion-item *ngIf="password.invalid && (password.dirty || password.touched)" lines="none">
+        <ion-item
+          *ngIf="password.invalid && (password.dirty || password.touched)"
+          lines="none"
+        >
           <ion-label color="danger">Enter the Password</ion-label>
         </ion-item>
         <!-- <ion-text color="danger">
@@ -52,8 +73,17 @@
 
     <ion-row>
       <ion-col size-md="6" offset-md="3">
-        <ion-button type="submit" color="light" [disabled]="loginForm.invalid" expand="block">
-          <ion-icon color="primary" slot="start" name="checkmark-circle-outline"></ion-icon>
+        <ion-button
+          type="submit"
+          color="light"
+          [disabled]="loginForm.invalid"
+          expand="block"
+        >
+          <ion-icon
+            color="primary"
+            slot="start"
+            name="checkmark-circle-outline"
+          ></ion-icon>
           <ion-label color="primary"> Login</ion-label>
         </ion-button>
       </ion-col>
@@ -78,7 +108,6 @@
             <ion-icon color="dark" slot="icon-only" name="logo-github"></ion-icon>
 
           </ion-button> -->
-
       </ion-col>
     </ion-row>
     <!-- <ion-row>
@@ -91,5 +120,4 @@
       </ion-col>
     </ion-row> -->
   </ion-grid>
-
 </form>
