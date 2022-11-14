@@ -5,10 +5,10 @@ import { LogLevel } from 'src/app/models/log-level';
 export const environment = {
   production: true,
   logLevel: LogLevel.DEBUG,
-  restAPI: 'https://smb-v2-dev.herokuapp.com/api/v2', // enable when API is from Heroku test eve
-  // restAPI: 'http://localhost:9090/api/v2', // enable when API is from local machine eve
+  restAPI: 'https://dev-api.gysite.in/api/smb/v2',
   ngxLogger: {
-    serverLoggingUrl: 'https://stockmangementbilling.free.beeceptor.com/api/logs',
+    serverLoggingUrl:
+      'https://stockmangementbilling.free.beeceptor.com/api/logs',
     // serverLoggingUrl: 'http://localhost:8100/api/logs',
     // logs: NgxLoggerLevel.DEBUG,
     // level: NgxLoggerLevel.TRACE,
@@ -23,7 +23,8 @@ export const environment = {
     storageBucket: 'ionic-angular-61cb7.appspot.com',
     messagingSenderId: '607815266559',
     appId: '1:607815266559:web:d1412e1466127f8a8b1cca',
-    measurementId: 'G-X6PC3K1VH7'
+    measurementId: 'G-X6PC3K1VH7',
   },
-  googlWebClientId: '607815266559-2lb41llblut4qa6a7ool5273m4j5f1kf.apps.googleusercontent.com'
+  googlWebClientId:
+    '607815266559-2lb41llblut4qa6a7ool5273m4j5f1kf.apps.googleusercontent.com',
 };
