@@ -3,7 +3,7 @@ import { LogLevel } from 'src/app/models/log-level';
 export const environment = {
   production: true,
   logLevel: LogLevel.DEBUG,
-  restAPI: 'https://smb-v2-prod.herokuapp.com/api/v2',
+  restAPI: 'https://prod-api.gysite.in/api/smb/v2',
   // restAPI: 'https://stockmanagementbillingbackup.herokuapp.com/api/v2', // backup server
   ngxLogger: {
     serverLoggingUrl: 'https://stockmangementbilling.free.beeceptor.com/api/logs',
