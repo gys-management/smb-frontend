@@ -5,7 +5,7 @@ import { LogLevel } from 'src/app/models/log-level';
 export const environment = {
   production: false,
   logLevel: LogLevel.DEBUG,
-  restAPI: 'http://localhost:9090/api/v2', // enable when API is from local machine eve
+  restAPI: 'http://localhost:9090/api/smb/v2', // enable when API is from local machine eve
   // restAPI: 'https://dev-smb.herokuapp.com/api/v2', // enable when API is from dev eve
   // restAPI: 'http://192.168.1.183:9090/api/v2', // enable when API is from local network eve
   ngxLogger: {

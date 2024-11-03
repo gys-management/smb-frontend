@@ -1,12 +1,22 @@
 import * as moment from 'moment';
-import { TDocumentDefinitions, Content, Column, CustomTableLayout, ContentTable } from 'pdfmake/interfaces';
+import {
+  TDocumentDefinitions,
+  Content,
+  Column,
+  CustomTableLayout,
+  ContentTable,
+} from 'pdfmake/interfaces';
 import { numberToWords } from 'number-to-words';
 
 import { Customer } from 'src/app/models/customer.model';
 import { Order, OrderItem } from 'src/app/models/order.model';
 import { Organization } from 'src/app/models/organization.model';
 import { IWidthType } from 'src/app/models/pdf.model';
-import { pdfConstants, orderTableWidth_Template2, orderTableHeader_Template2 } from 'src/app/constants/pdf.constants';
+import {
+  pdfConstants,
+  orderTableWidth_Template2,
+  orderTableHeader_Template2,
+} from 'src/app/constants/pdf.constants';
 import imageToBase64 from 'image-to-base64/browser';
 
 import {
@@ -14,10 +24,9 @@ import {
   inrFormatter,
   convertToInrString,
   createWidthArray,
-  createDummyData
+  createDummyData,
 } from './pdf-generic-layout-definition';
 import { LoggerService } from '../util/logger/logger.service';
-
 
 const getTemplate2DocumentContent = async (
   order: Order,
@@ -54,7 +63,7 @@ const getTemplate2DocumentContent = async (
     sgstAmount,
     subTotal,
     finalAmount,
-    discount
+    discount,
   } = order;
 
   // Function to generate the organization data to be displayed from the organization object.
@@ -104,7 +113,7 @@ const getTemplate2DocumentContent = async (
       if (
         rowIndex === 0 ||
         rowIndex === 1 ||
-        (rowIndex >= node.table.body.length - 2)
+        rowIndex >= node.table.body.length - 2
       ) {
         return 1;
       } else {
@@ -123,7 +132,8 @@ const getTemplate2DocumentContent = async (
         const currentPosition = node.positions[node.positions.length - 1];
         const totalPageHeight = currentPosition.pageInnerHeight;
         const currentHeight = currentPosition.top;
-        const paddingBottom = totalPageHeight - currentHeight - ORDER_TOTAL_DISPLAY_ROW_HEIGHT;
+        const paddingBottom =
+          totalPageHeight - currentHeight - ORDER_TOTAL_DISPLAY_ROW_HEIGHT;
         return paddingBottom;
       } else {
         return DEFAULT_PADDING;
@@ -142,35 +152,45 @@ const getTemplate2DocumentContent = async (
   }
 
   // Function to generate the data to be populated in orders table.
-  const generateOrderDetailsData = ({ orderItems }: Order): any[][] => orderItems.map((item: OrderItem, index) => [
-    index + 1,
+  const generateOrderDetailsData = ({ orderItems }: Order): any[][] =>
+    orderItems.map((item: OrderItem, index) => [
+      index + 1,
 
-    {
-      columns: [
-        [
-          item.productName,
-          `HSN: ${item.hsnCode}`,
-          `GST: ${item.gstPercentage}%`
-        ]
-      ]
-    },
+      {
+        columns: [
+          [
+            item.productName,
+            `HSN: ${item.hsnCode}`,
+            `GST: ${item.gstPercentage}%`,
+          ],
+        ],
+      },
 
-    { text: convertToInrString(item.price), style: 'text-align-right' },
-    { text: item.quantity, style: 'text-align-center' },
-    { text: convertToInrString(item.discountActual), style: 'text-align-right' },
-    { text: convertToInrString(item.subTotal), style: 'text-align-right' },
+      { text: convertToInrString(item.price), style: 'text-align-right' },
+      { text: item.quantity, style: 'text-align-center' },
+      {
+        text: convertToInrString(item.discountActual),
+        style: 'text-align-right',
+      },
+      { text: convertToInrString(item.subTotal), style: 'text-align-right' },
 
-    {
-      columns: [
-        [
-          { text: `C: ${convertToInrString(item.cgstAmount)}`, style: 'text-align-right' },
-          { text: `S: ${convertToInrString(item.sgstAmount)}`, style: 'text-align-right' },
-        ]
-      ]
-    },
+      {
+        columns: [
+          [
+            {
+              text: `C: ${convertToInrString(item.cgstAmount)}`,
+              style: 'text-align-right',
+            },
+            {
+              text: `S: ${convertToInrString(item.sgstAmount)}`,
+              style: 'text-align-right',
+            },
+          ],
+        ],
+      },
 
-    { text: convertToInrString(item.totalAmount), style: 'text-align-right' },
-  ]);
+      { text: convertToInrString(item.totalAmount), style: 'text-align-right' },
+    ]);
 
   // Return the actual content to form the PDF.
   return {
@@ -201,7 +221,7 @@ const getTemplate2DocumentContent = async (
                 // text: 'To Be Replaced by the Logo'
                 image: imageAsBase64,
                 width: 150,
-                height: 150
+                height: 150,
               },
               // Column 2 - From Address.
               {
@@ -229,7 +249,7 @@ const getTemplate2DocumentContent = async (
             {
               text: BILLING_TO_LABEL,
             },
-            ...generateOrganizationAddressData(buyer)
+            ...generateOrganizationAddressData(buyer),
           ],
           [
             {
@@ -270,12 +290,11 @@ const getTemplate2DocumentContent = async (
                     },
                   ],
                 ],
-              }
-            }
-          ]
-        ]
+              },
+            },
+          ],
+        ],
       },
-
 
       // Content 3 - Table to iterate and print the order items and its total.
       {
@@ -305,9 +324,9 @@ const getTemplate2DocumentContent = async (
                 columns: [
                   [
                     `C: ${convertToInrString(cgstAmount)}`,
-                    `S: ${convertToInrString(sgstAmount)}`
-                  ]
-                ]
+                    `S: ${convertToInrString(sgstAmount)}`,
+                  ],
+                ],
               },
               {
                 text: convertToInrString(finalAmount),
@@ -320,7 +339,9 @@ const getTemplate2DocumentContent = async (
             [
               {
                 // Convert the number to text
-                text: `${AMOUNT_IN_WORDS_LABEL} ${numberToWords.toWords(finalAmount).toUpperCase()}`,
+                text: `${AMOUNT_IN_WORDS_LABEL} ${numberToWords
+                  .toWords(finalAmount)
+                  .toUpperCase()}`,
                 colSpan: 7,
               },
               ...createDummyData(6),
@@ -338,7 +359,7 @@ const getTemplate2DocumentContent = async (
     // Footer content.
     footer: (
       currentPage: number,
-      pageCount: number,
+      pageCount: number
     ): Content | null | undefined => {
       // Printing the footer only at the last page.
       if (currentPage === pageCount) {
@@ -383,9 +404,5 @@ const getTemplate2DocumentContent = async (
   };
 };
 
-
-
 // Export.
-export {
-  NO_TOP_BOTTOM_TABLE_BORDER, getTemplate2DocumentContent
-};
+export { NO_TOP_BOTTOM_TABLE_BORDER, getTemplate2DocumentContent };
