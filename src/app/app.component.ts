@@ -115,6 +115,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this._orgService.getOrganizationById.subscribe((org) => {
         if (org) {
           this.organizationDetails = org;
+          // debugger;
         }
       });
     }, 3000);
