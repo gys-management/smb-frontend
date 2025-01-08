@@ -45,4 +45,15 @@ export class OrganizationService {
       })
     );
   }
+  
+  async updateOrginzation(
+    id: string,
+    updateOrg: Organization
+  ): Promise<Organization> {
+    return await this._http.makeRequest(
+      `${ApiUrlContant.ORGANIZATION}/${id}`,
+      HttpMethods.PUT,
+      updateOrg
+    );
+  }
 }

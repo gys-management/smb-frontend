@@ -66,12 +66,12 @@ export class MenuBarConstants {
         // }
       ],
     },
-    {
-      title: 'Settings',
-      url: UrlConstant.URL_ADMIN_SETTINGS,
-      icon: 'cog',
-      role: [UserRole.ADMIN, UserRole.STAFF],
-    },
+    // {
+    //   title: 'Settings',
+    //   url: UrlConstant.URL_ADMIN_SETTINGS,
+    //   icon: 'cog',
+    //   role: [UserRole.ADMIN, UserRole.STAFF],
+    // },
   ];
 
   static readonly customerMenu = [

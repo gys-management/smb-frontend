@@ -48,13 +48,13 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: { roles: [UserRole.ADMIN, UserRole.STAFF] },
   },
-  {
-    path: 'settings',
-    loadChildren: () =>
-      import('./settings/settings.module').then((m) => m.SettingsPageModule),
-    canActivate: [AuthGuard],
-    data: { roles: [UserRole.ADMIN, UserRole.STAFF] },
-  },
+  // {
+  //   path: 'settings',
+  //   loadChildren: () =>
+  //     import('./settings/settings.module').then((m) => m.SettingsPageModule),
+  //   canActivate: [AuthGuard],
+  //   data: { roles: [UserRole.ADMIN, UserRole.STAFF] },
+  // },
   {
     path: '',
     redirectTo: 'dashboard',

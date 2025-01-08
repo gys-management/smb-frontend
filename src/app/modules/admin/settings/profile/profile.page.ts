@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AppConstant } from 'src/app/constants/app.constants';
+import { SuccessConstants } from 'src/app/constants/success-constants';
 import { UrlConstant } from 'src/app/constants/url.constants';
 import { HeaderModel } from 'src/app/models/header.model';
 import { Organization } from 'src/app/models/organization.model';
 import { OrganizationService } from 'src/app/services/organization.service';
+import { MessageService } from 'src/app/services/util/messages/message.service';
 
 @Component({
   selector: 'app-profile',
@@ -23,7 +25,10 @@ export class ProfilePage implements OnInit {
   countryList: string[];
   stateList: string[];
 
-  constructor(private _orgService: OrganizationService) {}
+  constructor(
+    private _orgService: OrganizationService,
+    private _messageService: MessageService
+  ) {}
 
   ngOnInit() {
     this.countryList = AppConstant.countryList.sort();
@@ -111,13 +116,16 @@ export class ProfilePage implements OnInit {
     });
   }
 
-  onClick() {
+  async onClick() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     } else {
-      // const orgDetails: Organization = this.organizationFieldMapping();
-      // this.onUpdateOrganization(orgDetails);
+      const orgDetails: Organization = this.form.getRawValue();
+      await this._orgService.updateOrginzation(orgDetails.id, orgDetails);
+      const message =
+        AppConstant.ORGINIZATION + SuccessConstants.SUCCESS_UPDATE;
+      this._messageService.messageSuccessToast(message);
     }
   }
 }
