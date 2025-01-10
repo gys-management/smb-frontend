@@ -9,7 +9,9 @@
         <!-- <ion-label style="font-size: x-large;" color="primary">Stock Management and Billing</ion-label> <br /> -->
         <br />
         <br />
-        <ion-label style="font-size: large" color="dark">Sign-in</ion-label>
+        <ion-label style="font-size: large" color="danger"
+          >Sign-in/Login</ion-label
+        >
       </ion-col>
     </ion-row>
     <ion-row>
@@ -75,16 +77,15 @@
       <ion-col size-md="6" offset-md="3">
         <ion-button
           type="submit"
-          color="light"
+          color="primary"
           [disabled]="loginForm.invalid"
           expand="block"
-        >
-          <ion-icon
+          ><ion-icon
             color="primary"
             slot="start"
             name="checkmark-circle-outline"
           ></ion-icon>
-          <ion-label color="primary"> Login</ion-label>
+          <ion-label color="success"> Login</ion-label>
         </ion-button>
       </ion-col>
     </ion-row>
