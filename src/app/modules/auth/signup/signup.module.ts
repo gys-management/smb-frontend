@@ -13,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { LoginPage } from '../login/login.page';
+import { OrganizationRegisterComponent } from './organization-register/organization-register.component';
 
 @NgModule({
   imports: [
@@ -25,9 +26,8 @@ import { LoginPage } from '../login/login.page';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  declarations: [SignupPage]
-
+  declarations: [SignupPage, OrganizationRegisterComponent],
 })
-export class SignupPageModule { }
+export class SignupPageModule {}

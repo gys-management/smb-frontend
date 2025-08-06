@@ -191,7 +191,7 @@ export class AuthService implements OnInit, OnDestroy {
     this._storage.set(AppConstant.AUTH_DATA_STORAGE, JSON.stringify(authData));
   }
 
-  private checkIsEmailPresent(
+  checkIsEmailPresent(
     email: string,
     providerId: string
   ): Observable<LoginOAuthModel> {
