@@ -17,7 +17,8 @@ export class SuccessConstants {
 
   // Org config
   static readonly SUCCESS_UPDATE_CONFIG = 'Configuration settings are updated successfully';
-
+  static readonly SUCCESS_UPDATING = 'Organization details are updated successfully';
+  static readonly SUCCESS_REGISTERED = 'Organization is registered successfully';
   // Order
   static readonly SUCCESS_ORDER_PAYMENT = 'Payment is updated successfully for the Order';
 

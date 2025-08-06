@@ -39,8 +39,8 @@
             <form [formGroup]="secondFormGroup">
               <ng-template matStepLabel>Fill out your details</ng-template>
 
-              <!-- <app-organization-register [signupDetails]="oAuthBehaviourSubject" (orgAddedBool)="onRegistered($event)">
-              </app-organization-register> -->
+              <app-organization-register [signupDetails]="oAuthBehaviourSubject" (orgAddedBool)="onRegistered($event)">
+              </app-organization-register>
 
               <ion-item lines="none">
                 <ion-input formControlName="secondCtrl" color="success" required readonly></ion-input>

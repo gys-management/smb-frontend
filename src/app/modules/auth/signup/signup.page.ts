@@ -18,15 +18,18 @@ import { LoginComponent } from '../login/components/login/login.component';
   selector: 'app-signup',
   templateUrl: './signup.page.html',
   styleUrls: ['./signup.page.scss'],
-  providers: [{
-    provide: STEPPER_GLOBAL_OPTIONS, useValue: { showError: true }
-  }]
+  providers: [
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { showError: true },
+    },
+  ],
 })
 export class SignupPage implements OnInit {
-  @Output() oAuthBehaviourSubject: BehaviorSubject<OAuthModel> = new BehaviorSubject<OAuthModel>(null);
+  @Output() oAuthBehaviourSubject: BehaviorSubject<OAuthModel> =
+    new BehaviorSubject<OAuthModel>(null);
 
   @ViewChild('stepper') private _matStepper: MatStepper;
-
 
   isEditable: true;
   firstFormGroup: FormGroup;
@@ -38,15 +41,12 @@ export class SignupPage implements OnInit {
   ERR_REGISTRATION = ErrorConstant.ERR_REGISTRATION;
   firstFormGroupErrorMessage = ErrorConstant.ERR_OAUTH_GOOGLE;
 
-
-
   constructor(
     private _formBuilder: FormBuilder,
     private _oAuthService: OauthService,
     private _navCtrl: NavController,
-    private _customToastCtrl: ToastUtilService,
-    private _loginComp: LoginComponent
-  ) { }
+    private _customToastCtrl: ToastUtilService // private _loginComp: LoginComponent
+  ) {}
 
   ngOnInit() {
     this.formGroup();
@@ -54,10 +54,10 @@ export class SignupPage implements OnInit {
 
   formGroup() {
     this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ['', Validators.required]
+      firstCtrl: ['', Validators.required],
     });
     this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.required]
+      secondCtrl: ['', Validators.required],
     });
   }
 
@@ -67,35 +67,41 @@ export class SignupPage implements OnInit {
     const googleSignCall = this._oAuthService.googleAuth();
 
     // this._customLoadinCtrl.load('Authenticating').then((loadinCtrl) => {
-    googleSignCall.then((googleSign: any) => {
-      this.firstFormGroup.get('firstCtrl').patchValue(SuccessConstants.SUCCESS_OAUTH_GOOGLE);
+    googleSignCall
+      .then((googleSign: any) => {
+        this.firstFormGroup
+          .get('firstCtrl')
+          .patchValue(SuccessConstants.SUCCESS_OAUTH_GOOGLE);
 
-      this.oAuthLocal = new OAuthModel(
-        googleSign.additionalUserInfo.profile.name,
-        googleSign.additionalUserInfo.profile.email,
-        googleSign.additionalUserInfo.profile.given_name,
-        googleSign.additionalUserInfo.profile.family_name,
-        googleSign.additionalUserInfo.providerId
-      );
+        this.oAuthLocal = new OAuthModel(
+          googleSign.additionalUserInfo.profile.name,
+          googleSign.additionalUserInfo.profile.email,
+          googleSign.additionalUserInfo.profile.given_name,
+          googleSign.additionalUserInfo.profile.family_name,
+          googleSign.additionalUserInfo.providerId
+        );
 
-      this.idToken = googleSign.user.xa;
+        this.idToken = googleSign.user.xa;
 
-      this.oAuthBehaviourSubject.next(this.oAuthLocal);
-      this._matStepper.next();
+        this.oAuthBehaviourSubject.next(this.oAuthLocal);
+        this._matStepper.next();
 
-      // loadinCtrl.dismiss();
-    }).catch((error) => {
-      this.firstFormGroup.get('firstCtrl').markAsDirty();
-      this._customToastCtrl.presentToast(error.message + ' Kindly try again');
-      this.firstFormGroupErrorMessage = error.message;
-      // loadinCtrl.dismiss();
-    });
+        // loadinCtrl.dismiss();
+      })
+      .catch((error) => {
+        this.firstFormGroup.get('firstCtrl').markAsDirty();
+        this._customToastCtrl.presentToast(error.message + ' Kindly try again');
+        this.firstFormGroupErrorMessage = error.message;
+        // loadinCtrl.dismiss();
+      });
     // });
   }
 
-  onRegistered(result) {
+  onRegistered(result: any) {
     if (result) {
-      this.secondFormGroup.get('secondCtrl').patchValue(SuccessConstants.SUCCESS_REGISTRATION);
+      this.secondFormGroup
+        .get('secondCtrl')
+        .patchValue(SuccessConstants.SUCCESS_REGISTRATION);
       this.onLoginToDashboard(); // after register login directly
       this._matStepper.next();
     } else {
@@ -110,9 +116,8 @@ export class SignupPage implements OnInit {
   onLoginToDashboard() {
     const loginOAuthModelLocal: LoginOAuthModel = {
       idToken: this.idToken,
-      providerId: this.oAuthLocal.providerId
+      providerId: this.oAuthLocal.providerId,
     };
-    this._loginComp.authenticateOAuth(loginOAuthModelLocal);
+    // this._loginComp.authenticateOAuth(loginOAuthModelLocal);
   }
-
 }
